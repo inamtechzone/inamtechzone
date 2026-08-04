@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Analytics — INAM TECH ZONE Admin</title><meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" /><link rel="stylesheet" href="/assets/css/admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside id="admin-sidebar" class="admin-sidebar"></aside>
+  <main id="admin-main" class="admin-main">
+    <div class="section-head" style="margin-top:0">
+      <h2 style="margin:0">Analytics</h2>
+      <select id="days-select" style="border:1.5px solid var(--line);border-radius:8px;padding:8px 12px;background:var(--surface);color:var(--ink)">
+        <option value="7">Last 7 days</option>
+        <option value="30" selected>Last 30 days</option>
+        <option value="90">Last 90 days</option>
+      </select>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><div class="label">Total tracked events</div><div id="stat-total-events" class="value">—</div></div>
+      <div class="stat-card"><div class="label">WhatsApp clicks</div><div id="stat-whatsapp-clicks" class="value">—</div></div>
+      <div class="stat-card"><div class="label">Call clicks</div><div id="stat-call-clicks" class="value">—</div></div>
+      <div class="stat-card"><div class="label">Checkouts</div><div id="stat-checkouts" class="value">—</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px" class="analytics-grid">
+      <div>
+        <div class="section-head" style="margin-top:0"><h3 style="margin:0">Traffic by source</h3></div>
+        <div class="table-scroll"><table class="admin-table"><thead><tr><th>Source</th><th>Events</th></tr></thead><tbody id="source-body"></tbody></table></div>
+      </div>
+      <div>
+        <div class="section-head" style="margin-top:0"><h3 style="margin:0">Most viewed products</h3></div>
+        <div class="table-scroll"><table class="admin-table"><thead><tr><th>Product</th><th>Views</th></tr></thead><tbody id="viewed-body"></tbody></table></div>
+      </div>
+    </div>
+
+    <div class="section-head"><h3 style="margin:0">UTM campaigns</h3></div>
+    <div class="table-scroll"><table class="admin-table"><thead><tr><th>Campaign</th><th>Events</th></tr></thead><tbody id="campaign-body"></tbody></table></div>
+
+    <style>@media (max-width: 900px) { .analytics-grid { grid-template-columns: 1fr !important; } }</style>
+  </main>
+</div>
+<script src="/assets/js/config.js"></script><script src="/assets/js/api.js"></script><script src="/assets/js/ui.js"></script>
+<script src="/assets/js/auth.js"></script><script src="/assets/js/admin/layout.js"></script><script src="/assets/js/admin/analytics.js"></script>
+</body>
+</html>

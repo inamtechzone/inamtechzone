@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Products — INAM TECH ZONE Admin</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" />
+<link rel="stylesheet" href="/assets/css/admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside id="admin-sidebar" class="admin-sidebar"></aside>
+  <main id="admin-main" class="admin-main">
+    <div class="section-head" style="margin-top:0">
+      <h2 style="margin:0">Products</h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button id="export-csv-btn" class="btn btn-outline btn-sm" title="Shopify-format CSV">Export CSV</button>
+        <label class="btn btn-outline btn-sm" style="margin:0" title="Accepts a Shopify-format CSV">
+          Import CSV
+          <input id="import-csv-input" type="file" accept=".csv" hidden>
+        </label>
+        <a href="/admin/product-form.html" class="btn btn-primary btn-sm">+ Add product</a>
+      </div>
+    </div>
+    <p style="color:var(--muted);font-size:12.5px;margin-top:-10px;margin-bottom:18px">
+      Uses the standard Shopify product CSV format (Handle, Title, Vendor, Type, Variant SKU/Price, Image Src, etc.) —
+      compatible with Shopify exports, most spreadsheet templates, and other store-migration tools.
+    </p>
+    <input id="admin-product-search" placeholder="Search products…" style="margin-bottom:18px;width:100%;max-width:320px;border:1.5px solid var(--line);border-radius:8px;padding:9px 12px;background:var(--surface);color:var(--ink)">
+    <div class="table-scroll">
+      <table class="admin-table">
+        <thead><tr><th></th><th>Name</th><th>SKU</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th></th></tr></thead>
+        <tbody id="admin-products-body"></tbody>
+      </table>
+    </div>
+    <div id="admin-products-pagination"></div>
+  </main>
+</div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/ui.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/admin/layout.js"></script>
+<script src="/assets/js/admin/products.js"></script>
+</body>
+</html>

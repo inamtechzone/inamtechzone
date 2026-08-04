@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reports — INAM TECH ZONE Admin</title><meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" /><link rel="stylesheet" href="/assets/css/admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside id="admin-sidebar" class="admin-sidebar"></aside>
+  <main id="admin-main" class="admin-main">
+    <h2>Reports</h2>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="label">Today's sales</div><div id="stat-daily" class="value">—</div></div>
+      <div class="stat-card"><div class="label">This week</div><div id="stat-weekly" class="value">—</div></div>
+      <div class="stat-card"><div class="label">This month</div><div id="stat-monthly" class="value">—</div></div>
+      <div class="stat-card"><div class="label">Total revenue</div><div id="stat-total-revenue" class="value">—</div></div>
+      <div class="stat-card"><div class="label">Total orders</div><div id="stat-total-orders" class="value">—</div></div>
+    </div>
+
+    <div class="section-head" style="margin-top:10px"><h3 style="margin:0">Best selling products</h3></div>
+    <div class="table-scroll">
+      <table class="admin-table"><thead><tr><th>Product</th><th>Units sold</th><th>Revenue</th></tr></thead><tbody id="best-sellers-body"></tbody></table>
+    </div>
+
+    <div class="section-head"><h3 style="margin:0">Top customers</h3></div>
+    <div class="table-scroll">
+      <table class="admin-table"><thead><tr><th>Customer</th><th>Orders</th><th>Total spent</th></tr></thead><tbody id="top-customers-body"></tbody></table>
+    </div>
+  </main>
+</div>
+<script src="/assets/js/config.js"></script><script src="/assets/js/api.js"></script><script src="/assets/js/ui.js"></script>
+<script src="/assets/js/auth.js"></script><script src="/assets/js/admin/layout.js"></script><script src="/assets/js/admin/reports.js"></script>
+</body>
+</html>

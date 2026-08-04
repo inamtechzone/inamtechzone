@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This is a baseline static sitemap covering the core pages. Run
+  `npm run build:seo` (see scripts/generate-seo.js) to replace this with a
+  full sitemap index covering every product and category page, regenerated
+  from live Sheets data.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>/index.html</loc><priority>1.0</priority></url>
+  <url><loc>/shop.html</loc><priority>0.9</priority></url>
+  <url><loc>/track-order.html</loc><priority>0.5</priority></url>
+  <url><loc>/wishlist.html</loc><priority>0.3</priority></url>
+  <url><loc>/compare.html</loc><priority>0.3</priority></url>
+</urlset>

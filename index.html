@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>INAM TECH ZONE — Electronics & Gadgets, Fast Delivery</title>
+<meta name="description" content="INAM TECH ZONE — quality electronics and gadgets, honest specs, fast local delivery, and easy order tracking." />
+<meta name="robots" content="index, follow" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="INAM TECH ZONE — Electronics & Gadgets" />
+<meta property="og:description" content="Quality electronics and gadgets, honest specs, fast local delivery, and easy order tracking." />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<div id="site-header"></div>
+
+<div id="flash-sale-band" class="flash-sale-band" style="display:none">
+  ⚡ Flash Sale is live — limited stock, limited time. <a href="/shop.html?flashSale=true" style="color:#fff;text-decoration:underline">Shop now →</a>
+</div>
+
+<section class="hero">
+  <svg class="hero-trace" viewBox="0 0 800 300" preserveAspectRatio="none">
+    <path d="M0 60 H240 V140 H480 V40 H800" stroke="#4A4EF0" stroke-width="2" fill="none" />
+    <path d="M0 220 H180 V180 H420 V260 H800" stroke="#FFAE1F" stroke-width="2" fill="none" />
+    <circle cx="240" cy="60" r="4" fill="#4A4EF0" /><circle cx="480" cy="140" r="4" fill="#4A4EF0" /><circle cx="420" cy="260" r="4" fill="#FFAE1F" />
+  </svg>
+  <div class="container hero-inner">
+    <span class="eyebrow">Electronics &amp; Gadgets</span>
+    <h1>Real specs.<br />Real stock.<br />Fast delivery.</h1>
+    <p>INAM TECH ZONE stocks the gadgets and accessories you actually use — checked, listed honestly, and shipped fast. Order online or message us on WhatsApp.</p>
+    <a href="/shop.html" class="btn btn-primary">Browse the shop</a>
+  </div>
+</section>
+
+<div class="container">
+  <div id="category-section" style="display:none">
+    <div class="section-head"><h2>Shop by category</h2><a href="/shop.html" style="font-size:14px;font-weight:600;color:var(--accent)">View all →</a></div>
+    <div id="category-grid" class="category-grid"></div>
+  </div>
+
+  <div id="featured-section">
+    <div class="section-head"><h2>Featured products</h2><a href="/shop.html?featured=true" style="font-size:14px;font-weight:600;color:var(--accent)">View all →</a></div>
+    <div id="featured-grid" class="product-grid"></div>
+  </div>
+
+  <div id="bestseller-section">
+    <div class="section-head"><h2>Best sellers</h2><a href="/shop.html?bestSeller=true" style="font-size:14px;font-weight:600;color:var(--accent)">View all →</a></div>
+    <div id="bestseller-grid" class="product-grid"></div>
+  </div>
+
+  <div class="section-head"><h2>Latest arrivals</h2><a href="/shop.html" style="font-size:14px;font-weight:600;color:var(--accent)">View all →</a></div>
+  <div id="latest-grid" class="product-grid"></div>
+
+  <div class="newsletter-band">
+    <div><h3>Get special offers first</h3><p style="color:#DEE0FF;margin:0;font-size:14px">Subscribe for restock alerts and members-only discounts.</p></div>
+    <form class="newsletter-form" onsubmit="event.preventDefault();toast('Subscribed!','success');this.reset();">
+      <input type="email" required placeholder="you@example.com" />
+      <button class="btn btn-secondary" type="submit">Subscribe</button>
+    </form>
+  </div>
+</div>
+
+<section class="container" style="padding:10px 20px 50px">
+  <div class="section-head" style="margin-top:0"><h2>What customers say</h2></div>
+  <div class="testimonial-grid">
+    <div class="testimonial-card"><div class="stars">★★★★★</div><p>"Ordered a power bank and it arrived the next day, exactly as described."</p><div style="font-weight:700;font-size:13.5px">Ayesha K. <span style="color:var(--muted);font-weight:400">· Lahore</span></div></div>
+    <div class="testimonial-card"><div class="stars">★★★★★</div><p>"Good prices and the WhatsApp support actually replies fast."</p><div style="font-weight:700;font-size:13.5px">Bilal R. <span style="color:var(--muted);font-weight:400">· Karachi</span></div></div>
+    <div class="testimonial-card"><div class="stars">★★★★★</div><p>"Product photos matched the real item perfectly. Easy checkout."</p><div style="font-weight:700;font-size:13.5px">Sana M. <span style="color:var(--muted);font-weight:400">· Islamabad</span></div></div>
+  </div>
+</section>
+
+<section class="container" style="padding:10px 20px 50px;max-width:760px">
+  <div class="section-head" style="margin-top:0"><h2>Frequently asked questions</h2></div>
+  <div class="faq-item"><div class="faq-question">How long does delivery take?<span>+</span></div><div class="faq-answer">Most orders within major cities arrive within 2-4 business days.</div></div>
+  <div class="faq-item"><div class="faq-question">How can I track my order?<span>+</span></div><div class="faq-answer">Use the Track Order page with your Order ID or the phone number used at checkout.</div></div>
+  <div class="faq-item"><div class="faq-question">What payment methods do you accept?<span>+</span></div><div class="faq-answer">Cash on Delivery (COD) on all orders.</div></div>
+  <div class="faq-item"><div class="faq-question">Can I return a product?<span>+</span></div><div class="faq-answer">Message us on WhatsApp with your Order ID within 3 days of delivery.</div></div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/ui.js"></script>
+<script src="/assets/js/storage.js"></script>
+<script src="/assets/js/img-cdn.js"></script>
+<script src="/assets/js/tracking.js"></script>
+<script src="/assets/js/i18n.js"></script>
+<script src="/assets/js/layout.js"></script>
+<script src="/assets/js/pages/home.js"></script>
+</body>
+</html>

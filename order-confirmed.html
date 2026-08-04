@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Order Confirmed — INAM TECH ZONE</title>
+<link rel="manifest" href="/manifest.json" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="container" style="padding-top:60px;padding-bottom:80px;text-align:center">
+  <div style="font-size:46px;margin-bottom:10px">✅</div>
+  <h1>Order placed!</h1>
+  <p style="color:var(--muted);max-width:420px;margin:0 auto 20px">Thanks for shopping with us. Save your order ID to track its status any time.</p>
+  <div class="spec-strip" style="justify-content:center;font-size:15px;margin-bottom:26px">
+    Order ID: <strong id="order-number-display" style="color:var(--ink)"></strong>
+  </div>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a id="track-link" class="btn btn-primary">Track this order</a>
+    <a href="/shop.html" class="btn btn-outline">Continue shopping</a>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/ui.js"></script>
+<script src="/assets/js/storage.js"></script>
+<script src="/assets/js/tracking.js"></script>
+<script src="/assets/js/i18n.js"></script>
+<script src="/assets/js/layout.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const orderNumber = new URL(window.location.href).searchParams.get("orderNumber") || "";
+    document.getElementById("order-number-display").textContent = orderNumber;
+    document.getElementById("track-link").href = "/track-order.html?orderNumber=" + encodeURIComponent(orderNumber);
+  });
+</script>
+</body>
+</html>

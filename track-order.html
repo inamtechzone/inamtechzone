@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Track Order — INAM TECH ZONE</title>
+<link rel="manifest" href="/manifest.json" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="container" style="padding-top:30px;padding-bottom:60px;max-width:640px">
+  <h2>Track your order</h2>
+  <p style="color:var(--muted);margin-bottom:20px">Look up your order using your Order ID or the phone number used at checkout.</p>
+
+  <div class="chip-row" style="margin-top:0">
+    <button class="chip track-mode-chip active" data-mode="orderId">By Order ID</button>
+    <button class="chip track-mode-chip" data-mode="phone">By phone number</button>
+  </div>
+
+  <form class="card" id="track-form" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+    <div class="field" id="order-id-field" style="flex:1;min-width:200px;margin-bottom:0">
+      <label>Order ID</label>
+      <input id="order-id-input" placeholder="ITZ-260725-1234">
+    </div>
+    <div class="field" id="phone-field" style="display:none;flex:1;min-width:200px;margin-bottom:0">
+      <label>Phone number</label>
+      <input id="phone-input" placeholder="03xx-xxxxxxx">
+    </div>
+    <button class="btn btn-primary" type="submit">Track</button>
+  </form>
+
+  <div id="track-results" style="margin-top:24px"></div>
+</div>
+
+<div id="site-footer"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/ui.js"></script>
+<script src="/assets/js/storage.js"></script>
+<script src="/assets/js/tracking.js"></script>
+<script src="/assets/js/i18n.js"></script>
+<script src="/assets/js/layout.js"></script>
+<script src="/assets/js/pages/track.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "inam-tech-zone-frontend",
+  "version": "2.0.0",
+  "private": true,
+  "description": "INAM TECH ZONE storefront — static HTML/CSS/JS, deployable as-is to Vercel/Netlify/GitHub Pages",
+  "scripts": {
+    "build:seo": "node scripts/generate-seo.js"
+  },
+  "dependencies": {}
+}
