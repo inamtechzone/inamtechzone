@@ -1,150 +1,116 @@
 /**
- * pages/home.js — logic for index.html
+ * pages/home.js — Complete Homepage Renderer
  */
 
-const CATEGORY_ICONS = ["📱", "🎧", "💻", "⌚", "🏠", "🔌", "📷", "🎮"];
-
-// Helper function to prevent "Cannot set properties of null" crashes
-function setHtml(id, html) {
-  const el = document.getElementById(id);
-  if (el) el.innerHTML = html;
-  return el;
-}
-
-function setDisplay(id, displayValue) {
-  const el = document.getElementById(id);
-  if (el) el.style.display = displayValue;
-  return el;
-}
-
-// Client-side helper to fix Google Drive URLs if CDN or Backend missed them
+// Helper: Fix Google Drive links on client side
 function fixImageUrl(url) {
   if (!url || typeof url !== "string") return "";
-  if (url.includes("drive.google.com") || url.includes("googleusercontent.com")) {
-    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  const trimmed = url.trim();
+  if (trimmed.includes("drive.google.com") || trimmed.includes("googleusercontent.com")) {
+    const match = trimmed.match(/\/d\/([a-zA-Z0-9_-]+)/) || trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/);
     if (match && match[1]) {
       return `https://lh3.googleusercontent.com/d/${match[1]}`;
     }
   }
-  return url;
+  return trimmed;
 }
 
-function productCardHtml(p) {
-  const inStock = p.stock > 0;
-  const wishlisted = typeof isWishlisted === "function" ? isWishlisted(p.id) : false;
-  const hasDiscount = p.discountPrice && p.discountPrice < p.price;
-  const escapeFn = typeof escapeHtml === "function" ? escapeHtml : (s) => s || "";
-  const cdnFn = typeof cdnUrl === "function" ? cdnUrl : (url) => url;
-  const formatFn = typeof formatMoney === "function" ? formatMoney : (v) => "$" + v;
+// Helper: Format Currency
+function formatCurrency(amount) {
+  const currency = window.APP_CURRENCY || "Rs.";
+  return `${currency} ${(Number(amount) || 0).toLocaleString()}`;
+}
 
-  // Process image URL with safe drive conversion & referrer policy
-  let imgUrl = p.images && p.images[0] ? fixImageUrl(p.images[0]) : "";
-  if (imgUrl && !imgUrl.includes("lh3.googleusercontent.com")) {
-    imgUrl = cdnFn(imgUrl, { width: 400 });
-  }
+// Product Card HTML Generator
+function createProductCard(product) {
+  const mainImage = Array.isArray(product.images) && product.images.length > 0 
+    ? fixImageUrl(product.images[0]) 
+    : fixImageUrl(product.ogImage);
+
+  const finalImg = mainImage || "https://via.placeholder.com/300x300?text=No+Image";
+  const hasDiscount = product.discountPrice && product.discountPrice < product.price;
+  const currentPrice = hasDiscount ? product.discountPrice : product.price;
+  const productUrl = product.canonicalPath || `/product.html?slug=${product.slug || product.id}`;
 
   return `
-    <a href="/product.html?slug=${encodeURIComponent(p.slug)}" class="product-card">
-      ${p.flashSale ? '<span class="ribbon sale">Flash Sale</span>' : p.bestSeller ? '<span class="ribbon">Best Seller</span>' : p.newArrival ? '<span class="ribbon">New</span>' : ""}
-      <button class="wishlist-btn ${wishlisted ? "active" : ""}" onclick="event.preventDefault();event.stopPropagation();handleWishlistClick(this,'${p.id}')">${wishlisted ? "♥" : "♡"}</button>
-      <div class="product-thumb">
-        ${imgUrl ? `<img src="${escapeFn(imgUrl)}" alt="${escapeFn(p.name)}" loading="lazy" referrerpolicy="no-referrer">` : '<span style="color:var(--muted);font-size:12px">No image</span>'}
+    <div class="product-card" data-id="${product.id}">
+      <div class="product-card-image">
+        <a href="${productUrl}">
+          <img 
+            src="${finalImg}" 
+            alt="${product.name}" 
+            loading="lazy" 
+            referrerpolicy="no-referrer"
+            onerror="this.onerror=null; this.src='https://via.placeholder.com/300x300?text=Image+Error';"
+          />
+        </a>
+        ${hasDiscount ? `<span class="badge-discount">Sale</span>` : ""}
       </div>
-      <div class="product-body">
-        <span class="stock-badge ${inStock ? "in" : "out"}">${inStock ? "In stock · " + p.stock : "Out of stock"}</span>
-        <div class="product-name">${escapeFn(p.name)}</div>
-        <div class="spec-strip"><span>${escapeFn(p.category)}</span>${p.brand ? `<span class="dot">•</span><span>${escapeFn(p.brand)}</span>` : ""}</div>
-        <div class="price-row">
-          <div class="product-price">${formatFn(hasDiscount ? p.discountPrice : p.price)}</div>
-          ${hasDiscount ? `<div class="product-price-old">${formatFn(p.price)}</div>` : ""}
+      <div class="product-card-content">
+        <span class="product-category">${product.category || "General"}</span>
+        <h3 class="product-title">
+          <a href="${productUrl}">${product.name}</a>
+        </h3>
+        <div class="product-price-box">
+          <span class="price-current">${formatCurrency(currentPrice)}</span>
+          ${hasDiscount ? `<span class="price-old">${formatCurrency(product.price)}</span>` : ""}
         </div>
+        <button 
+          class="btn-add-cart" 
+          onclick="handleQuickAddToCart('${product.id}')"
+          ${product.stock <= 0 ? "disabled" : ""}
+        >
+          ${product.stock > 0 ? "Add to Cart" : "Out of Stock"}
+        </button>
       </div>
-    </a>`;
+    </div>
+  `;
 }
 
-function handleWishlistClick(btn, productId) {
-  if (typeof toggleWishlist !== "function") return;
-  const active = toggleWishlist(productId);
-  btn.classList.toggle("active", active);
-  btn.textContent = active ? "♥" : "♡";
-  if (typeof toast === "function") toast(active ? "Added to wishlist" : "Removed from wishlist");
-}
-
-async function loadHome() {
-  const skeleton = typeof skeletonCards === "function" ? skeletonCards : () => "";
-
-  // 1. Initial Skeleton Render with Guard Checks
-  setHtml("featured-grid", skeleton(4));
-  setHtml("bestseller-grid", skeleton(4));
-  setHtml("latest-grid", skeleton(8));
-  setHtml("category-grid", skeleton(6));
+// Load Featured & Recent Products
+async function loadHomeProducts() {
+  const featuredContainer = document.getElementById("featured-products-grid");
+  const recentContainer = document.getElementById("recent-products-grid");
 
   try {
     if (typeof apiGet !== "function") return;
 
-    const bundle = await apiGet("home.bundle", { limit: 8 });
-    const { categories = [], featured = [], bestSeller: bestSellers = [], latest = [], flashSale: flash = [] } = bundle || {};
-    
-    if (bundle && bundle.settings && !window.ITZ_SETTINGS) {
-      window.ITZ_SETTINGS = bundle.settings;
+    const response = await apiGet("products.list", { limit: 20 });
+    const resData = response.data || response;
+    const products = resData.items || resData || [];
+
+    // 1. Render Featured Products
+    if (featuredContainer) {
+      const featured = products.filter((p) => p.featured);
+      const displayFeatured = featured.length > 0 ? featured : products.slice(0, 8);
+      
+      featuredContainer.innerHTML = displayFeatured.length > 0
+        ? displayFeatured.map(createProductCard).join("")
+        : `<p class="no-data">No featured products found.</p>`;
     }
 
-    // 2. Render Categories
-    const escapeFn = typeof escapeHtml === "function" ? escapeHtml : (s) => s || "";
-    const categoryHtml = categories.map((c, i) => {
-      const catImg = fixImageUrl(c.image);
-      return `
-      <a href="/shop.html?category=${encodeURIComponent(c.slug)}" class="category-card">
-        ${catImg ? `<img class="cat-thumb" src="${escapeFn(catImg)}" alt="" referrerpolicy="no-referrer">` : `<div class="icon">${CATEGORY_ICONS[i % CATEGORY_ICONS.length]}</div>`}
-        ${escapeFn(c.name)}
-      </a>`;
-    }).join("") || '<p style="color:var(--muted)">No categories yet.</p>';
-    setHtml("category-grid", categoryHtml);
-
-    // 3. Render Featured Section
-    if (featured.length) {
-      setHtml("featured-grid", featured.map(productCardHtml).join(""));
-      setDisplay("featured-section", "block");
-    } else {
-      setDisplay("featured-section", "none");
+    // 2. Render All / Recent Products
+    if (recentContainer) {
+      recentContainer.innerHTML = products.length > 0
+        ? products.map(createProductCard).join("")
+        : `<p class="no-data">No products available.</p>`;
     }
 
-    // 4. Render Bestsellers Section
-    if (bestSellers.length) {
-      setHtml("bestseller-grid", bestSellers.map(productCardHtml).join(""));
-      setDisplay("bestseller-section", "block");
-    } else {
-      setDisplay("bestseller-section", "none");
-    }
-
-    // 5. Render Flash Sale Section
-    setDisplay("flash-sale-band", flash.length ? "block" : "none");
-
-    // 6. Render Latest Section
-    const latestHtml = latest.length
-      ? latest.map(productCardHtml).join("")
-      : '<div class="empty-state"><h3>No products yet</h3><p>Check back soon.</p></div>';
-    setHtml("latest-grid", latestHtml);
-
-  } catch (e) {
-    if (typeof toastError === "function") toastError(e);
+  } catch (err) {
+    console.error("Error loading home products:", err);
   }
 }
 
-function initFaq() {
-  if (typeof qsa !== "function") return;
-  qsa(".faq-item").forEach((item) => {
-    const q = item.querySelector(".faq-question");
-    if (!q) return;
-    q.addEventListener("click", () => {
-      const wasOpen = item.classList.contains("open");
-      qsa(".faq-item").forEach((i) => i.classList.remove("open"));
-      if (!wasOpen) item.classList.add("open");
-    });
-  });
-}
+// Global Quick Add to Cart Handler
+window.handleQuickAddToCart = function(productId) {
+  if (typeof addToCart === "function") {
+    addToCart(productId, 1);
+  } else if (typeof toast === "function") {
+    toast("Added to cart!");
+  }
+};
 
+// Initialize Page
 document.addEventListener("DOMContentLoaded", () => {
-  loadHome();
-  initFaq();
+  loadHomeProducts();
 });
