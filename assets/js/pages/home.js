@@ -17,6 +17,18 @@ function setDisplay(id, displayValue) {
   return el;
 }
 
+// Client-side helper to fix Google Drive URLs if CDN or Backend missed them
+function fixImageUrl(url) {
+  if (!url || typeof url !== "string") return "";
+  if (url.includes("drive.google.com") || url.includes("googleusercontent.com")) {
+    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return `https://lh3.googleusercontent.com/d/${match[1]}`;
+    }
+  }
+  return url;
+}
+
 function productCardHtml(p) {
   const inStock = p.stock > 0;
   const wishlisted = typeof isWishlisted === "function" ? isWishlisted(p.id) : false;
@@ -25,12 +37,18 @@ function productCardHtml(p) {
   const cdnFn = typeof cdnUrl === "function" ? cdnUrl : (url) => url;
   const formatFn = typeof formatMoney === "function" ? formatMoney : (v) => "$" + v;
 
+  // Process image URL with safe drive conversion & referrer policy
+  let imgUrl = p.images && p.images[0] ? fixImageUrl(p.images[0]) : "";
+  if (imgUrl && !imgUrl.includes("lh3.googleusercontent.com")) {
+    imgUrl = cdnFn(imgUrl, { width: 400 });
+  }
+
   return `
     <a href="/product.html?slug=${encodeURIComponent(p.slug)}" class="product-card">
       ${p.flashSale ? '<span class="ribbon sale">Flash Sale</span>' : p.bestSeller ? '<span class="ribbon">Best Seller</span>' : p.newArrival ? '<span class="ribbon">New</span>' : ""}
       <button class="wishlist-btn ${wishlisted ? "active" : ""}" onclick="event.preventDefault();event.stopPropagation();handleWishlistClick(this,'${p.id}')">${wishlisted ? "♥" : "♡"}</button>
       <div class="product-thumb">
-        ${p.images && p.images[0] ? `<img src="${escapeFn(cdnFn(p.images[0], { width: 400 }))}" alt="${escapeFn(p.name)}" loading="lazy">` : '<span style="color:var(--muted);font-size:12px">No image</span>'}
+        ${imgUrl ? `<img src="${escapeFn(imgUrl)}" alt="${escapeFn(p.name)}" loading="lazy" referrerpolicy="no-referrer">` : '<span style="color:var(--muted);font-size:12px">No image</span>'}
       </div>
       <div class="product-body">
         <span class="stock-badge ${inStock ? "in" : "out"}">${inStock ? "In stock · " + p.stock : "Out of stock"}</span>
@@ -73,11 +91,14 @@ async function loadHome() {
 
     // 2. Render Categories
     const escapeFn = typeof escapeHtml === "function" ? escapeHtml : (s) => s || "";
-    const categoryHtml = categories.map((c, i) => `
+    const categoryHtml = categories.map((c, i) => {
+      const catImg = fixImageUrl(c.image);
+      return `
       <a href="/shop.html?category=${encodeURIComponent(c.slug)}" class="category-card">
-        ${c.image ? `<img class="cat-thumb" src="${escapeFn(c.image)}" alt="">` : `<div class="icon">${CATEGORY_ICONS[i % CATEGORY_ICONS.length]}</div>`}
+        ${catImg ? `<img class="cat-thumb" src="${escapeFn(catImg)}" alt="" referrerpolicy="no-referrer">` : `<div class="icon">${CATEGORY_ICONS[i % CATEGORY_ICONS.length]}</div>`}
         ${escapeFn(c.name)}
-      </a>`).join("") || '<p style="color:var(--muted)">No categories yet.</p>';
+      </a>`;
+    }).join("") || '<p style="color:var(--muted)">No categories yet.</p>';
     setHtml("category-grid", categoryHtml);
 
     // 3. Render Featured Section
