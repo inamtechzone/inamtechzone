@@ -4,7 +4,7 @@
  * After you deploy Code.gs (Deploy > New deployment > Web app), paste the URL below.
  */
 window.ITZ_CONFIG = {
-  API_URL: "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec",
+  API_URL: "https://script.google.com/macros/s/AKfycbwSLvIPHBhSOIzKWkKIuXVJJyvR8OAkqCVIjNiiZr-WsNjedPfTNPFMrVFzJdsnkAOLIw/exec",
   STORE_NAME: "INAM TECH ZONE",
   WHATSAPP_NUMBER: "923001234567", // overridden at runtime by Settings once loaded
   CURRENCY: "Rs",
