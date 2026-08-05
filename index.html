@@ -6,32 +6,14 @@
 <title>INAM TECH ZONE — Electronics & Gadgets, Fast Delivery</title>
 <meta name="description" content="INAM TECH ZONE — quality electronics and gadgets, honest specs, fast local delivery, and easy order tracking." />
 <meta name="robots" content="index, follow" />
-
-<!-- Open Graph / Social Meta -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="INAM TECH ZONE — Electronics & Gadgets" />
 <meta property="og:description" content="Quality electronics and gadgets, honest specs, fast local delivery, and easy order tracking." />
 <meta name="twitter:card" content="summary_large_image" />
-
-<!-- Global Referrer Policy for Google Drive & External Media -->
-<meta name="referrer" content="no-referrer" />
-
 <link rel="manifest" href="/manifest.json" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/css/style.css" />
-
-<!-- Global App Configuration (FIX: Prevents 'ITZ is not defined', CORS, & missing URL errors) -->
-<script>
-  window.ITZ = window.ITZ || {
-    STORE_NAME: "INAM TECH ZONE",
-    // Replace 'YOUR_ACTUAL_EXEC_ID' below with your deployed Google Apps Script Web App ID
-    API_URL: "https://script.google.com/macros/s/YOUR_ACTUAL_EXEC_ID/exec"
-  };
-  window.ITZ_API_URL = window.ITZ.API_URL;
-  window.STORE_NAME = window.ITZ.STORE_NAME;
-  window.APP_CURRENCY = "Rs.";
-</script>
 </head>
 <body>
 <div id="site-header"></div>
@@ -75,7 +57,7 @@
 
   <div class="newsletter-band">
     <div><h3>Get special offers first</h3><p style="color:#DEE0FF;margin:0;font-size:14px">Subscribe for restock alerts and members-only discounts.</p></div>
-    <form class="newsletter-form" onsubmit="event.preventDefault();if(typeof toast==='function'){toast('Subscribed!','success');}else{alert('Subscribed!');}this.reset();">
+    <form class="newsletter-form" onsubmit="event.preventDefault();toast('Subscribed!','success');this.reset();">
       <input type="email" required placeholder="you@example.com" />
       <button class="btn btn-secondary" type="submit">Subscribe</button>
     </form>
@@ -101,7 +83,6 @@
 
 <div id="site-footer"></div>
 
-<!-- Application Scripts -->
 <script src="/assets/js/config.js"></script>
 <script src="/assets/js/api.js"></script>
 <script src="/assets/js/ui.js"></script>
