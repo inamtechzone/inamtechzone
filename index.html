@@ -15,15 +15,41 @@
 
 <link rel="manifest" href="/manifest.json" />
 
-<!-- Preload Fonts -->
+<!-- 1. Preload WOFF2/TTF Fonts for Zero Latency -->
 <link rel="preload" href="/assets/fonts/Inter-Regular.ttf" as="font" type="font/ttf" crossorigin />
 <link rel="preload" href="/assets/fonts/SpaceGrotesk-Bold.ttf" as="font" type="font/ttf" crossorigin />
 
-<!-- Preload LCP Hero Image -->
+<!-- 2. Preload LCP Hero/Banner Image -->
 <link rel="preload" as="image" href="/assets/images/hero-banner.webp" type="image/webp" />
 
-<!-- Critical Inline CSS with Strict Layout Reservations to fix CLS -->
+<!-- 3. Critical Above-the-Fold Inline CSS with Font Metric Overrides & CLS Fixes -->
 <style>
+  /* Custom Font Face Definitions with font-display: swap */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/assets/fonts/Inter-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Space Grotesk';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/assets/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
+  }
+
+  /* Fallback Font Override to prevent FOUT Layout Shifts */
+  @font-face {
+    font-family: 'Inter-Fallback';
+    src: local('Arial');
+    size-adjust: 97%;
+    ascent-override: 94%;
+    descent-override: 24%;
+  }
+
   :root {
     --bg: #F5F6FB;
     --surface: #FFFFFF;
@@ -41,7 +67,7 @@
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'Inter', 'Inter-Fallback', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -74,7 +100,13 @@
     min-height: 320px;
   }
   .hero-inner { position: relative; z-index: 1; max-width: 620px; }
-  .hero h1 { font-size: 40px; line-height: 1.1; margin-bottom: 16px; color: #fff; }
+  .hero h1 { 
+    font-family: 'Space Grotesk', 'Inter-Fallback', sans-serif;
+    font-size: 40px; 
+    line-height: 1.1; 
+    margin-bottom: 16px; 
+    color: #fff; 
+  }
   .eyebrow { font-size: 12.5px; color: var(--amber); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; display: block; }
   
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: var(--radius); padding: 12px 20px; font-weight: 600; font-size: 14.5px; cursor: pointer; text-decoration: none; }
@@ -85,14 +117,14 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
-    min-height: 360px; /* Pre-reserves vertical height for product rows */
+    min-height: 360px;
   }
 
   /* Reserve Image Aspect Ratio Always */
   .product-card img, img {
     max-width: 100%;
     height: auto;
-    aspect-ratio: 1 / 1; /* Pre-calculates layout space before download */
+    aspect-ratio: 1 / 1;
     object-fit: cover;
     display: block;
   }
@@ -104,7 +136,7 @@
   }
 </style>
 
-<!-- Asynchronous Non-Blocking Main Stylesheet -->
+<!-- 4. Asynchronous Non-Blocking Main Stylesheet -->
 <link rel="preload" href="/assets/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 <noscript><link rel="stylesheet" href="/assets/css/style.css" /></noscript>
 
