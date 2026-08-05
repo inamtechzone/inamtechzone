@@ -1,11 +1,3 @@
-/**
- * layout.js
- * Injects the shared navbar/footer/WhatsApp button into every storefront
- * page (each page just needs `<div id="site-header"></div>` and
- * `<div id="site-footer"></div>` placeholders), then wires up live search,
- * the mobile menu, dark mode toggle, and cart badge.
- */
-
 function renderHeader() {
   const el = document.getElementById("site-header");
   if (!el) return;
@@ -49,15 +41,12 @@ function renderHeader() {
         </div>
       </div>
     </header>`;
-
   document.getElementById("lang-select").value = currentLanguage();
   document.getElementById("lang-select").addEventListener("change", (e) => setLanguage(e.target.value));
-
   document.getElementById("mobile-menu-btn").addEventListener("click", () => {
     const menu = document.getElementById("mobile-menu");
     menu.style.display = menu.style.display === "none" ? "block" : "none";
   });
-
   const input = document.getElementById("live-search-input");
   const resultsBox = document.getElementById("live-search-results");
   input.addEventListener("input", debounce(async () => {
@@ -83,7 +72,6 @@ function renderHeader() {
   document.addEventListener("click", (e) => {
     if (!resultsBox.contains(e.target) && e.target !== input) resultsBox.style.display = "none";
   });
-
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && input.value.trim()) {
       window.location.href = "/shop.html?search=" + encodeURIComponent(input.value.trim());
