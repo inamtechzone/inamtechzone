@@ -15,33 +15,36 @@
 
 <link rel="manifest" href="/manifest.json" />
 
-<!-- 1. Preload WOFF2/TTF Fonts for Zero Latency -->
-<link rel="preload" href="/assets/fonts/Inter-Regular.ttf" as="font" type="font/ttf" crossorigin />
-<link rel="preload" href="/assets/fonts/SpaceGrotesk-Bold.ttf" as="font" type="font/ttf" crossorigin />
+<!-- Preload Local Variable Fonts (Fixes 404 Font Errors) -->
+<link rel="preload" href="/assets/fonts/Inter-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 
-<!-- 2. Preload LCP Hero/Banner Image -->
+<!-- Preload LCP Hero/Banner Image -->
 <link rel="preload" as="image" href="/assets/images/hero-banner.webp" type="image/webp" />
 
-<!-- 3. Critical Above-the-Fold Inline CSS with Font Metric Overrides & CLS Fixes -->
+<!-- Critical Above-the-Fold Inline CSS -->
 <style>
-  /* Custom Font Face Definitions with font-display: swap */
+  /* Inter Variable Font (Normal) */
   @font-face {
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 100 900;
     font-display: swap;
-    src: url('/assets/fonts/Inter-Regular.ttf') format('truetype');
+    src: url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations'),
+         url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
   }
 
+  /* Inter Variable Font (Italic) */
   @font-face {
-    font-family: 'Space Grotesk';
-    font-style: normal;
-    font-weight: 700;
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 100 900;
     font-display: swap;
-    src: url('/assets/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
+    src: url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype-variations'),
+         url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
   }
 
-  /* Fallback Font Override to prevent FOUT Layout Shifts */
+  /* Fallback Metric Override to eliminate FOUT & CLS */
   @font-face {
     font-family: 'Inter-Fallback';
     src: local('Arial');
@@ -71,7 +74,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Reserve Exact Height for Header to Prevent CLS */
+  /* Reserve Height for Header to Prevent CLS */
   #site-header {
     min-height: 65px;
     background: var(--surface);
@@ -101,9 +104,9 @@
   }
   .hero-inner { position: relative; z-index: 1; max-width: 620px; }
   .hero h1 { 
-    font-family: 'Space Grotesk', 'Inter-Fallback', sans-serif;
     font-size: 40px; 
     line-height: 1.1; 
+    font-weight: 700;
     margin-bottom: 16px; 
     color: #fff; 
   }
@@ -112,7 +115,7 @@
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: var(--radius); padding: 12px 20px; font-weight: 600; font-size: 14.5px; cursor: pointer; text-decoration: none; }
   .btn-primary { background: var(--accent); color: #fff; }
 
-  /* Product Section Space Reservations (Avoid Layout Shift During Fetch) */
+  /* Product Grid Height Reservation */
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -120,7 +123,7 @@
     min-height: 360px;
   }
 
-  /* Reserve Image Aspect Ratio Always */
+  /* Aspect Ratio Reservation for Images */
   .product-card img, img {
     max-width: 100%;
     height: auto;
@@ -129,21 +132,20 @@
     display: block;
   }
 
-  /* Pre-reserve space for Footer */
+  /* Reserve Footer Space */
   #site-footer {
     min-height: 250px;
     background: #0B0E20;
   }
 </style>
 
-<!-- 4. Asynchronous Non-Blocking Main Stylesheet -->
+<!-- Non-Blocking Main Stylesheet -->
 <link rel="preload" href="/assets/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 <noscript><link rel="stylesheet" href="/assets/css/style.css" /></noscript>
 
 </head>
 <body>
 
-<!-- Header Container with Height Pre-reserved -->
 <div id="site-header"></div>
 
 <div id="flash-sale-band" class="flash-sale-band" style="display:none">
@@ -250,7 +252,6 @@
   </div>
 </section>
 
-<!-- Footer Container with Height Pre-reserved -->
 <div id="site-footer"></div>
 
 <!-- JavaScript Dependencies -->
