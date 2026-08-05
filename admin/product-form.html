@@ -17,21 +17,17 @@
     <h2 id="form-title">Add product</h2>
     <form id="product-form" class="card" style="max-width:680px">
       <div class="field"><label>Product name</label><input name="name" required></div>
-
       <div id="handle-section-new" class="field" style="display:none">
         <label>Handle (URL slug — auto-generated, edit if needed)</label>
         <input id="handle-input-new" placeholder="e.g. wireless-earbuds-pro">
         <div id="handle-status-new" style="font-size:12.5px;margin-top:6px"></div>
       </div>
-
       <div id="handle-section-existing" class="field" style="display:none">
         <label>Handle (permanent URL slug — does not change when you rename the product)</label>
         <code id="handle-display" style="display:inline-block;background:var(--bg);padding:6px 10px;border-radius:6px;font-size:13px"></code>
         <div style="font-size:12.5px;color:var(--muted);margin-top:6px">Share link: <span id="short-link-display" style="font-family:var(--font-mono)"></span></div>
       </div>
-
       <div class="field"><label>Description</label><textarea name="description" required rows="4"></textarea></div>
-
       <div class="field-row">
         <div class="field"><label>Price</label><input name="price" type="number" min="0" required></div>
         <div class="field"><label>Discount price (optional)</label><input name="discountPrice" type="number" min="0"></div>
@@ -51,7 +47,6 @@
         <div class="field"><label>Barcode (optional)</label><input name="barcode" placeholder="e.g. 8901234567890"></div>
       </div>
       <div class="field"><label>Tags (comma-separated)</label><input name="tags" placeholder="wireless, fast-charging, black"></div>
-
       <div class="field-row" style="flex-wrap:wrap">
         <label style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px"><input type="checkbox" name="featured"> Featured</label>
         <label style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px"><input type="checkbox" name="bestSeller"> Best seller</label>
@@ -61,16 +56,13 @@
         <label style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px"><input type="checkbox" name="flashSale"> Flash sale</label>
       </div>
       <div class="field"><label>Flash sale ends at (optional)</label><input name="flashSaleEndsAt" type="datetime-local"></div>
-
-      <div class="field">
+     <div class="field">
         <label>Specifications</label>
         <div id="spec-rows"></div>
         <button type="button" id="add-spec-btn" class="btn btn-outline btn-sm">+ Add spec row</button>
       </div>
-
       <div class="field"><label>SEO title</label><input name="seoTitle" placeholder="Shown in search engine results" maxlength="70"></div>
       <div class="field"><label>SEO description</label><textarea name="seoDescription" rows="2" placeholder="Shown in search engine results" maxlength="200"></textarea></div>
-
       <div class="field card" style="background:var(--bg)">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
           <label style="margin:0">SEO score</label>
@@ -78,7 +70,6 @@
         </div>
         <div id="seo-score-checklist"></div>
       </div>
-
       <div class="field">
         <label>Images (up to 10) — <span id="image-count-label">0/10 used</span></label>
         <div style="display:flex;gap:10px">
@@ -90,7 +81,6 @@
         </div>
         <div id="image-previews" class="image-preview-row"></div>
       </div>
-
       <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px">
         <div id="qr-wrap" style="display:none">
           <label style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">Inventory QR (encodes SKU)</label>
@@ -101,7 +91,6 @@
           <img id="share-qr-preview" width="140" height="140" style="border:1px solid var(--line);border-radius:8px">
         </div>
       </div>
-
       <button id="submit-btn" class="btn btn-primary" type="submit">Create product</button>
     </form>
   </main>
