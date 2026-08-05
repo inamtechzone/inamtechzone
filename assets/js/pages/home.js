@@ -35,40 +35,63 @@ function handleWishlistClick(btn, productId) {
 }
 
 async function loadHome() {
-  document.getElementById("featured-grid").innerHTML = skeletonCards(4);
-  document.getElementById("bestseller-grid").innerHTML = skeletonCards(4);
-  document.getElementById("latest-grid").innerHTML = skeletonCards(8);
-  document.getElementById("category-grid").innerHTML = skeletonCards(6);
+  // Safe element retrieval
+  const featuredGrid = document.getElementById("featured-grid");
+  const bestsellerGrid = document.getElementById("bestseller-grid");
+  const latestGrid = document.getElementById("latest-grid");
+  const categoryGrid = document.getElementById("category-grid");
+
+  // Exit gracefully if this page isn't index.html or is missing core grids
+  if (!featuredGrid && !bestsellerGrid && !latestGrid && !categoryGrid) return;
+
+  // Render skeletons safely
+  if (featuredGrid) featuredGrid.innerHTML = skeletonCards(4);
+  if (bestsellerGrid) bestsellerGrid.innerHTML = skeletonCards(4);
+  if (latestGrid) latestGrid.innerHTML = skeletonCards(8);
+  if (categoryGrid) categoryGrid.innerHTML = skeletonCards(6);
 
   try {
-    // Single request instead of 5 separate ones (settings/categories/featured/
-    // bestSeller/latest/flashSale) — see Home.gs for why this matters for speed.
     const bundle = await apiGet("home.bundle", { limit: 8 });
     const { categories, featured, bestSeller: bestSellers, latest, flashSale: flash } = bundle;
     if (!window.ITZ_SETTINGS) window.ITZ_SETTINGS = bundle.settings;
 
-    document.getElementById("category-grid").innerHTML = categories.map((c, i) => `
-      <a href="/shop.html?category=${encodeURIComponent(c.slug)}" class="category-card">
-        ${c.image ? `<img class="cat-thumb" src="${escapeHtml(c.image)}" alt="">` : `<div class="icon">${CATEGORY_ICONS[i % CATEGORY_ICONS.length]}</div>`}
-        ${escapeHtml(c.name)}
-      </a>`).join("") || '<p style="color:var(--muted)">No categories yet.</p>';
+    // Categories
+    if (categoryGrid) {
+      categoryGrid.innerHTML = categories.map((c, i) => `
+        <a href="/shop.html?category=${encodeURIComponent(c.slug)}" class="category-card">
+          ${c.image ? `<img class="cat-thumb" src="${escapeHtml(c.image)}" alt="">` : `<div class="icon">${CATEGORY_ICONS[i % CATEGORY_ICONS.length]}</div>`}
+          ${escapeHtml(c.name)}
+        </a>`).join("") || '<p style="color:var(--muted)">No categories yet.</p>';
+    }
 
+    // Featured
     const featuredSection = document.getElementById("featured-section");
-    if (featured.length) {
-      document.getElementById("featured-grid").innerHTML = featured.map(productCardHtml).join("");
-    } else featuredSection.style.display = "none";
+    if (featured.length && featuredGrid) {
+      featuredGrid.innerHTML = featured.map(productCardHtml).join("");
+    } else if (featuredSection) {
+      featuredSection.style.display = "none";
+    }
 
+    // Bestseller
     const bsSection = document.getElementById("bestseller-section");
-    if (bestSellers.length) {
-      document.getElementById("bestseller-grid").innerHTML = bestSellers.map(productCardHtml).join("");
-    } else bsSection.style.display = "none";
+    if (bestSellers.length && bestsellerGrid) {
+      bestsellerGrid.innerHTML = bestSellers.map(productCardHtml).join("");
+    } else if (bsSection) {
+      bsSection.style.display = "none";
+    }
 
+    // Flash sale
     const flashSection = document.getElementById("flash-sale-band");
-    if (flash.length) flashSection.style.display = "block"; else flashSection.style.display = "none";
+    if (flashSection) {
+      flashSection.style.display = flash.length ? "block" : "none";
+    }
 
-    document.getElementById("latest-grid").innerHTML = latest.length
-      ? latest.map(productCardHtml).join("")
-      : '<div class="empty-state"><h3>No products yet</h3><p>Check back soon.</p></div>';
+    // Latest
+    if (latestGrid) {
+      latestGrid.innerHTML = latest.length
+        ? latest.map(productCardHtml).join("")
+        : '<div class="empty-state"><h3>No products yet</h3><p>Check back soon.</p></div>';
+    }
   } catch (e) {
     toastError(e);
   }
@@ -76,7 +99,7 @@ async function loadHome() {
 
 function initFaq() {
   qsa(".faq-item").forEach((item) => {
-    item.querySelector(".faq-question").addEventListener("click", () => {
+    item.querySelector(".faq-question")?.addEventListener("click", () => {
       const wasOpen = item.classList.contains("open");
       qsa(".faq-item").forEach((i) => i.classList.remove("open"));
       if (!wasOpen) item.classList.add("open");
