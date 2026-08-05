@@ -4,7 +4,7 @@
 
 // Configuration: Replace with your deployed Web App URL if dynamic binding isn't used
 const API_CONFIG = {
-  baseUrl: window.ITZ_API_URL || "https://script.google.com/macros/s/YOUR_EXEC_ID/exec",
+  baseUrl: window.ITZ_API_URL || "https://script.google.com/macros/s/AKfycbxuKOpTYh5BtpO20atki3kQGsg84uB7R-IfcNICwiVeOPFg5_FUzVdbStkWyJbQ8wh8Hw/exec",
   timeout: 15000, // 15 seconds timeout
 };
 
