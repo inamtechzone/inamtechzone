@@ -19,6 +19,9 @@
 <link rel="preload" href="/assets/fonts/Inter-Regular.ttf" as="font" type="font/ttf" crossorigin />
 <link rel="preload" href="/assets/fonts/SpaceGrotesk-Bold.ttf" as="font" type="font/ttf" crossorigin />
 
+<!-- Preload LCP Hero/Banner Image (Optimization for LCP Score) -->
+<link rel="preload" as="image" href="/assets/images/hero-banner.webp" type="image/webp" />
+
 <!-- Critical Above-the-Fold Inline CSS (Eliminates Render-Blocking) -->
 <style>
   :root {
@@ -49,6 +52,7 @@
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: var(--radius); padding: 12px 20px; font-weight: 600; font-size: 14.5px; cursor: pointer; text-decoration: none; }
   .btn-primary { background: var(--accent); color: #fff; }
   .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; min-height: 400px; }
+  img { max-width: 100%; height: auto; display: block; }
 </style>
 
 <!-- Asynchronous Non-Blocking Main Stylesheet -->
