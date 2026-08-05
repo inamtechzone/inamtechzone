@@ -1,109 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Product Details - Store</title>
-  
-  <!-- Referrer policy to allow external CDN & Google Drive images -->
-  <meta name="referrer" content="no-referrer" />
-
-  <style>
-    /* Product Page Styling */
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background-color: #f8f9fa; color: #333; padding: 20px; }
-    
-    .container { max-width: 1200px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-    @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
-    
-    /* Gallery */
-    .gallery-container { display: flex; flex-direction: column; gap: 15px; }
-    .main-image-box { width: 100%; aspect-ratio: 1/1; background: #f0f0f0; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-    .main-image-box img { width: 100%; height: 100%; object-fit: contain; }
-    .thumbnails-box { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
-    .thumb-item { width: 70px; height: 70px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; overflow: hidden; flex-shrink: 0; }
-    .thumb-item.active { border-color: #007bff; }
-    .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
-    
-    /* Product Details */
-    .product-meta { display: flex; flex-direction: column; gap: 15px; }
-    .product-category { color: #6c757d; font-size: 0.9rem; text-transform: uppercase; }
-    .product-title { font-size: 2rem; color: #111; font-weight: 700; }
-    .product-sku { font-size: 0.85rem; color: #888; }
-    
-    .price-box { display: flex; align-items: baseline; gap: 12px; margin: 10px 0; }
-    .price-current { font-size: 1.8rem; font-weight: 700; color: #007bff; }
-    .price-old { font-size: 1.2rem; color: #999; text-decoration: line-through; }
-    
-    .stock-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; width: fit-content; }
-    .stock-badge.in-stock { background: #e6f4ea; color: #137333; }
-    .stock-badge.out-of-stock { background: #fce8e6; color: #c5221f; }
-    
-    .action-box { display: flex; gap: 15px; margin-top: 20px; }
-    .quantity-box { display: flex; border: 1fr solid #ccc; border-radius: 4px; overflow: hidden; }
-    .quantity-box input { width: 60px; text-align: center; border: 1px solid #ccc; font-size: 1rem; }
-    .btn-cart { flex: 1; padding: 12px 24px; background: #007bff; color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; }
-    .btn-cart:disabled { background: #ccc; cursor: not-allowed; }
-    
-    /* Tabs & Specs */
-    .details-section { margin-top: 40px; border-top: 1fr solid #eee; padding-top: 20px; }
-    .specs-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    .specs-table th, .specs-table td { padding: 10px 14px; border: 1px solid #eee; text-align: left; }
-    .specs-table th { background: #f9f9f9; width: 30%; font-weight: 600; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Product — INAM TECH ZONE</title>
+<link rel="manifest" href="/manifest.json" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" />
 </head>
-<body>
+<body data-skip-pageview>
+<div id="site-header"></div>
 
-  <div class="container" id="product-container">
-    <div class="product-grid">
-      
-      <!-- Left: Image Gallery -->
-      <div class="gallery-container">
-        <div class="main-image-box" id="main-image-container">
-          <div class="loading-spinner">Loading product images...</div>
-        </div>
-        <div class="thumbnails-box" id="gallery-thumbnails"></div>
-      </div>
-
-      <!-- Right: Product Information -->
-      <div class="product-meta">
-        <span class="product-category" id="product-category">Category</span>
-        <h1 class="product-title" id="product-title">Loading...</h1>
-        <span class="product-sku" id="product-sku"></span>
-
-        <div id="stock-badge" class="stock-badge">Checking stock...</div>
-
-        <div class="price-box">
-          <span class="price-current" id="product-price">-</span>
-          <span class="price-old" id="product-old-price"></span>
-        </div>
-
-        <p class="product-description" id="product-description">Loading details...</p>
-
-        <div class="action-box">
-          <div class="quantity-box">
-            <input type="number" id="quantity-input" value="1" min="1" />
-          </div>
-          <button class="btn-cart" id="btn-add-to-cart">Add to Cart</button>
-        </div>
-      </div>
-
+<div id="product-root" class="container" style="padding-top:30px;padding-bottom:60px">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px" class="pd-grid">
+    <div class="gallery">
+      <div id="gallery-thumbs" class="gallery-thumbs"></div>
+      <div id="gallery-main" class="gallery-main"><img id="gallery-main-img" alt="Product image"></div>
     </div>
 
-    <!-- Product Specifications -->
-    <div class="details-section">
-      <h2>Specifications</h2>
-      <div id="product-specifications">
-        <p style="color: #666; font-style: italic;">No additional specifications listed.</p>
+    <div>
+      <span id="product-stock" class="stock-badge in"></span>
+      <h1 id="product-name" style="margin-top:12px"></h1>
+      <div class="spec-strip" style="margin-bottom:16px">
+        <span id="product-sku"></span><span class="dot">•</span>
+        <span id="product-category"></span>
+        <span id="product-brand-wrap"><span class="dot">•</span><span id="product-brand"></span></span>
+      </div>
+      <div class="price-row" style="margin-bottom:20px">
+        <div id="product-price" class="product-price" style="font-size:28px"></div>
+        <div id="product-price-old" class="product-price-old" style="display:none"></div>
+      </div>
+      <p id="product-description" style="color:var(--muted);line-height:1.7;margin-bottom:20px"></p>
+
+      <div id="spec-table-wrap" style="display:none;margin-bottom:22px">
+        <h4>Specifications</h4>
+        <table style="width:100%;border-collapse:collapse;font-size:13.5px"><tbody id="spec-table"></tbody></table>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
+        <div class="qty-control">
+          <button id="qty-minus">−</button>
+          <input id="qty-input" type="number" value="1" min="1" style="width:28px;text-align:center;border:none;font-weight:600;font-size:14px;background:transparent;color:var(--ink)">
+          <button id="qty-plus">+</button>
+        </div>
+        <button id="add-cart-btn" class="btn btn-primary">Add to cart</button>
+        <button id="buy-now-btn" class="btn btn-secondary">Buy now</button>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+        <a id="whatsapp-ask-btn" class="btn btn-outline" target="_blank" rel="noreferrer">Ask on WhatsApp</a>
+        <a id="call-btn" class="btn btn-outline" style="display:none">Call now</a>
+        <button id="wishlist-toggle-btn" class="btn btn-outline">♡ Add to wishlist</button>
+        <button id="compare-toggle-btn" class="btn btn-outline">⇄ Compare</button>
+      </div>
+      <div>
+        <label style="display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:8px">Share this product</label>
+        <div id="share-buttons" style="display:flex;gap:8px;flex-wrap:wrap"></div>
       </div>
     </div>
   </div>
 
-  <!-- Shared Scripts -->
-  <script src="js/api.js"></script>
-  <script src="js/cart.js"></script>
-  <script src="pages/product.js"></script>
+  <div id="related-section" style="display:none">
+    <div class="section-head"><h2>Related products</h2></div>
+    <div id="related-grid" class="product-grid"></div>
+  </div>
 
+  <div id="recent-section" style="display:none">
+    <div class="section-head"><h2>Recently viewed</h2></div>
+    <div id="recent-grid" class="product-grid"></div>
+  </div>
+
+  <div class="section-head"><h2>Reviews</h2></div>
+  <div id="review-summary" style="margin-bottom:16px;color:var(--muted);font-size:14px"></div>
+  <div id="review-list" style="max-width:640px;margin-bottom:26px"></div>
+
+  <div class="card" style="max-width:480px">
+    <h4>Write a review</h4>
+    <form id="review-form">
+      <div class="field"><label>Your name</label><input name="customerName" required></div>
+      <div class="field"><label>Phone (optional)</label><input name="phone"></div>
+      <div class="field"><label>Rating</label>
+        <select name="rating" required>
+          <option value="5">★★★★★ Excellent</option>
+          <option value="4">★★★★☆ Good</option>
+          <option value="3">★★★☆☆ Okay</option>
+          <option value="2">★★☆☆☆ Poor</option>
+          <option value="1">★☆☆☆☆ Bad</option>
+        </select>
+      </div>
+      <div class="field"><label>Comment</label><textarea name="comment" rows="3"></textarea></div>
+      <button class="btn btn-primary btn-block" type="submit">Submit review</button>
+    </form>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+
+<style>@media (max-width: 760px) { .pd-grid { grid-template-columns: 1fr !important; } }</style>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/ui.js"></script>
+<script src="/assets/js/storage.js"></script>
+<script src="/assets/js/img-cdn.js"></script>
+<script src="/assets/js/compare.js"></script>
+<script src="/assets/js/share.js"></script>
+<script src="/assets/js/tracking.js"></script>
+<script src="/assets/js/i18n.js"></script>
+<script src="/assets/js/layout.js"></script>
+<script src="/assets/js/pages/home.js"></script>
+<script src="/assets/js/pages/product.js"></script>
 </body>
 </html>
