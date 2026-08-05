@@ -1,116 +1,90 @@
 /**
- * pages/home.js — Complete Homepage Renderer
+ * pages/home.js — logic for index.html
  */
 
-// Helper: Fix Google Drive links on client side
-function fixImageUrl(url) {
-  if (!url || typeof url !== "string") return "";
-  const trimmed = url.trim();
-  if (trimmed.includes("drive.google.com") || trimmed.includes("googleusercontent.com")) {
-    const match = trimmed.match(/\/d\/([a-zA-Z0-9_-]+)/) || trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-    if (match && match[1]) {
-      return `https://lh3.googleusercontent.com/d/${match[1]}`;
-    }
-  }
-  return trimmed;
-}
+const CATEGORY_ICONS = ["📱", "🎧", "💻", "⌚", "🏠", "🔌", "📷", "🎮"];
 
-// Helper: Format Currency
-function formatCurrency(amount) {
-  const currency = window.APP_CURRENCY || "Rs.";
-  return `${currency} ${(Number(amount) || 0).toLocaleString()}`;
-}
-
-// Product Card HTML Generator
-function createProductCard(product) {
-  const mainImage = Array.isArray(product.images) && product.images.length > 0 
-    ? fixImageUrl(product.images[0]) 
-    : fixImageUrl(product.ogImage);
-
-  const finalImg = mainImage || "https://via.placeholder.com/300x300?text=No+Image";
-  const hasDiscount = product.discountPrice && product.discountPrice < product.price;
-  const currentPrice = hasDiscount ? product.discountPrice : product.price;
-  const productUrl = product.canonicalPath || `/product.html?slug=${product.slug || product.id}`;
-
+function productCardHtml(p) {
+  const inStock = p.stock > 0;
+  const wishlisted = isWishlisted(p.id);
+  const hasDiscount = p.discountPrice && p.discountPrice < p.price;
   return `
-    <div class="product-card" data-id="${product.id}">
-      <div class="product-card-image">
-        <a href="${productUrl}">
-          <img 
-            src="${finalImg}" 
-            alt="${product.name}" 
-            loading="lazy" 
-            referrerpolicy="no-referrer"
-            onerror="this.onerror=null; this.src='https://via.placeholder.com/300x300?text=Image+Error';"
-          />
-        </a>
-        ${hasDiscount ? `<span class="badge-discount">Sale</span>` : ""}
+    <a href="/product.html?slug=${encodeURIComponent(p.slug)}" class="product-card">
+      ${p.flashSale ? '<span class="ribbon sale">Flash Sale</span>' : p.bestSeller ? '<span class="ribbon">Best Seller</span>' : p.newArrival ? '<span class="ribbon">New</span>' : ""}
+      <button class="wishlist-btn ${wishlisted ? "active" : ""}" onclick="event.preventDefault();event.stopPropagation();handleWishlistClick(this,'${p.id}')">${wishlisted ? "♥" : "♡"}</button>
+      <div class="product-thumb">
+        ${p.images && p.images[0] ? `<img src="${escapeHtml(cdnUrl(p.images[0], { width: 400 }))}" alt="${escapeHtml(p.name)}" loading="lazy">` : '<span style="color:var(--muted);font-size:12px">No image</span>'}
       </div>
-      <div class="product-card-content">
-        <span class="product-category">${product.category || "General"}</span>
-        <h3 class="product-title">
-          <a href="${productUrl}">${product.name}</a>
-        </h3>
-        <div class="product-price-box">
-          <span class="price-current">${formatCurrency(currentPrice)}</span>
-          ${hasDiscount ? `<span class="price-old">${formatCurrency(product.price)}</span>` : ""}
+      <div class="product-body">
+        <span class="stock-badge ${inStock ? "in" : "out"}">${inStock ? "In stock · " + p.stock : "Out of stock"}</span>
+        <div class="product-name">${escapeHtml(p.name)}</div>
+        <div class="spec-strip"><span>${escapeHtml(p.category)}</span>${p.brand ? `<span class="dot">•</span><span>${escapeHtml(p.brand)}</span>` : ""}</div>
+        <div class="price-row">
+          <div class="product-price">${formatMoney(hasDiscount ? p.discountPrice : p.price)}</div>
+          ${hasDiscount ? `<div class="product-price-old">${formatMoney(p.price)}</div>` : ""}
         </div>
-        <button 
-          class="btn-add-cart" 
-          onclick="handleQuickAddToCart('${product.id}')"
-          ${product.stock <= 0 ? "disabled" : ""}
-        >
-          ${product.stock > 0 ? "Add to Cart" : "Out of Stock"}
-        </button>
       </div>
-    </div>
-  `;
+    </a>`;
 }
 
-// Load Featured & Recent Products
-async function loadHomeProducts() {
-  const featuredContainer = document.getElementById("featured-products-grid");
-  const recentContainer = document.getElementById("recent-products-grid");
+function handleWishlistClick(btn, productId) {
+  const active = toggleWishlist(productId);
+  btn.classList.toggle("active", active);
+  btn.textContent = active ? "♥" : "♡";
+  toast(active ? "Added to wishlist" : "Removed from wishlist");
+}
+
+async function loadHome() {
+  document.getElementById("featured-grid").innerHTML = skeletonCards(4);
+  document.getElementById("bestseller-grid").innerHTML = skeletonCards(4);
+  document.getElementById("latest-grid").innerHTML = skeletonCards(8);
+  document.getElementById("category-grid").innerHTML = skeletonCards(6);
 
   try {
-    if (typeof apiGet !== "function") return;
+    // Single request instead of 5 separate ones (settings/categories/featured/
+    // bestSeller/latest/flashSale) — see Home.gs for why this matters for speed.
+    const bundle = await apiGet("home.bundle", { limit: 8 });
+    const { categories, featured, bestSeller: bestSellers, latest, flashSale: flash } = bundle;
+    if (!window.ITZ_SETTINGS) window.ITZ_SETTINGS = bundle.settings;
 
-    const response = await apiGet("products.list", { limit: 20 });
-    const resData = response.data || response;
-    const products = resData.items || resData || [];
+    document.getElementById("category-grid").innerHTML = categories.map((c, i) => `
+      <a href="/shop.html?category=${encodeURIComponent(c.slug)}" class="category-card">
+        ${c.image ? `<img class="cat-thumb" src="${escapeHtml(c.image)}" alt="">` : `<div class="icon">${CATEGORY_ICONS[i % CATEGORY_ICONS.length]}</div>`}
+        ${escapeHtml(c.name)}
+      </a>`).join("") || '<p style="color:var(--muted)">No categories yet.</p>';
 
-    // 1. Render Featured Products
-    if (featuredContainer) {
-      const featured = products.filter((p) => p.featured);
-      const displayFeatured = featured.length > 0 ? featured : products.slice(0, 8);
-      
-      featuredContainer.innerHTML = displayFeatured.length > 0
-        ? displayFeatured.map(createProductCard).join("")
-        : `<p class="no-data">No featured products found.</p>`;
-    }
+    const featuredSection = document.getElementById("featured-section");
+    if (featured.length) {
+      document.getElementById("featured-grid").innerHTML = featured.map(productCardHtml).join("");
+    } else featuredSection.style.display = "none";
 
-    // 2. Render All / Recent Products
-    if (recentContainer) {
-      recentContainer.innerHTML = products.length > 0
-        ? products.map(createProductCard).join("")
-        : `<p class="no-data">No products available.</p>`;
-    }
+    const bsSection = document.getElementById("bestseller-section");
+    if (bestSellers.length) {
+      document.getElementById("bestseller-grid").innerHTML = bestSellers.map(productCardHtml).join("");
+    } else bsSection.style.display = "none";
 
-  } catch (err) {
-    console.error("Error loading home products:", err);
+    const flashSection = document.getElementById("flash-sale-band");
+    if (flash.length) flashSection.style.display = "block"; else flashSection.style.display = "none";
+
+    document.getElementById("latest-grid").innerHTML = latest.length
+      ? latest.map(productCardHtml).join("")
+      : '<div class="empty-state"><h3>No products yet</h3><p>Check back soon.</p></div>';
+  } catch (e) {
+    toastError(e);
   }
 }
 
-// Global Quick Add to Cart Handler
-window.handleQuickAddToCart = function(productId) {
-  if (typeof addToCart === "function") {
-    addToCart(productId, 1);
-  } else if (typeof toast === "function") {
-    toast("Added to cart!");
-  }
-};
+function initFaq() {
+  qsa(".faq-item").forEach((item) => {
+    item.querySelector(".faq-question").addEventListener("click", () => {
+      const wasOpen = item.classList.contains("open");
+      qsa(".faq-item").forEach((i) => i.classList.remove("open"));
+      if (!wasOpen) item.classList.add("open");
+    });
+  });
+}
 
-// Initialize Page
 document.addEventListener("DOMContentLoaded", () => {
-  loadHomeProducts();
+  loadHome();
+  initFaq();
 });
