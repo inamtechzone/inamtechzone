@@ -1,128 +1,77 @@
 /**
- * js/api.js — Central API Client for Google Apps Script Backend
+ * api.js
+ * Thin wrapper around fetch() for talking to the Apps Script Web App.
+ *
+ * IMPORTANT: POST bodies are sent with Content-Type: text/plain. This is
+ * intentional — it's the standard trick for calling Apps Script Web Apps from
+ * a different origin (e.g. Vercel) without triggering a CORS preflight
+ * (OPTIONS) request, which Apps Script Web Apps don't handle. The server
+ * (Code.gs) still parses the body as JSON regardless of the declared type.
  */
+const ITZ = window.ITZ_CONFIG;
 
-// Configuration: Replace with your deployed Web App URL if dynamic binding isn't used
-const API_CONFIG = {
-  baseUrl: window.ITZ_API_URL || "https://script.google.com/macros/s/AKfycbxuKOpTYh5BtpO20atki3kQGsg84uB7R-IfcNICwiVeOPFg5_FUzVdbStkWyJbQ8wh8Hw/exec",
-  timeout: 15000, // 15 seconds timeout
-};
+function itzToken() {
+  return localStorage.getItem("itz_admin_token") || "";
+}
 
-/**
- * Builds standard request URL with parameters
- */
-function buildApiUrl(action, params = {}) {
-  const url = new URL(API_CONFIG.baseUrl);
-  url.searchParams.append("action", action);
+async function apiGet(action, params) {
+  const query = new URLSearchParams(Object.assign({ action: action }, params || {}));
+  const token = itzToken();
+  if (token) query.set("token", token);
+  const res = await fetch(ITZ.API_URL + "?" + query.toString(), { method: "GET" });
+  const json = await res.json();
+  if (!json.success) throw new ApiError(json.message, json.code);
+  return json.data;
+}
 
-  Object.keys(params).forEach((key) => {
-    if (params[key] !== undefined && params[key] !== null) {
-      url.searchParams.append(key, params[key]);
-    }
+// For actions that return raw text (CSV/XML) instead of the {success, data}
+// JSON envelope — e.g. products.exportShopifyCsv, feeds.*.
+async function apiGetRaw(action, params) {
+  const query = new URLSearchParams(Object.assign({ action: action }, params || {}));
+  const token = itzToken();
+  if (token) query.set("token", token);
+  const res = await fetch(ITZ.API_URL + "?" + query.toString(), { method: "GET" });
+  if (!res.ok) throw new ApiError(`Request failed (HTTP ${res.status})`, res.status);
+  return res.text();
+}
+
+async function apiPost(action, payload) {
+  const res = await fetch(ITZ.API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ action: action, token: itzToken(), payload: payload || {} }),
   });
-
-  return url.toString();
+  const json = await res.json();
+  if (!json.success) throw new ApiError(json.message, json.code);
+  return json.data;
 }
 
-/**
- * Global API GET Request Wrapper
- */
-async function apiGet(action, params = {}) {
-  const requestUrl = buildApiUrl(action, params);
+const ADMIN_GET_ACTIONS = ["orders.list", "orders.get", "customers.list", "coupons.list",
+  "activitylog.list", "reports.summary", "backup.export"];
 
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.timeout);
-
-    const response = await fetch(requestUrl, {
-      method: "GET",
-      redirect: "follow",
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      throw new Error(`HTTP Error: ${response.status}`);
-    }
-
-    const json = await response.json();
-
-    if (json.success === false) {
-      throw new Error(json.message || "API request failed");
-    }
-
-    return json;
-  } catch (error) {
-    console.error(`[API Error] GET ${action}:`, error);
-    if (typeof toastError === "function") {
-      toastError(error.message || "Network request failed.");
-    }
-    throw error;
+class ApiError extends Error {
+  constructor(message, code) {
+    super(message || "Something went wrong");
+    this.code = code || 400;
   }
 }
 
-/**
- * Global API POST Request Wrapper
- */
-async function apiPost(action, payload = {}) {
-  const requestUrl = buildApiUrl(action);
-
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.timeout);
-
-    // Google Apps Script requires text/plain to prevent CORS preflight blocking
-    const response = await fetch(requestUrl, {
-      method: "POST",
-      redirect: "follow",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8",
-      },
-      body: JSON.stringify(payload),
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      throw new Error(`HTTP Error: ${response.status}`);
-    }
-
-    const json = await response.json();
-
-    if (json.success === false) {
-      throw new Error(json.message || "Operation failed");
-    }
-
-    return json;
-  } catch (error) {
-    console.error(`[API Error] POST ${action}:`, error);
-    if (typeof toastError === "function") {
-      toastError(error.message || "Failed to submit data.");
-    }
-    throw error;
-  }
+// Reads a <input type="file"> FileList into base64 payloads ready for upload.image.
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result; // "data:image/png;base64,AAAA..."
+      const base64 = result.split(",")[1];
+      resolve({ fileName: file.name, mimeType: file.type, base64: base64 });
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
-/**
- * Convenience Methods for Common Store Operations
- */
-const StoreAPI = {
-  // Fetch products list with filters
-  getProducts: (params = {}) => apiGet("products.list", params),
-
-  // Fetch single product by ID or Slug
-  getProduct: (idOrSlug) => apiGet("products.get", { id: idOrSlug }),
-
-  // Submit Order / Checkout Payload
-  createOrder: (orderData) => apiPost("orders.create", orderData),
-
-  // Fetch Store Categories
-  getCategories: () => apiGet("categories.list"),
-};
-
-// Export globally for legacy browser compatibility
-window.apiGet = apiGet;
-window.apiPost = apiPost;
-window.StoreAPI = StoreAPI;
+async function uploadImageFile(file) {
+  const payload = await fileToBase64(file);
+  const data = await apiPost("upload.image", payload);
+  return data.url;
+}
