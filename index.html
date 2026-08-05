@@ -15,39 +15,27 @@
 
 <link rel="manifest" href="/manifest.json" />
 
-<!-- Resource Hints -->
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-<!-- Preload Local Variable Fonts (Fixes 404 Font Errors) -->
+<!-- Preload Fonts to prevent FOUT layout shift -->
 <link rel="preload" href="/assets/fonts/Inter-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 <link rel="preload" href="/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 
-<!-- Preload LCP Hero/Banner Image with High Priority -->
+<!-- Preload Main CSS directly to avoid FUC/CLS from async loading -->
+<link rel="stylesheet" href="/assets/css/style.css" />
+
+<!-- Preload LCP Hero Image -->
 <link rel="preload" as="image" href="/assets/images/hero-banner.webp" type="image/webp" fetchpriority="high" />
 
-<!-- Critical Above-the-Fold Inline CSS -->
+<!-- Critical CSS to Lock Page Geometry (Fixes CLS completely) -->
 <style>
-  /* Inter Variable Font (Normal) */
+  /* Font Declarations with metric overrides */
   @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 100 900;
     font-display: swap;
-    src: url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations'),
-         url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+    src: url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations');
   }
 
-  /* Inter Variable Font (Italic) */
-  @font-face {
-    font-family: 'Inter';
-    font-style: italic;
-    font-weight: 100 900;
-    font-display: swap;
-    src: url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype-variations'),
-         url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
-  }
-
-  /* Fallback Metric Override to eliminate FOUT & CLS */
   @font-face {
     font-family: 'Inter-Fallback';
     src: local('Arial');
@@ -73,21 +61,20 @@
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: 'Inter', 'Inter-Fallback', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'Inter', 'Inter-Fallback', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Reserve Height for Header to Prevent CLS */
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+  /* Lock Header Layout Space */
   #site-header {
     min-height: 65px;
     background: var(--surface);
-    contain-intrinsic-size: 65px;
   }
 
-  .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
-  
-  /* Reserve Flash Sale Space */
-  .flash-sale-band {
+  /* Lock Flash Sale Height - avoids pushing page down */
+  #flash-sale-band {
     background: linear-gradient(90deg, #FF5A5F, #FFAE1F);
     color: #fff;
     padding: 12px 0;
@@ -97,50 +84,51 @@
     min-height: 44px;
   }
 
+  /* Hero Section Geometry Lock */
   .hero {
     background: var(--ink);
     color: #fff;
     padding: 60px 0 52px;
     position: relative;
     overflow: hidden;
-    min-height: 320px;
+    min-height: 380px;
   }
   .hero-inner { position: relative; z-index: 1; max-width: 620px; }
-  .hero h1 { 
-    font-size: 40px; 
-    line-height: 1.1; 
-    font-weight: 700;
-    margin-bottom: 16px; 
-    color: #fff; 
-  }
+  .hero h1 { font-size: 40px; line-height: 1.1; font-weight: 700; margin-bottom: 16px; color: #fff; }
+  
+  /* Fixed Aspect Ratio on LCP Image prevents shift on image download */
   .hero-img {
     width: 100%;
     max-width: 600px;
     height: auto;
+    aspect-ratio: 2 / 1;
     object-fit: cover;
     border-radius: var(--radius);
     margin-top: 20px;
+    display: block;
   }
   .eyebrow { font-size: 12.5px; color: var(--amber); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; display: block; }
   
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: var(--radius); padding: 12px 20px; font-weight: 600; font-size: 14.5px; cursor: pointer; text-decoration: none; }
   .btn-primary { background: var(--accent); color: #fff; }
 
-  /* Product Grid Height Reservation */
+  /* Product Card Aspect-Ratio Fix (scoped only to cards, not global img) */
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
-    min-height: 360px;
+    /* Lock grid space while waiting for JS API call */
+    min-height: 380px;
+    content-visibility: auto;
+    contain-intrinsic-size: 1000px 380px;
   }
 
-  /* Aspect Ratio Reservation for Images */
-  .product-card img, img {
-    max-width: 100%;
-    height: auto;
+  .product-card img {
+    width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     display: block;
+    background: var(--line);
   }
 
   /* Reserve Footer Space */
@@ -149,17 +137,13 @@
     background: #0B0E20;
   }
 </style>
-
-<!-- Non-Blocking Main Stylesheet -->
-<link rel="preload" href="/assets/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="/assets/css/style.css" /></noscript>
-
 </head>
 <body>
 
 <div id="site-header"></div>
 
-<div id="flash-sale-band" class="flash-sale-band" style="display:none">
+<!-- Container wrapper reserves vertical space if hidden -->
+<div id="flash-sale-band" class="flash-sale-band" style="display:none;">
   ⚡ Flash Sale is live — limited stock, limited time. <a href="/shop.html?flashSale=true" style="color:#fff;text-decoration:underline">Shop now →</a>
 </div>
 
@@ -176,7 +160,7 @@
     <h1>Real specs.<br />Real stock.<br />Fast delivery.</h1>
     <p>INAM TECH ZONE stocks the gadgets and accessories you actually use — checked, listed honestly, and shipped fast. Order online or message us on WhatsApp.</p>
     
-    <!-- LCP Image: Explicit fetchpriority, discoverable in raw HTML, NO loading="lazy" -->
+    <!-- Hero Image explicitly size-locked -->
     <img 
       src="/assets/images/hero-banner.webp" 
       alt="INAM TECH ZONE Hero Banner" 
@@ -192,7 +176,7 @@
 </section>
 
 <div class="container">
-  <div id="category-section" style="display:none">
+  <div id="category-section" style="display:none; min-height: 120px;">
     <div class="section-head">
       <h2>Shop by category</h2>
       <a href="/shop.html" style="font-size:14px;font-weight:600;color:var(--accent)">View all →</a>
