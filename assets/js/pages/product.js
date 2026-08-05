@@ -1,24 +1,31 @@
 /**
- * pages/product.js — Optimized & Fast Loading Version
+ * pages/product.js — Ultra-Fast Instant Render & Optimized Version
  */
 
 let currentProduct = null;
 let activeImageIndex = 0;
 
+// URL Parsing (Supports Clean Paths & Search Params)
 function resolveHandleFromLocation_() {
   const path = window.location.pathname;
+  
+  // Clean URL Path: /collections/.../products/{handle} or /products/{handle}
   const cleanMatch = path.match(/\/products\/([^/]+)\/?$/);
   if (cleanMatch) return { handle: decodeURIComponent(cleanMatch[1]), isCleanUrl: true };
 
-  const legacy = new URL(window.location.href).searchParams.get("slug") || new URL(window.location.href).searchParams.get("id");
-  return { handle: legacy ? decodeURIComponent(legacy) : null, isCleanUrl: false };
+  // Legacy Parameters: ?slug={handle} or ?id={handle}
+  const params = new URLSearchParams(window.location.search);
+  const legacy = params.get("slug") || params.get("id");
+  if (legacy) return { handle: decodeURIComponent(legacy), isCleanUrl: false };
+
+  return { handle: null, isCleanUrl: false };
 }
 
-// Optimized Gallery: Native Lazy Loading Added
+// Fast Responsive Gallery Renderer
 function renderGallery(product) {
   const placeholderImg = "https://via.placeholder.com/600x600?text=No+Image";
   const rawImages = product.images && product.images.length ? product.images : [product.image || ""];
-  const images = rawImages.map(img => img ? cdnUrl(img, { width: 600 }) : placeholderImg);
+  const images = rawImages.map(img => img ? (typeof cdnUrl === "function" ? cdnUrl(img, { width: 600 }) : img) : placeholderImg);
 
   const thumbsEl = document.getElementById("gallery-thumbs");
   if (thumbsEl) {
@@ -40,77 +47,117 @@ function setActiveImage(i) {
   if (currentProduct) renderGallery(currentProduct);
 }
 
-// Background Task: Non-blocking Reviews Fetch
-function loadReviewsAsync(productId) {
-  setTimeout(async () => {
-    try {
-      const data = await apiGet("reviews.list", { productId: productId });
-      const summaryEl = document.getElementById("review-summary");
-      if (summaryEl) {
-        summaryEl.innerHTML = data.count
-          ? `<span class="rating-stars">${"★".repeat(Math.round(data.average))}${"☆".repeat(5 - Math.round(data.average))}</span> ${data.average} out of 5 (${data.count} review${data.count > 1 ? "s" : ""})`
-          : "No reviews yet — be the first!";
-      }
-      const listEl = document.getElementById("review-list");
-      if (listEl) {
-        listEl.innerHTML = (data.reviews || []).map((r) => `
-          <div class="review-card">
-            <div class="name">${escapeHtml(r.customerName)}</div>
-            <div class="rating-stars">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</div>
-            <p style="color:var(--muted);font-size:13.5px;margin:6px 0 0">${escapeHtml(r.comment || "")}</p>
-          </div>`).join("");
-      }
-    } catch (e) { /* non-fatal */ }
-  }, 100);
+function toggleZoom() {
+  const gallery = document.getElementById("gallery-main");
+  if (gallery) gallery.classList.toggle("zoomed");
 }
 
-// Core Execution Path
+function changeQty(delta) {
+  const input = document.getElementById("qty-input");
+  if (!input || !currentProduct) return;
+  const next = Math.max(1, Math.min((currentProduct.stock || 99), Number(input.value) + delta));
+  input.value = next;
+}
+
+// Render DOM UI instantly
+function renderUI(product) {
+  currentProduct = product;
+
+  renderGallery(product);
+
+  const stockEl = document.getElementById("product-stock");
+  if (stockEl) {
+    stockEl.outerHTML = `<span id="product-stock" class="stock-badge ${product.stock > 0 ? "in" : "out"}">${product.stock > 0 ? "In stock · " + product.stock + " available" : "Out of stock"}</span>`;
+  }
+
+  const nameEl = document.getElementById("product-name");
+  if (nameEl) nameEl.textContent = product.name;
+
+  const skuEl = document.getElementById("product-sku");
+  if (skuEl) skuEl.textContent = "SKU " + (product.sku || "N/A");
+
+  const catEl = document.getElementById("product-category");
+  if (catEl) catEl.textContent = product.category || "General";
+
+  const hasDiscount = product.discountPrice && product.discountPrice < product.price;
+  const priceEl = document.getElementById("product-price");
+  if (priceEl && typeof formatMoney === "function") {
+    priceEl.textContent = formatMoney(hasDiscount ? product.discountPrice : product.price);
+  }
+
+  const oldPriceEl = document.getElementById("product-price-old");
+  if (oldPriceEl && typeof formatMoney === "function") {
+    if (hasDiscount) { oldPriceEl.style.display = "inline"; oldPriceEl.textContent = formatMoney(product.price); }
+    else oldPriceEl.style.display = "none";
+  }
+
+  const descEl = document.getElementById("product-description");
+  if (descEl) descEl.textContent = product.description || "";
+
+  const addBtn = document.getElementById("add-cart-btn");
+  if (addBtn) addBtn.disabled = product.stock === 0;
+
+  const buyBtn = document.getElementById("buy-now-btn");
+  if (buyBtn) buyBtn.disabled = product.stock === 0;
+}
+
+// Async Background Fetching for Non-Critical Content
+function loadNonCriticalData(product) {
+  requestAnimationFrame(async () => {
+    if (typeof pushRecentlyViewed === "function") pushRecentlyViewed(product.id);
+    if (typeof applyProductSeo_ === "function") applyProductSeo_(product);
+
+    // Async Reviews
+    if (typeof apiGet === "function") {
+      try {
+        const data = await apiGet("reviews.list", { productId: product.id });
+        const summaryEl = document.getElementById("review-summary");
+        if (summaryEl) {
+          summaryEl.innerHTML = data.count
+            ? `<span class="rating-stars">${"★".repeat(Math.round(data.average))}${"☆".repeat(5 - Math.round(data.average))}</span> ${data.average} out of 5 (${data.count} review${data.count > 1 ? "s" : ""})`
+            : "No reviews yet — be the first!";
+        }
+      } catch (e) { /* non-fatal */ }
+    }
+  });
+}
+
+// Primary Data Loader with Session Caching (0ms Delay)
 async function loadProduct() {
   const { handle, isCleanUrl } = resolveHandleFromLocation_();
   if (!handle) { showNotFound_(); return; }
 
+  // Step 1: Check Local Cache for Immediate Display
+  const cacheKey = `itz_product_${handle}`;
+  const cachedData = sessionStorage.getItem(cacheKey);
+  if (cachedData) {
+    try {
+      const parsed = JSON.parse(cachedData);
+      renderUI(parsed);
+      loadNonCriticalData(parsed);
+    } catch (e) {}
+  }
+
+  // Step 2: Fetch Fresh Product Data from API
   try {
-    // Single Fast Fetch for Critical Content
     const product = await apiGet("products.get", { id: handle, slug: handle });
-    if (!product || !product.name) { showNotFound_(); return; }
+    if (!product || !product.name) {
+      if (!cachedData) showNotFound_();
+      return;
+    }
 
-    currentProduct = product;
-
+    // Rewrite Canonical URL path cleanly without page reload
     if (!isCleanUrl && product.canonicalPath && product.canonicalPath.startsWith("/collections/")) {
       window.history.replaceState({}, "", product.canonicalPath);
     }
 
-    // Render UI immediately
-    renderGallery(product);
-    
-    document.getElementById("product-name").textContent = product.name;
-    document.getElementById("product-sku").textContent = "SKU " + (product.sku || "N/A");
-    document.getElementById("product-category").textContent = product.category || "General";
-
-    const hasDiscount = product.discountPrice && product.discountPrice < product.price;
-    document.getElementById("product-price").textContent = formatMoney(hasDiscount ? product.discountPrice : product.price);
-
-    const oldPriceEl = document.getElementById("product-price-old");
-    if (oldPriceEl) {
-      if (hasDiscount) { oldPriceEl.style.display = "inline"; oldPriceEl.textContent = formatMoney(product.price); }
-      else oldPriceEl.style.display = "none";
-    }
-
-    document.getElementById("product-description").textContent = product.description || "";
-
-    const addBtn = document.getElementById("add-cart-btn");
-    const buyBtn = document.getElementById("buy-now-btn");
-    if (addBtn) addBtn.disabled = product.stock === 0;
-    if (buyBtn) buyBtn.disabled = product.stock === 0;
-
-    // Load non-critical data lazily without blocking render
-    requestAnimationFrame(() => {
-      if (typeof pushRecentlyViewed === "function") pushRecentlyViewed(product.id);
-      loadReviewsAsync(product.id);
-    });
+    // Save Fresh Cache & Render
+    sessionStorage.setItem(cacheKey, JSON.stringify(product));
+    renderUI(product);
+    loadNonCriticalData(product);
 
   } catch (e) {
-    showNotFound_();
+    if (!cachedData) showNotFound_();
   }
 }
 
@@ -119,26 +166,31 @@ function showNotFound_() {
   if (root) {
     root.innerHTML = `<div class="empty-state" style="text-align:center;padding:40px 10px;">
       <h3>Product not found</h3>
+      <p style="color:var(--muted);margin-top:8px;">The product you are looking for might have been moved or updated.</p>
       <a href="/shop.html" class="btn btn-primary" style="margin-top:16px;">Back to shop</a>
     </div>`;
   }
 }
 
-// Fast DOM Init
+// Initializing DOM Operations
 document.addEventListener("DOMContentLoaded", () => {
   loadProduct();
+
+  document.getElementById("qty-minus")?.addEventListener("click", () => changeQty(-1));
+  document.getElementById("qty-plus")?.addEventListener("click", () => changeQty(1));
+  document.getElementById("gallery-main")?.addEventListener("click", toggleZoom);
 
   document.getElementById("add-cart-btn")?.addEventListener("click", () => {
     if (!currentProduct) return;
     const qty = Number(document.getElementById("qty-input")?.value || 1);
-    addToCart(currentProduct, qty);
+    if (typeof addToCart === "function") addToCart(currentProduct, qty);
     if (typeof toast === "function") toast(`Added ${qty} × ${currentProduct.name} to cart`, "success");
   });
 
   document.getElementById("buy-now-btn")?.addEventListener("click", () => {
     if (!currentProduct) return;
     const qty = Number(document.getElementById("qty-input")?.value || 1);
-    addToCart(currentProduct, qty);
+    if (typeof addToCart === "function") addToCart(currentProduct, qty);
     window.location.href = "/checkout.html";
   });
 });
