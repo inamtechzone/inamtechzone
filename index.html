@@ -1,26 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>INAM TECH ZONE — Electronics & Gadgets, Fast Delivery</title>
+<title>INAM TECH ZONE — Electronics &amp; Gadgets, Fast Delivery</title>
 <meta name="description" content="INAM TECH ZONE — quality electronics and gadgets, honest specs, fast local delivery, and easy order tracking." />
 <meta name="robots" content="index, follow" />
 
 <!-- Open Graph / Social Media -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="INAM TECH ZONE — Electronics & Gadgets" />
+<meta property="og:title" content="INAM TECH ZONE — Electronics &amp; Gadgets" />
 <meta property="og:description" content="Quality electronics and gadgets, honest specs, fast local delivery, and easy order tracking." />
 <meta name="twitter:card" content="summary_large_image" />
 
 <link rel="manifest" href="/manifest.json" />
 
+<!-- Resource Hints -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
 <!-- Preload Local Variable Fonts (Fixes 404 Font Errors) -->
 <link rel="preload" href="/assets/fonts/Inter-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 <link rel="preload" href="/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 
-<!-- Preload LCP Hero/Banner Image -->
-<link rel="preload" as="image" href="/assets/images/hero-banner.webp" type="image/webp" />
+<!-- Preload LCP Hero/Banner Image with High Priority -->
+<link rel="preload" as="image" href="/assets/images/hero-banner.webp" type="image/webp" fetchpriority="high" />
 
 <!-- Critical Above-the-Fold Inline CSS -->
 <style>
@@ -110,6 +113,14 @@
     margin-bottom: 16px; 
     color: #fff; 
   }
+  .hero-img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--radius);
+    margin-top: 20px;
+  }
   .eyebrow { font-size: 12.5px; color: var(--amber); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; display: block; }
   
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: var(--radius); padding: 12px 20px; font-weight: 600; font-size: 14.5px; cursor: pointer; text-decoration: none; }
@@ -164,7 +175,19 @@
     <span class="eyebrow">Electronics &amp; Gadgets</span>
     <h1>Real specs.<br />Real stock.<br />Fast delivery.</h1>
     <p>INAM TECH ZONE stocks the gadgets and accessories you actually use — checked, listed honestly, and shipped fast. Order online or message us on WhatsApp.</p>
-    <a href="/shop.html" class="btn btn-primary">Browse the shop</a>
+    
+    <!-- LCP Image: Explicit fetchpriority, discoverable in raw HTML, NO loading="lazy" -->
+    <img 
+      src="/assets/images/hero-banner.webp" 
+      alt="INAM TECH ZONE Hero Banner" 
+      class="hero-img" 
+      fetchpriority="high"
+      width="600"
+      height="300" />
+
+    <div style="margin-top: 20px;">
+      <a href="/shop.html" class="btn btn-primary">Browse the shop</a>
+    </div>
   </div>
 </section>
 
