@@ -1,9 +1,3 @@
-/**
- * share.js
- * One-click social sharing (WhatsApp, Facebook, Messenger, Telegram,
- * LinkedIn, X, Copy Link) for any product or page.
- */
-
 function buildShareUrls_(url, title) {
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
@@ -16,7 +10,6 @@ function buildShareUrls_(url, title) {
     x: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
   };
 }
-
 function renderShareButtons(containerId, product, url) {
   const el = document.getElementById(containerId);
   if (!el) return;
@@ -31,7 +24,6 @@ function renderShareButtons(containerId, product, url) {
     <button type="button" class="btn btn-outline btn-sm" onclick="copyShareLink('${url.replace(/'/g, "\\'")}')" title="Copy link">Copy link</button>
   `;
 }
-
 function copyShareLink(url) {
   navigator.clipboard.writeText(url).then(
     () => toast("Link copied", "success"),
