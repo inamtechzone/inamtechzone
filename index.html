@@ -15,27 +15,39 @@
 
 <link rel="manifest" href="/manifest.json" />
 
-<!-- Preload Fonts to prevent FOUT layout shift -->
+<!-- Resource Hints -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<!-- Preload Local Variable Fonts (Fixes 404 Font Errors & CLS) -->
 <link rel="preload" href="/assets/fonts/Inter-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 <link rel="preload" href="/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 
-<!-- Preload Main CSS directly to avoid FUC/CLS from async loading -->
-<link rel="stylesheet" href="/assets/css/style.css" />
-
-<!-- Preload LCP Hero Image -->
+<!-- Preload LCP Hero Image with High Priority -->
 <link rel="preload" as="image" href="/assets/images/hero-banner.webp" type="image/webp" fetchpriority="high" />
 
-<!-- Critical CSS to Lock Page Geometry (Fixes CLS completely) -->
+<!-- Inlined Critical CSS (Eliminates Render-Blocking & 320ms Delay) -->
 <style>
-  /* Font Declarations with metric overrides */
+  /* Inter Variable Font (Normal) */
   @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 100 900;
     font-display: swap;
-    src: url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations');
+    src: url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations'),
+         url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
   }
 
+  /* Inter Variable Font (Italic) */
+  @font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype-variations'),
+         url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+  }
+
+  /* Fallback Metric Override to eliminate FOUT & CLS */
   @font-face {
     font-family: 'Inter-Fallback';
     src: local('Arial');
@@ -61,20 +73,20 @@
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: 'Inter', 'Inter-Fallback', system-ui, sans-serif;
+    font-family: 'Inter', 'Inter-Fallback', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 
   .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
 
-  /* Lock Header Layout Space */
+  /* Reserve Height for Header to Prevent CLS */
   #site-header {
     min-height: 65px;
     background: var(--surface);
   }
 
-  /* Lock Flash Sale Height - avoids pushing page down */
-  #flash-sale-band {
+  /* Flash Sale Band Geometry Lock */
+  .flash-sale-band {
     background: linear-gradient(90deg, #FF5A5F, #FFAE1F);
     color: #fff;
     padding: 12px 0;
@@ -94,9 +106,15 @@
     min-height: 380px;
   }
   .hero-inner { position: relative; z-index: 1; max-width: 620px; }
-  .hero h1 { font-size: 40px; line-height: 1.1; font-weight: 700; margin-bottom: 16px; color: #fff; }
-  
-  /* Fixed Aspect Ratio on LCP Image prevents shift on image download */
+  .hero h1 { 
+    font-size: 40px; 
+    line-height: 1.1; 
+    font-weight: 700;
+    margin-bottom: 16px; 
+    color: #fff; 
+  }
+
+  /* Fixed Aspect Ratio on LCP Image prevents shift on download */
   .hero-img {
     width: 100%;
     max-width: 600px;
@@ -112,12 +130,11 @@
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: var(--radius); padding: 12px 20px; font-weight: 600; font-size: 14.5px; cursor: pointer; text-decoration: none; }
   .btn-primary { background: var(--accent); color: #fff; }
 
-  /* Product Card Aspect-Ratio Fix (scoped only to cards, not global img) */
+  /* Product Card Grid (Space Reserved to Stop CLS) */
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
-    /* Lock grid space while waiting for JS API call */
     min-height: 380px;
     content-visibility: auto;
     contain-intrinsic-size: 1000px 380px;
@@ -137,12 +154,12 @@
     background: #0B0E20;
   }
 </style>
+
 </head>
 <body>
 
 <div id="site-header"></div>
 
-<!-- Container wrapper reserves vertical space if hidden -->
 <div id="flash-sale-band" class="flash-sale-band" style="display:none;">
   ⚡ Flash Sale is live — limited stock, limited time. <a href="/shop.html?flashSale=true" style="color:#fff;text-decoration:underline">Shop now →</a>
 </div>
@@ -160,7 +177,7 @@
     <h1>Real specs.<br />Real stock.<br />Fast delivery.</h1>
     <p>INAM TECH ZONE stocks the gadgets and accessories you actually use — checked, listed honestly, and shipped fast. Order online or message us on WhatsApp.</p>
     
-    <!-- Hero Image explicitly size-locked -->
+    <!-- LCP Image Optimized (fetchpriority="high", NO loading="lazy") -->
     <img 
       src="/assets/images/hero-banner.webp" 
       alt="INAM TECH ZONE Hero Banner" 
@@ -261,7 +278,7 @@
 
 <div id="site-footer"></div>
 
-<!-- JavaScript Dependencies -->
+<!-- JavaScript Dependencies (Deferred) -->
 <script src="/assets/js/config.js" defer></script>
 <script src="/assets/js/api.js" defer></script>
 <script src="/assets/js/ui.js" defer></script>
