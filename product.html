@@ -13,14 +13,12 @@
 </head>
 <body data-skip-pageview>
 <div id="site-header"></div>
-
 <div id="product-root" class="container" style="padding-top:30px;padding-bottom:60px">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px" class="pd-grid">
     <div class="gallery">
       <div id="gallery-thumbs" class="gallery-thumbs"></div>
       <div id="gallery-main" class="gallery-main"><img id="gallery-main-img" alt="Product image"></div>
     </div>
-
     <div>
       <span id="product-stock" class="stock-badge in"></span>
       <h1 id="product-name" style="margin-top:12px"></h1>
@@ -34,12 +32,10 @@
         <div id="product-price-old" class="product-price-old" style="display:none"></div>
       </div>
       <p id="product-description" style="color:var(--muted);line-height:1.7;margin-bottom:20px"></p>
-
       <div id="spec-table-wrap" style="display:none;margin-bottom:22px">
         <h4>Specifications</h4>
         <table style="width:100%;border-collapse:collapse;font-size:13.5px"><tbody id="spec-table"></tbody></table>
       </div>
-
       <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
         <div class="qty-control">
           <button id="qty-minus">−</button>
@@ -61,21 +57,17 @@
       </div>
     </div>
   </div>
-
   <div id="related-section" style="display:none">
     <div class="section-head"><h2>Related products</h2></div>
     <div id="related-grid" class="product-grid"></div>
   </div>
-
   <div id="recent-section" style="display:none">
     <div class="section-head"><h2>Recently viewed</h2></div>
     <div id="recent-grid" class="product-grid"></div>
   </div>
-
   <div class="section-head"><h2>Reviews</h2></div>
   <div id="review-summary" style="margin-bottom:16px;color:var(--muted);font-size:14px"></div>
   <div id="review-list" style="max-width:640px;margin-bottom:26px"></div>
-
   <div class="card" style="max-width:480px">
     <h4>Write a review</h4>
     <form id="review-form">
@@ -95,9 +87,7 @@
     </form>
   </div>
 </div>
-
 <div id="site-footer"></div>
-
 <style>@media (max-width: 760px) { .pd-grid { grid-template-columns: 1fr !important; } }</style>
 <script src="/assets/js/config.js"></script>
 <script src="/assets/js/api.js"></script>
