@@ -13,7 +13,7 @@
   --success: #16966F;
   --danger: #E0483F;
   --radius: 10px;
-  --font-display: "Space Grotesk", "Inter", -apple-system, sans-serif;
+  --font-display: "Inter", -apple-system, sans-serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 }
@@ -30,22 +30,33 @@
 }
 
 /* ==========================================================================
-   2. SELF-HOSTED FONTS (Zero CLS & Zero Latency)
+   2. SELF-HOSTED VARIABLE FONTS (Zero 404s, Zero CLS & Zero Latency)
    ========================================================================== */
 @font-face {
-  font-family: 'Space Grotesk';
+  font-family: 'Inter';
   font-style: normal;
-  font-weight: 600 700;
-  font-display: optional; /* CLS محفوظ رکھنے کے لیے */
-  src: url('../fonts/SpaceGrotesk-Bold.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations'),
+       url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400 700;
-  font-display: optional; /* CLS محفوظ رکھنے کے لیے */
-  src: url('../fonts/Inter-Regular.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype-variations'),
+       url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+
+/* Fallback Metric Override to eliminate FOUT & CLS */
+@font-face {
+  font-family: 'Inter-Fallback';
+  src: local('Arial');
+  size-adjust: 97%;
+  ascent-override: 94%;
+  descent-override: 24%;
 }
 
 /* ==========================================================================
@@ -63,7 +74,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-body);
+  font-family: 'Inter', 'Inter-Fallback', var(--font-body);
   -webkit-font-smoothing: antialiased;
   transition: background .2s ease, color .2s ease;
 }
@@ -157,7 +168,7 @@ h1, h2, h3, h4 {
   background: color-mix(in srgb, var(--surface) 92%, transparent);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
-  min-height: 65px; /* CLS سے بچاؤ */
+  min-height: 65px;
 }
 
 .navbar-inner {
@@ -293,7 +304,7 @@ h1, h2, h3, h4 {
   padding: 60px 0 52px;
   position: relative;
   overflow: hidden;
-  min-height: 320px; /* CLS تحفظ */
+  min-height: 320px;
 }
 
 [data-theme="dark"] .hero { background: #060812; }
@@ -348,7 +359,7 @@ h1, h2, h3, h4 {
   font-weight: 700;
   font-size: 14px;
   letter-spacing: .02em;
-  min-height: 44px; /* CLS تحفظ */
+  min-height: 44px;
 }
 
 .flash-countdown { font-family: var(--font-mono); font-weight: 700; }
@@ -423,7 +434,7 @@ h1, h2, h3, h4 {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
-  min-height: 400px; /* API ڈیٹا لوڈ ہوتے وقت CLS نہیں ہوگا */
+  min-height: 400px;
 }
 
 .product-card {
@@ -442,7 +453,6 @@ h1, h2, h3, h4 {
   transform: translateY(-2px);
 }
 
-/* Fix CLS: Rigid 1:1 Aspect Ratio Block */
 .product-thumb {
   aspect-ratio: 1 / 1;
   width: 100%;
@@ -519,7 +529,6 @@ h1, h2, h3, h4 {
 }
 .ribbon.sale { background: var(--danger); color: #fff; }
 
-/* Product Gallery (CLS Free) */
 .gallery {
   display: grid;
   grid-template-columns: 90px 1fr;
