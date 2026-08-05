@@ -68,7 +68,6 @@ function renderHeader() {
       resultsBox.style.display = "block";
     } catch (e) { /* silent for live search */ }
   }, 350));
-
   document.addEventListener("click", (e) => {
     if (!resultsBox.contains(e.target) && e.target !== input) resultsBox.style.display = "none";
   });
@@ -77,10 +76,8 @@ function renderHeader() {
       window.location.href = "/shop.html?search=" + encodeURIComponent(input.value.trim());
     }
   });
-
   updateCartBadge();
 }
-
 function renderFooter() {
   const el = document.getElementById("site-footer");
   if (!el) return;
@@ -119,14 +116,12 @@ function renderFooter() {
         </div>
       </div>
     </footer>`;
-
   document.getElementById("newsletter-form").addEventListener("submit", (e) => {
     e.preventDefault();
     toast("Thanks for subscribing!", "success");
     e.target.reset();
   });
 }
-
 function renderWhatsAppFab() {
   const s = window.ITZ_SETTINGS || {};
   const number = s.whatsappNumber || ITZ.WHATSAPP_NUMBER;
@@ -137,7 +132,6 @@ function renderWhatsAppFab() {
   el.innerHTML = '<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.03 4C7.5 4 3.82 7.65 3.82 12.15c0 1.44.38 2.85 1.1 4.09L3.75 20l3.86-1.01a8.84 8.84 0 0 0 4.42 1.19h.01c4.53 0 8.21-3.65 8.21-8.15a8.05 8.05 0 0 0-2.65-5.71ZM12.04 18.6a6.9 6.9 0 0 1-3.53-.97l-.25-.15-2.62.68.7-2.53-.16-.26a6.75 6.75 0 0 1-1.05-3.62c0-3.7 3.03-6.72 6.76-6.72a6.7 6.7 0 0 1 4.77 1.97 6.63 6.63 0 0 1 1.97 4.72c0 3.7-3.03 6.72-6.6 6.72Zm3.7-5.03c-.2-.1-1.18-.58-1.36-.65-.18-.07-.32-.1-.45.1-.13.2-.51.65-.63.78-.11.13-.23.15-.43.05-.2-.1-.85-.31-1.62-1-.6-.53-1-1.19-1.12-1.39-.12-.2-.01-.31.09-.4.09-.1.2-.24.3-.36.1-.12.13-.2.2-.34.07-.13.03-.25-.02-.35-.05-.1-.45-1.08-.62-1.48-.16-.39-.33-.34-.45-.34h-.38c-.13 0-.35.05-.53.25-.18.2-.7.68-.7 1.66s.72 1.93.82 2.06c.1.13 1.4 2.15 3.4 3.01.48.2.85.33 1.14.42.48.15.91.13 1.26.08.38-.06 1.18-.48 1.35-.95.16-.46.16-.86.11-.95-.05-.09-.18-.14-.38-.24Z"/></svg>';
   document.body.appendChild(el);
 }
-
 async function initLayout() {
   try { window.ITZ_SETTINGS = await apiGet("settings.get", {}); } catch (e) { window.ITZ_SETTINGS = {}; }
   renderHeader();
@@ -145,5 +139,4 @@ async function initLayout() {
   renderWhatsAppFab();
   if (typeof applyTranslations === "function") applyTranslations();
 }
-
 document.addEventListener("DOMContentLoaded", initLayout);
