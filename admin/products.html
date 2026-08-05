@@ -1,49 +1,109 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Products — INAM TECH ZONE Admin</title>
-<meta name="robots" content="noindex, nofollow" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/css/style.css" />
-<link rel="stylesheet" href="/assets/css/admin.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details - Store</title>
+  
+  <!-- Referrer policy to allow external CDN & Google Drive images -->
+  <meta name="referrer" content="no-referrer" />
+
+  <style>
+    /* Product Page Styling */
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: #f8f9fa; color: #333; padding: 20px; }
+    
+    .container { max-width: 1200px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
+    
+    /* Gallery */
+    .gallery-container { display: flex; flex-direction: column; gap: 15px; }
+    .main-image-box { width: 100%; aspect-ratio: 1/1; background: #f0f0f0; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .main-image-box img { width: 100%; height: 100%; object-fit: contain; }
+    .thumbnails-box { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
+    .thumb-item { width: 70px; height: 70px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; overflow: hidden; flex-shrink: 0; }
+    .thumb-item.active { border-color: #007bff; }
+    .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+    
+    /* Product Details */
+    .product-meta { display: flex; flex-direction: column; gap: 15px; }
+    .product-category { color: #6c757d; font-size: 0.9rem; text-transform: uppercase; }
+    .product-title { font-size: 2rem; color: #111; font-weight: 700; }
+    .product-sku { font-size: 0.85rem; color: #888; }
+    
+    .price-box { display: flex; align-items: baseline; gap: 12px; margin: 10px 0; }
+    .price-current { font-size: 1.8rem; font-weight: 700; color: #007bff; }
+    .price-old { font-size: 1.2rem; color: #999; text-decoration: line-through; }
+    
+    .stock-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; width: fit-content; }
+    .stock-badge.in-stock { background: #e6f4ea; color: #137333; }
+    .stock-badge.out-of-stock { background: #fce8e6; color: #c5221f; }
+    
+    .action-box { display: flex; gap: 15px; margin-top: 20px; }
+    .quantity-box { display: flex; border: 1fr solid #ccc; border-radius: 4px; overflow: hidden; }
+    .quantity-box input { width: 60px; text-align: center; border: 1px solid #ccc; font-size: 1rem; }
+    .btn-cart { flex: 1; padding: 12px 24px; background: #007bff; color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+    .btn-cart:disabled { background: #ccc; cursor: not-allowed; }
+    
+    /* Tabs & Specs */
+    .details-section { margin-top: 40px; border-top: 1fr solid #eee; padding-top: 20px; }
+    .specs-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    .specs-table th, .specs-table td { padding: 10px 14px; border: 1px solid #eee; text-align: left; }
+    .specs-table th { background: #f9f9f9; width: 30%; font-weight: 600; }
+  </style>
 </head>
 <body>
-<div class="admin-shell">
-  <aside id="admin-sidebar" class="admin-sidebar"></aside>
-  <main id="admin-main" class="admin-main">
-    <div class="section-head" style="margin-top:0">
-      <h2 style="margin:0">Products</h2>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button id="export-csv-btn" class="btn btn-outline btn-sm" title="Shopify-format CSV">Export CSV</button>
-        <label class="btn btn-outline btn-sm" style="margin:0" title="Accepts a Shopify-format CSV">
-          Import CSV
-          <input id="import-csv-input" type="file" accept=".csv" hidden>
-        </label>
-        <a href="/admin/product-form.html" class="btn btn-primary btn-sm">+ Add product</a>
+
+  <div class="container" id="product-container">
+    <div class="product-grid">
+      
+      <!-- Left: Image Gallery -->
+      <div class="gallery-container">
+        <div class="main-image-box" id="main-image-container">
+          <div class="loading-spinner">Loading product images...</div>
+        </div>
+        <div class="thumbnails-box" id="gallery-thumbnails"></div>
+      </div>
+
+      <!-- Right: Product Information -->
+      <div class="product-meta">
+        <span class="product-category" id="product-category">Category</span>
+        <h1 class="product-title" id="product-title">Loading...</h1>
+        <span class="product-sku" id="product-sku"></span>
+
+        <div id="stock-badge" class="stock-badge">Checking stock...</div>
+
+        <div class="price-box">
+          <span class="price-current" id="product-price">-</span>
+          <span class="price-old" id="product-old-price"></span>
+        </div>
+
+        <p class="product-description" id="product-description">Loading details...</p>
+
+        <div class="action-box">
+          <div class="quantity-box">
+            <input type="number" id="quantity-input" value="1" min="1" />
+          </div>
+          <button class="btn-cart" id="btn-add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Product Specifications -->
+    <div class="details-section">
+      <h2>Specifications</h2>
+      <div id="product-specifications">
+        <p style="color: #666; font-style: italic;">No additional specifications listed.</p>
       </div>
     </div>
-    <p style="color:var(--muted);font-size:12.5px;margin-top:-10px;margin-bottom:18px">
-      Uses the standard Shopify product CSV format (Handle, Title, Vendor, Type, Variant SKU/Price, Image Src, etc.) —
-      compatible with Shopify exports, most spreadsheet templates, and other store-migration tools.
-    </p>
-    <input id="admin-product-search" placeholder="Search products…" style="margin-bottom:18px;width:100%;max-width:320px;border:1.5px solid var(--line);border-radius:8px;padding:9px 12px;background:var(--surface);color:var(--ink)">
-    <div class="table-scroll">
-      <table class="admin-table">
-        <thead><tr><th></th><th>Name</th><th>SKU</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th></th></tr></thead>
-        <tbody id="admin-products-body"></tbody>
-      </table>
-    </div>
-    <div id="admin-products-pagination"></div>
-  </main>
-</div>
-<script src="/assets/js/config.js"></script>
-<script src="/assets/js/api.js"></script>
-<script src="/assets/js/ui.js"></script>
-<script src="/assets/js/auth.js"></script>
-<script src="/assets/js/admin/layout.js"></script>
-<script src="/assets/js/admin/products.js"></script>
+  </div>
+
+  <!-- Shared Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="pages/product.js"></script>
+
 </body>
 </html>
