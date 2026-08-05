@@ -19,10 +19,10 @@
 <link rel="preload" href="/assets/fonts/Inter-Regular.ttf" as="font" type="font/ttf" crossorigin />
 <link rel="preload" href="/assets/fonts/SpaceGrotesk-Bold.ttf" as="font" type="font/ttf" crossorigin />
 
-<!-- Preload LCP Hero/Banner Image (Optimization for LCP Score) -->
+<!-- Preload LCP Hero Image -->
 <link rel="preload" as="image" href="/assets/images/hero-banner.webp" type="image/webp" />
 
-<!-- Critical Above-the-Fold Inline CSS (Eliminates Render-Blocking) -->
+<!-- Critical Inline CSS with Strict Layout Reservations to fix CLS -->
 <style>
   :root {
     --bg: #F5F6FB;
@@ -34,7 +34,9 @@
     --amber: #FFAE1F;
     --radius: 10px;
   }
+  
   *, *::before, *::after { box-sizing: border-box; }
+  
   body {
     margin: 0;
     background: var(--bg);
@@ -42,17 +44,64 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
+
+  /* Reserve Exact Height for Header to Prevent CLS */
+  #site-header {
+    min-height: 65px;
+    background: var(--surface);
+    contain-intrinsic-size: 65px;
+  }
+
   .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
-  .navbar { position: sticky; top: 0; z-index: 40; background: #fff; min-height: 65px; border-bottom: 1px solid var(--line); }
-  .flash-sale-band { background: linear-gradient(90deg, #FF5A5F, #FFAE1F); color: #fff; padding: 12px 0; text-align: center; font-weight: 700; font-size: 14px; min-height: 44px; }
-  .hero { background: var(--ink); color: #fff; padding: 60px 0 52px; position: relative; overflow: hidden; min-height: 320px; }
+  
+  /* Reserve Flash Sale Space */
+  .flash-sale-band {
+    background: linear-gradient(90deg, #FF5A5F, #FFAE1F);
+    color: #fff;
+    padding: 12px 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+    min-height: 44px;
+  }
+
+  .hero {
+    background: var(--ink);
+    color: #fff;
+    padding: 60px 0 52px;
+    position: relative;
+    overflow: hidden;
+    min-height: 320px;
+  }
   .hero-inner { position: relative; z-index: 1; max-width: 620px; }
   .hero h1 { font-size: 40px; line-height: 1.1; margin-bottom: 16px; color: #fff; }
   .eyebrow { font-size: 12.5px; color: var(--amber); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; display: block; }
+  
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: var(--radius); padding: 12px 20px; font-weight: 600; font-size: 14.5px; cursor: pointer; text-decoration: none; }
   .btn-primary { background: var(--accent); color: #fff; }
-  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; min-height: 400px; }
-  img { max-width: 100%; height: auto; display: block; }
+
+  /* Product Section Space Reservations (Avoid Layout Shift During Fetch) */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    min-height: 360px; /* Pre-reserves vertical height for product rows */
+  }
+
+  /* Reserve Image Aspect Ratio Always */
+  .product-card img, img {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1; /* Pre-calculates layout space before download */
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Pre-reserve space for Footer */
+  #site-footer {
+    min-height: 250px;
+    background: #0B0E20;
+  }
 </style>
 
 <!-- Asynchronous Non-Blocking Main Stylesheet -->
@@ -62,6 +111,7 @@
 </head>
 <body>
 
+<!-- Header Container with Height Pre-reserved -->
 <div id="site-header"></div>
 
 <div id="flash-sale-band" class="flash-sale-band" style="display:none">
@@ -168,6 +218,7 @@
   </div>
 </section>
 
+<!-- Footer Container with Height Pre-reserved -->
 <div id="site-footer"></div>
 
 <!-- JavaScript Dependencies -->
