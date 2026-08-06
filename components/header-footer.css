@@ -1,12 +1,11 @@
 /* ==========================================================================
-   INAM TECH ZONE - HEADER & FOOTER COMPLETE STYLESHEET
+   INAM TECH ZONE - UNIFIED HEADER & FOOTER STYLESHEET
    ========================================================================== */
 
-/* 1. Global Theme Variables */
+/* 1. Shared Color Variables (Dark & Light Mode) */
 :root {
+  --nav-footer-bg: rgba(11, 15, 25, 0.92);
   --bg-surface: #0b0f19;
-  --header-bg: rgba(11, 15, 25, 0.85);
-  --footer-bg: #060913;
   --text-main: #f2f3fa;
   --text-muted: #9aa0be;
   --border-line: rgba(255, 255, 255, 0.08);
@@ -19,11 +18,10 @@
   --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Light Mode Overrides */
+/* Light Mode Overrides (Header & Footer Both Turn Light) */
 [data-theme="light"], body.light-mode {
+  --nav-footer-bg: rgba(255, 255, 255, 0.95);
   --bg-surface: #ffffff;
-  --header-bg: rgba(255, 255, 255, 0.88);
-  --footer-bg: #0f1530;
   --text-main: #0f1530;
   --text-muted: #5b6478;
   --border-line: #e3e6f0;
@@ -32,40 +30,14 @@
   --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-/* Reset Box Model for Header/Footer */
-.header, .site-footer, .header * , .site-footer * {
+/* Global Reset */
+.header, .site-footer, .header *, .site-footer * {
   box-sizing: border-box;
 }
 
 /* ==========================================================================
-   2. HEADER STYLES
+   2. BRAND LOGO (EXACT SAME FOR HEADER & FOOTER)
    ========================================================================== */
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 75px;
-  background-color: var(--header-bg);
-  border-bottom: 1px solid var(--border-line);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  z-index: 1000;
-  transition: background-color var(--transition-fast), border-color var(--transition-fast);
-}
-
-.nav-container {
-  max-width: 1280px;
-  height: 100%;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-/* Brand Logo */
 .nav-brand {
   display: flex;
   align-items: center;
@@ -105,7 +77,34 @@
   margin-top: 2px;
 }
 
-/* Search Bar */
+/* ==========================================================================
+   3. HEADER STYLES
+   ========================================================================== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 75px;
+  background-color: var(--nav-footer-bg);
+  border-bottom: 1px solid var(--border-line);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 1000;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.nav-container {
+  max-width: 1280px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
 .nav-search {
   position: relative;
   flex: 1;
@@ -156,7 +155,6 @@
   z-index: 1010;
 }
 
-/* Navigation Links */
 .nav-right {
   display: flex;
   align-items: center;
@@ -200,7 +198,6 @@
   stroke-linejoin: round;
 }
 
-/* Actions & Buttons */
 .nav-actions {
   display: flex;
   align-items: center;
@@ -270,20 +267,20 @@
   padding: 4px;
 }
 
-/* Dynamic Page Offset for Fixed Header */
 body {
   padding-top: 75px;
 }
 
 /* ==========================================================================
-   3. FOOTER STYLES
+   4. FOOTER STYLES (MATCHES HEADER 100%)
    ========================================================================== */
 .site-footer {
-  background-color: var(--footer-bg);
-  color: #b9beda;
+  background-color: var(--nav-footer-bg);
+  color: var(--text-muted);
   padding: 50px 0 24px;
   margin-top: 60px;
   border-top: 1px solid var(--border-line);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .footer-grid {
@@ -295,14 +292,22 @@ body {
   gap: 40px;
 }
 
-.footer-grid h3 {
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: 0.5px;
+.footer-brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.footer-desc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.6;
 }
 
 .footer-grid h4 {
-  color: #ffffff;
+  color: var(--text-main);
   font-size: 15px;
   font-weight: 700;
   margin-top: 0;
@@ -310,6 +315,8 @@ body {
 }
 
 .footer-grid p {
+  color: var(--text-muted);
+  font-size: 13.5px;
   line-height: 1.6;
   margin: 8px 0;
 }
@@ -318,13 +325,13 @@ body {
   display: block;
   font-size: 14px;
   margin-bottom: 10px;
-  color: #b9beda;
+  color: var(--text-muted);
   text-decoration: none;
   transition: color var(--transition-fast), transform 0.15s ease;
 }
 
 .footer-grid a:hover {
-  color: var(--accent-cyan);
+  color: var(--text-main);
   transform: translateX(3px);
 }
 
@@ -332,8 +339,9 @@ body {
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 24px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border-line);
   font-size: 13px;
+  color: var(--text-muted);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -344,14 +352,11 @@ body {
 }
 
 /* ==========================================================================
-   4. RESPONSIVE MEDIA QUERIES
+   5. RESPONSIVE MEDIA QUERIES
    ========================================================================== */
 @media (max-width: 992px) {
   .nav-search {
     max-width: 220px;
-  }
-  .nav-item span {
-    display: none; /* Hide text, keep icons on medium screens */
   }
 }
 
@@ -363,7 +368,7 @@ body {
     padding-top: 65px;
   }
   .nav-links, .shop-now-btn, .nav-search {
-    display: none; /* Hide for mobile layout */
+    display: none;
   }
   .mobile-menu-btn {
     display: block;
