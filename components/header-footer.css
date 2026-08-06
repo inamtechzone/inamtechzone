@@ -1,34 +1,35 @@
 /* ==========================================================================
-   INAM TECH ZONE - PERFECT UNIFIED HEADER & FOOTER CSS
+   INAM TECH ZONE - PERFECT UNIFIED HEADER & FOOTER
    ========================================================================== */
 
-/* 1. Global CSS Variables */
+/* 1. Global CSS Variables (Light & Dark Theme Sync) */
 :root {
   --bg-page: #0b0f19;
   --bg-component: rgba(11, 15, 25, 0.95);
-  --text-main: #f2f3fa;
-  --text-muted: #a0a7c4; /* Contrast Enhanced */
-  --border-line: rgba(255, 255, 255, 0.1);
+  --text-main: #f8fafc;        /* Fully Clear Bright White */
+  --text-muted: #cbd5e1;       /* Highly Visible Subtext */
+  --border-line: rgba(255, 255, 255, 0.12);
   --accent-cyan: #00f0ff;
   --accent-purple: #7000ff;
   --accent-blue: #0072ff;
-  --danger-color: #ff3b30;
   --hover-bg: rgba(255, 255, 255, 0.08);
-  --tooltip-bg: #1e293b;
+  --tooltip-bg: rgba(15, 23, 42, 0.9);
+  --tooltip-border: rgba(0, 240, 255, 0.3);
   --tooltip-text: #ffffff;
   --transition-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Light Mode Overrides */
+/* Light Mode Overrides (Same Text & Background for Header and Footer) */
 [data-theme="light"], body.light-mode {
   --bg-page: #f8fafc;
   --bg-component: #ffffff;
-  --text-main: #0f172a;       /* Dark Visible Text */
-  --text-muted: #334155;      /* High Contrast Text */
+  --text-main: #0f172a;        /* High Contrast Dark Text */
+  --text-muted: #334155;       /* Crisp Visible Muted Text */
   --border-line: #cbd5e1;
   --accent-cyan: #0072ff;
   --hover-bg: rgba(0, 114, 255, 0.08);
-  --tooltip-bg: #0f172a;
+  --tooltip-bg: rgba(15, 23, 42, 0.92);
+  --tooltip-border: rgba(0, 114, 255, 0.3);
   --tooltip-text: #ffffff;
 }
 
@@ -46,7 +47,7 @@ body {
 }
 
 /* ==========================================================================
-   2. BRAND LOGO STYLES
+   2. BRAND LOGO (100% DITTO FOR HEADER & FOOTER)
    ========================================================================== */
 .nav-brand {
   display: flex;
@@ -54,7 +55,7 @@ body {
   gap: 12px;
   text-decoration: none;
   flex-shrink: 0;
-  position: relative;
+  line-height: 1;
 }
 
 .brand-itz {
@@ -158,29 +159,12 @@ body {
   gap: 8px;
   padding: 8px 14px;
   border-radius: 10px;
-  position: relative;
   transition: all var(--transition-fast);
 }
 
 .nav-item:hover {
   color: var(--accent-cyan);
   background-color: var(--hover-bg);
-}
-
-.nav-icon {
-  width: 18px;
-  height: 18px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .icon-btn {
@@ -194,7 +178,6 @@ body {
   cursor: pointer;
   color: var(--text-main);
   text-decoration: none;
-  position: relative;
   transition: all var(--transition-fast);
 }
 
@@ -211,7 +194,6 @@ body {
   padding: 10px 18px;
   border-radius: 20px;
   text-decoration: none;
-  position: relative;
   transition: transform 0.15s ease, opacity var(--transition-fast);
 }
 
@@ -221,7 +203,7 @@ body {
 }
 
 /* ==========================================================================
-   4. FOOTER STYLES (FIXED VISIBILITY & HOVER EFFECTS)
+   4. FOOTER STYLES (CLEAR TEXT & DYNAMICS)
    ========================================================================== */
 .site-footer {
   background-color: var(--bg-component);
@@ -275,7 +257,7 @@ body {
   color: var(--text-main);
 }
 
-/* Footer Links & Hover Animation */
+/* Clear Footer Links with Modern Glow Hover */
 .footer-link {
   display: inline-block;
   font-size: 14.5px;
@@ -283,13 +265,12 @@ body {
   margin-bottom: 12px;
   color: var(--text-muted);
   text-decoration: none;
-  position: relative;
   transition: color var(--transition-fast), transform var(--transition-fast);
 }
 
 .footer-link:hover {
   color: var(--accent-cyan);
-  transform: translateX(6px); /* Hover Shift Effect */
+  transform: translateX(5px);
 }
 
 .inline-link {
@@ -319,7 +300,7 @@ body {
 }
 
 /* ==========================================================================
-   5. CUSTOM TOOLTIP STYLES (MOUSE-HOVER STICKY NOTE)
+   5. SLEEK & MODERN FLOATING TOOLTIP (NO ARROW / NO SEPARATE TAGS)
    ========================================================================== */
 [data-tooltip] {
   position: relative;
@@ -328,47 +309,31 @@ body {
 [data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: calc(100% + 10px);
+  bottom: calc(100% + 8px);
   left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  background-color: var(--tooltip-bg);
+  transform: translateX(-50%) scale(0.95);
+  background: var(--tooltip-bg);
+  border: 1px solid var(--tooltip-border);
   color: var(--tooltip-text);
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 11.5px;
-  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s ease;
   z-index: 2000;
 }
 
-/* Tooltip Arrow */
-[data-tooltip]::before {
-  content: '';
-  position: absolute;
-  bottom: calc(100% + 4px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  border-width: 6px 6px 0 6px;
-  border-style: solid;
-  border-color: var(--tooltip-bg) transparent transparent transparent;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
-  z-index: 2000;
-}
-
-/* Show Tooltip on Mouse Hover */
-[data-tooltip]:hover::after,
-[data-tooltip]:hover::before {
+/* Smooth Fade & Scale Up Effect on Hover */
+[data-tooltip]:hover::after {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) scale(1);
 }
 
 @media (max-width: 768px) {
@@ -377,5 +342,5 @@ body {
   .nav-links, .shop-now-btn, .nav-search { display: none; }
   .footer-grid { grid-template-columns: 1fr; gap: 30px; }
   .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-  [data-tooltip]::after, [data-tooltip]::before { display: none; } /* Mobile me disable */
+  [data-tooltip]::after { display: none; } /* Disable on mobile for touch optimization */
 }
