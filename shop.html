@@ -1,111 +1,60 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shop — INAM TECH ZONE</title>
-  <meta name="description" content="Browse all electronics and gadgets at INAM TECH ZONE." />
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="stylesheet" href="/components/header-footer.css" />
-  <link rel="stylesheet" href="/assets/css/style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shop — INAM TECH ZONE</title>
+<meta name="description" content="Browse all electronics and gadgets at INAM TECH ZONE." />
+<link rel="manifest" href="/manifest.json" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
-  <div id="site-header"></div>
+<div id="site-header"></div>
 
-  <main class="shop-page-wrapper">
-    <div class="container" style="padding-top:30px; padding-bottom:50px">
-      
-      <!-- Page Title & Header Banner -->
-      <div class="shop-header-banner">
-        <div>
-          <h2 id="search-title" class="shop-title">Explore Store</h2>
-          <p class="shop-subtitle">Discover top-tier tech, electronics, and accessories</p>
-        </div>
-        <span id="result-count" class="result-badge">0 Products</span>
-      </div>
+<div class="container" style="padding-top:30px;padding-bottom:50px">
+  <div class="section-head" style="margin-top:0">
+    <h2 id="search-title">Shop</h2>
+    <span id="result-count" style="font-size:13.5px;color:var(--muted)"></span>
+  </div>
 
-      <!-- Advance Filter Control Panel -->
-      <div class="filter-card-advanced">
-        <div class="filter-grid-layout">
-          
-          <!-- 1. All Categories Dropdown -->
-          <div class="field-group">
-            <label for="category-select">Category</label>
-            <select id="category-select" class="custom-select">
-              <option value="">All Categories</option>
-            </select>
-          </div>
+  <div id="category-chips" class="chip-row"></div>
+  <div id="brand-chips" class="chip-row" style="margin-top:-10px"></div>
 
-          <!-- 2. All Brands Dropdown -->
-          <div class="field-group">
-            <label for="brand-select">Brand</label>
-            <select id="brand-select" class="custom-select">
-              <option value="">All Brands</option>
-            </select>
-          </div>
-
-          <!-- 3. Price Filter -->
-          <div class="field-group price-field">
-            <label>Price Range (PKR)</label>
-            <div class="price-inputs">
-              <input id="min-price" type="number" min="0" placeholder="Min" />
-              <span class="range-sep">-</span>
-              <input id="max-price" type="number" min="0" placeholder="Max" />
-            </div>
-          </div>
-
-          <!-- 4. Sort Option -->
-          <div class="field-group">
-            <label for="sort-select">Sort By</label>
-            <select id="sort-select" class="custom-select">
-              <option value="newest">Newest Arrivals</option>
-              <option value="price_asc">Price: Low to High</option>
-              <option value="price_desc">Price: High to Low</option>
-              <option value="name_asc">Name: A to Z</option>
-            </select>
-          </div>
-
-          <!-- 5. Stock Toggle & Action Buttons -->
-          <div class="filter-actions-group">
-            <label class="stock-checkbox">
-              <input id="in-stock-check" type="checkbox" />
-              <span>In Stock Only</span>
-            </label>
-
-            <div class="btn-flex">
-              <button id="apply-filters-btn" class="btn btn-primary btn-sm">Apply Filters</button>
-              <button id="reset-filters-btn" class="btn btn-outline btn-sm" onclick="location.reload()">Reset</button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Quick Filter Chips Row (Optional Visual Support) -->
-        <div class="chips-container">
-          <div id="category-chips" class="chip-row"></div>
-          <div id="brand-chips" class="chip-row"></div>
-        </div>
-      </div>
-
-      <!-- Product Grid & Pagination -->
-      <div id="shop-grid" class="product-grid"></div>
-      <div id="pagination" class="pagination-wrapper"></div>
-
+  <div class="card" style="display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-bottom:26px">
+    <div class="field" style="margin-bottom:0"><label>Min price</label><input id="min-price" type="number" min="0" placeholder="0" style="width:110px" /></div>
+    <div class="field" style="margin-bottom:0"><label>Max price</label><input id="max-price" type="number" min="0" placeholder="Any" style="width:110px" /></div>
+    <div class="field" style="margin-bottom:0">
+      <label>Sort by</label>
+      <select id="sort-select" style="width:170px">
+        <option value="newest">Newest</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+        <option value="name_asc">Name: A to Z</option>
+      </select>
     </div>
-  </main>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;margin-bottom:2px">
+      <input id="in-stock-check" type="checkbox" /> In stock only
+    </label>
+    <button id="apply-filters-btn" class="btn btn-outline btn-sm">Apply filters</button>
+  </div>
 
-  <div id="site-footer"></div>
+  <div id="shop-grid" class="product-grid"></div>
+  <div id="pagination"></div>
+</div>
 
-  <!-- Scripts -->
-  <script src="/assets/js/config.js" defer></script>
-  <script src="/assets/js/api.js" defer></script>
-  <script src="/assets/js/ui.js" defer></script>
-  <script src="/assets/js/storage.js" defer></script>
-  <script src="/assets/js/img-cdn.js" defer></script>
-  <script src="/assets/js/tracking.js" defer></script>
-  <script src="/assets/js/i18n.js" defer></script>
-  <script src="/assets/js/pages/home.js" defer></script>
-  <script src="/assets/js/pages/shop.js" defer></script>
-  <script src="/components/layout-loader.js"defer></script>
+<div id="site-footer"></div>
+
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/ui.js"></script>
+<script src="/assets/js/storage.js"></script>
+<script src="/assets/js/img-cdn.js"></script>
+<script src="/assets/js/tracking.js"></script>
+<script src="/assets/js/i18n.js"></script>
+<script src="/assets/js/layout.js"></script>
+<script src="/assets/js/pages/home.js"></script>
+<script src="/assets/js/pages/shop.js"></script>
 </body>
 </html>
