@@ -1,53 +1,60 @@
 /* ==========================================================================
-   UNIFIED THEME SYSTEM (PAGE, HEADER & FOOTER)
+   INAM TECH ZONE - PERFECT UNIFIED HEADER & FOOTER CSS
    ========================================================================== */
 
-/* Default Theme: Dark Mode */
+/* 1. Global CSS Variables */
 :root {
   --bg-page: #0b0f19;
   --bg-component: rgba(11, 15, 25, 0.95);
   --text-main: #f2f3fa;
-  --text-muted: #9aa0be;
-  --border-line: rgba(255, 255, 255, 0.08);
+  --text-muted: #a0a7c4; /* Contrast Enhanced */
+  --border-line: rgba(255, 255, 255, 0.1);
   --accent-cyan: #00f0ff;
   --accent-purple: #7000ff;
   --accent-blue: #0072ff;
   --danger-color: #ff3b30;
-  --hover-bg: rgba(255, 255, 255, 0.06);
+  --hover-bg: rgba(255, 255, 255, 0.08);
+  --tooltip-bg: #1e293b;
+  --tooltip-text: #ffffff;
+  --transition-fast: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Light Mode (Entire Page, Header, and Footer Switch Together) */
+/* Light Mode Overrides */
 [data-theme="light"], body.light-mode {
   --bg-page: #f8fafc;
-  --bg-component: rgba(255, 255, 255, 0.95);
-  --text-main: #0f1530;
-  --text-muted: #5b6478;
-  --border-line: #e3e6f0;
+  --bg-component: #ffffff;
+  --text-main: #0f172a;       /* Dark Visible Text */
+  --text-muted: #334155;      /* High Contrast Text */
+  --border-line: #cbd5e1;
   --accent-cyan: #0072ff;
-  --hover-bg: rgba(0, 0, 0, 0.04);
+  --hover-bg: rgba(0, 114, 255, 0.08);
+  --tooltip-bg: #0f172a;
+  --tooltip-text: #ffffff;
 }
 
-/* Apply Unified Background and Text Color to the Entire Page */
 body {
   background-color: var(--bg-page);
   color: var(--text-main);
   padding-top: 75px;
   margin: 0;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-/* Header & Footer Container Reset */
 .header, .site-footer, .header *, .site-footer * {
   box-sizing: border-box;
 }
 
-/* Brand Logo Styling */
+/* ==========================================================================
+   2. BRAND LOGO STYLES
+   ========================================================================== */
 .nav-brand {
   display: flex;
   align-items: center;
   gap: 12px;
   text-decoration: none;
   flex-shrink: 0;
+  position: relative;
 }
 
 .brand-itz {
@@ -81,18 +88,18 @@ body {
   margin-top: 2px;
 }
 
-/* Header Specifics */
+/* ==========================================================================
+   3. HEADER STYLES
+   ========================================================================== */
 .header {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 75px;
   background-color: var(--bg-component);
   border-bottom: 1px solid var(--border-line);
   backdrop-filter: blur(12px);
   z-index: 1000;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .nav-container {
@@ -151,10 +158,12 @@ body {
   gap: 8px;
   padding: 8px 14px;
   border-radius: 10px;
+  position: relative;
+  transition: all var(--transition-fast);
 }
 
 .nav-item:hover {
-  color: var(--text-main);
+  color: var(--accent-cyan);
   background-color: var(--hover-bg);
 }
 
@@ -178,34 +187,49 @@ body {
   background-color: var(--hover-bg);
   border: 1px solid var(--border-line);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: var(--text-main);
   text-decoration: none;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.icon-btn:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
 }
 
 .shop-now-btn {
   background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-  color: #ffffff;
+  color: #ffffff !important;
   font-size: 12px;
   font-weight: 800;
   padding: 10px 18px;
   border-radius: 20px;
   text-decoration: none;
+  position: relative;
+  transition: transform 0.15s ease, opacity var(--transition-fast);
 }
 
-/* Footer Specifics (Exact Match with Header Color) */
+.shop-now-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+/* ==========================================================================
+   4. FOOTER STYLES (FIXED VISIBILITY & HOVER EFFECTS)
+   ========================================================================== */
 .site-footer {
   background-color: var(--bg-component);
-  color: var(--text-muted);
+  color: var(--text-main);
   padding: 50px 0 24px;
   margin-top: 60px;
   border-top: 1px solid var(--border-line);
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .footer-grid {
@@ -221,11 +245,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: 14px;
 }
 
 .footer-desc {
-  font-size: 13.5px;
+  font-size: 14px;
   color: var(--text-muted);
   margin: 0;
   line-height: 1.6;
@@ -233,29 +257,48 @@ body {
 
 .footer-grid h4 {
   color: var(--text-main);
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
   margin-top: 0;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
 }
 
-.footer-grid p {
+.footer-contact-item {
   color: var(--text-muted);
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.6;
-  margin: 8px 0;
+  margin: 10px 0;
 }
 
-.footer-grid a {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 10px;
+.footer-contact-item strong {
+  color: var(--text-main);
+}
+
+/* Footer Links & Hover Animation */
+.footer-link {
+  display: inline-block;
+  font-size: 14.5px;
+  font-weight: 600;
+  margin-bottom: 12px;
   color: var(--text-muted);
   text-decoration: none;
+  position: relative;
+  transition: color var(--transition-fast), transform var(--transition-fast);
 }
 
-.footer-grid a:hover {
-  color: var(--text-main);
+.footer-link:hover {
+  color: var(--accent-cyan);
+  transform: translateX(6px); /* Hover Shift Effect */
+}
+
+.inline-link {
+  margin-bottom: 0;
+  text-decoration: underline;
+}
+
+.inline-link:hover {
+  transform: none;
 }
 
 .footer-bottom {
@@ -263,15 +306,69 @@ body {
   margin: 0 auto;
   padding: 24px 24px 0;
   border-top: 1px solid var(--border-line);
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--text-muted);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-weight: 500;
 }
 
 .footer-bottom p {
   margin: 0;
+}
+
+/* ==========================================================================
+   5. CUSTOM TOOLTIP STYLES (MOUSE-HOVER STICKY NOTE)
+   ========================================================================== */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background-color: var(--tooltip-bg);
+  color: var(--tooltip-text);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  z-index: 2000;
+}
+
+/* Tooltip Arrow */
+[data-tooltip]::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  border-width: 6px 6px 0 6px;
+  border-style: solid;
+  border-color: var(--tooltip-bg) transparent transparent transparent;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  z-index: 2000;
+}
+
+/* Show Tooltip on Mouse Hover */
+[data-tooltip]:hover::after,
+[data-tooltip]:hover::before {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
 }
 
 @media (max-width: 768px) {
@@ -280,4 +377,5 @@ body {
   .nav-links, .shop-now-btn, .nav-search { display: none; }
   .footer-grid { grid-template-columns: 1fr; gap: 30px; }
   .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  [data-tooltip]::after, [data-tooltip]::before { display: none; } /* Mobile me disable */
 }
