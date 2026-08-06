@@ -72,6 +72,7 @@ html {
 
 body {
   margin: 0;
+  padding-top: 65px; /* Offset to prevent fixed navbar overlapping page content */
   background: var(--bg);
   color: var(--ink);
   font-family: 'Inter', 'Inter-Fallback', var(--font-body);
@@ -162,9 +163,12 @@ h1, h2, h3, h4 {
    4. NAVIGATION & HEADER (CLS Reserved Height)
    ========================================================================== */
 .navbar {
-  position: sticky;
+  position: fixed; /* Fixed permanently to top of viewport */
   top: 0;
-  z-index: 40;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000; /* Stacked on top of all page elements */
   background: color-mix(in srgb, var(--surface) 92%, transparent);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
@@ -751,8 +755,8 @@ h1, h2, h3, h4 {
   color: #fff;
   padding: 24px 16px;
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: 65px; /* Aligned below top fixed header */
+  height: calc(100vh - 65px);
   overflow-y: auto;
 }
 
