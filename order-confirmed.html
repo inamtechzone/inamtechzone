@@ -6,6 +6,7 @@
 <title>Order Confirmed — INAM TECH ZONE</title>
 <link rel="manifest" href="/manifest.json" />
 <link rel="stylesheet" href="/assets/css/style.css" />
+<link rel="stylesheet" href="/components/header-footer.css" />
 </head>
 <body>
 <div id="site-header"></div>
@@ -30,6 +31,7 @@
 <script src="/assets/js/storage.js"defer></script>
 <script src="/assets/js/tracking.js"defer></script>
 <script src="/assets/js/i18n.js"defer></script>
+<script src="/components/layout-loader.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const orderNumber = new URL(window.location.href).searchParams.get("orderNumber") || "";
