@@ -1,11 +1,11 @@
 /* ==========================================================================
-   INAM TECH ZONE - UNIFIED HEADER & FOOTER STYLESHEET
+   UNIFIED THEME SYSTEM (PAGE, HEADER & FOOTER)
    ========================================================================== */
 
-/* 1. Shared Color Variables (Dark & Light Mode) */
+/* Default Theme: Dark Mode */
 :root {
-  --nav-footer-bg: rgba(11, 15, 25, 0.92);
-  --bg-surface: #0b0f19;
+  --bg-page: #0b0f19;
+  --bg-component: rgba(11, 15, 25, 0.95);
   --text-main: #f2f3fa;
   --text-muted: #9aa0be;
   --border-line: rgba(255, 255, 255, 0.08);
@@ -14,30 +14,34 @@
   --accent-blue: #0072ff;
   --danger-color: #ff3b30;
   --hover-bg: rgba(255, 255, 255, 0.06);
-  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Light Mode Overrides (Header & Footer Both Turn Light) */
+/* Light Mode (Entire Page, Header, and Footer Switch Together) */
 [data-theme="light"], body.light-mode {
-  --nav-footer-bg: rgba(255, 255, 255, 0.95);
-  --bg-surface: #ffffff;
+  --bg-page: #f8fafc;
+  --bg-component: rgba(255, 255, 255, 0.95);
   --text-main: #0f1530;
   --text-muted: #5b6478;
   --border-line: #e3e6f0;
   --accent-cyan: #0072ff;
   --hover-bg: rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-/* Global Reset */
+/* Apply Unified Background and Text Color to the Entire Page */
+body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  padding-top: 75px;
+  margin: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Header & Footer Container Reset */
 .header, .site-footer, .header *, .site-footer * {
   box-sizing: border-box;
 }
 
-/* ==========================================================================
-   2. BRAND LOGO (EXACT SAME FOR HEADER & FOOTER)
-   ========================================================================== */
+/* Brand Logo Styling */
 .nav-brand {
   display: flex;
   align-items: center;
@@ -77,21 +81,18 @@
   margin-top: 2px;
 }
 
-/* ==========================================================================
-   3. HEADER STYLES
-   ========================================================================== */
+/* Header Specifics */
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 75px;
-  background-color: var(--nav-footer-bg);
+  background-color: var(--bg-component);
   border-bottom: 1px solid var(--border-line);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   z-index: 1000;
-  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .nav-container {
@@ -123,36 +124,6 @@
   color: var(--text-main);
   font-size: 13.5px;
   outline: none;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.nav-search input:focus {
-  border-color: var(--accent-cyan);
-  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);
-}
-
-.nav-search .nav-icon {
-  position: absolute;
-  right: 14px;
-  width: 16px;
-  height: 16px;
-  stroke: var(--text-muted);
-  fill: none;
-  pointer-events: none;
-}
-
-.live-search-results {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  right: 0;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-line);
-  border-radius: 12px;
-  box-shadow: var(--shadow-sm);
-  max-height: 300px;
-  overflow-y: auto;
-  z-index: 1010;
 }
 
 .nav-right {
@@ -180,7 +151,6 @@
   gap: 8px;
   padding: 8px 14px;
   border-radius: 10px;
-  transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .nav-item:hover {
@@ -205,7 +175,6 @@
 }
 
 .icon-btn {
-  position: relative;
   background-color: var(--hover-bg);
   border: 1px solid var(--border-line);
   border-radius: 50%;
@@ -217,25 +186,6 @@
   cursor: pointer;
   color: var(--text-main);
   text-decoration: none;
-  transition: transform 0.15s ease, border-color var(--transition-fast);
-}
-
-.icon-btn:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-cyan);
-}
-
-.cart-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  background-color: var(--danger-color);
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 10px;
-  border: 2px solid var(--bg-surface);
 }
 
 .shop-now-btn {
@@ -246,41 +196,16 @@
   padding: 10px 18px;
   border-radius: 20px;
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  letter-spacing: 0.5px;
-  transition: opacity var(--transition-fast), transform 0.15s ease;
 }
 
-.shop-now-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-.mobile-menu-btn {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--text-main);
-  cursor: pointer;
-  padding: 4px;
-}
-
-body {
-  padding-top: 75px;
-}
-
-/* ==========================================================================
-   4. FOOTER STYLES (MATCHES HEADER 100%)
-   ========================================================================== */
+/* Footer Specifics (Exact Match with Header Color) */
 .site-footer {
-  background-color: var(--nav-footer-bg);
+  background-color: var(--bg-component);
   color: var(--text-muted);
   padding: 50px 0 24px;
   margin-top: 60px;
   border-top: 1px solid var(--border-line);
-  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .footer-grid {
@@ -327,12 +252,10 @@ body {
   margin-bottom: 10px;
   color: var(--text-muted);
   text-decoration: none;
-  transition: color var(--transition-fast), transform 0.15s ease;
 }
 
 .footer-grid a:hover {
   color: var(--text-main);
-  transform: translateX(3px);
 }
 
 .footer-bottom {
@@ -351,35 +274,10 @@ body {
   margin: 0;
 }
 
-/* ==========================================================================
-   5. RESPONSIVE MEDIA QUERIES
-   ========================================================================== */
-@media (max-width: 992px) {
-  .nav-search {
-    max-width: 220px;
-  }
-}
-
 @media (max-width: 768px) {
-  .header {
-    height: 65px;
-  }
-  body {
-    padding-top: 65px;
-  }
-  .nav-links, .shop-now-btn, .nav-search {
-    display: none;
-  }
-  .mobile-menu-btn {
-    display: block;
-  }
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-  .footer-bottom {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-  }
+  .header { height: 65px; }
+  body { padding-top: 65px; }
+  .nav-links, .shop-now-btn, .nav-search { display: none; }
+  .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
 }
