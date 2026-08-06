@@ -1,29 +1,30 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // 1. Load Header Dynamically
+  // 1. Load Header
   const headerContainer = document.getElementById("site-header");
-  if (headerContainer) {
+  if (headerContainer && !headerContainer.dataset.loaded) {
     fetch("/components/header.html")
       .then((res) => res.text())
       .then((data) => {
         headerContainer.innerHTML = data;
-        initThemeToggle(); // Initialize Theme button events after header elements exist
+        headerContainer.dataset.loaded = "true"; // نشان دہی کریں کہ نیا ہیڈر لوڈ ہو چکا ہے
+        initThemeToggle();
       })
       .catch((err) => console.error("Header loading failed:", err));
   }
 
-  // 2. Load Footer Dynamically
+  // 2. Load Footer
   const footerContainer = document.getElementById("site-footer");
-  if (footerContainer) {
+  if (footerContainer && !footerContainer.dataset.loaded) {
     fetch("/components/footer.html")
       .then((res) => res.text())
       .then((data) => {
         footerContainer.innerHTML = data;
+        footerContainer.dataset.loaded = "true";
       })
       .catch((err) => console.error("Footer loading failed:", err));
   }
 });
 
-// Theme Switcher Functionality
 function initThemeToggle() {
   const themeBtn = document.getElementById("themeBtn");
   const themeIcon = document.getElementById("themeIcon");
