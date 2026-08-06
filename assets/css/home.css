@@ -1,0 +1,64 @@
+/* ==========================================================================
+   HOME PAGE HERO & PROMOTIONAL BANNERS
+   ========================================================================== */
+.hero {
+  background: var(--ink);
+  color: #fff;
+  padding: 60px 0 52px;
+  position: relative;
+  overflow: hidden;
+  min-height: 320px;
+}
+
+.hero-inner { position: relative; z-index: 1; max-width: 620px; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--amber);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.hero h1 { font-size: 40px; line-height: 1.1; margin-bottom: 16px; color: #fff; }
+.hero p { color: #B9BEDA; font-size: 16px; line-height: 1.6; margin-bottom: 26px; }
+
+.flash-sale-band {
+  background: linear-gradient(90deg, #FF5A5F, #FFAE1F);
+  color: #fff;
+  padding: 12px 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.category-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 16px;
+  text-align: center;
+  font-weight: 600;
+  transition: transform .15s ease;
+}
+.category-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+
+.newsletter-band {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 46px 0;
+}
