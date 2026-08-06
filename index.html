@@ -24,231 +24,13 @@
 
 <!-- Preload LCP Hero Image with High Priority -->
 <link rel="preload" as="image" href="/assets/images/hero-banner.webp" type="image/webp" fetchpriority="high" />
-
-<!-- Inlined Critical CSS -->
-<style>
-  /* Inter Variable Font (Normal) */
-  @font-face {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 100 900;
-    font-display: swap;
-    src: url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations'),
-         url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
-  }
-
-  /* Inter Variable Font (Italic) */
-  @font-face {
-    font-family: 'Inter';
-    font-style: italic;
-    font-weight: 100 900;
-    font-display: swap;
-    src: url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype-variations'),
-         url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
-  }
-
-  /* Fallback Metric Override to eliminate FOUT & CLS */
-  @font-face {
-    font-family: 'Inter-Fallback';
-    src: local('Arial');
-    size-adjust: 97%;
-    ascent-override: 94%;
-    descent-override: 24%;
-  }
-
-  :root {
-    --bg: #F5F6FB;
-    --surface: #FFFFFF;
-    --ink: #0F1530;
-    --muted: #5B6478;
-    --line: #E3E6F0;
-    --accent: #4A4EF0;
-    --amber: #FFAE1F;
-    --radius: 10px;
-  }
-  
-  *, *::before, *::after { box-sizing: border-box; }
-  
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Inter', 'Inter-Fallback', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
-
-  /* Reserve Height for Header to Prevent CLS */
-  #site-header {
-    min-height: 65px;
-    background: var(--surface);
-  }
-
-  /* Flash Sale Band Geometry Lock */
-  .flash-sale-band {
-    background: linear-gradient(90deg, #FF5A5F, #FFAE1F);
-    color: #fff;
-    padding: 12px 0;
-    text-align: center;
-    font-weight: 700;
-    font-size: 14px;
-    min-height: 44px;
-  }
-
-  /* Hero Section Geometry Lock */
-  .hero {
-    background: var(--ink);
-    color: #fff;
-    padding: 60px 0 52px;
-    position: relative;
-    overflow: hidden;
-    min-height: 380px;
-  }
-  .hero-inner { position: relative; z-index: 1; max-width: 620px; }
-  .hero h1 { 
-    font-size: 40px; 
-    line-height: 1.1; 
-    font-weight: 700;
-    margin-bottom: 16px; 
-    color: #fff; 
-  }
-  
-  /* SVG Background Position Fix */
-  .hero-trace {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.35;
-    pointer-events: none;
-  }
-
-  /* Fixed Aspect Ratio on LCP Image prevents shift on download */
-  .hero-img {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    aspect-ratio: 2 / 1;
-    object-fit: cover;
-    border-radius: var(--radius);
-    margin-top: 20px;
-    display: block;
-  }
-  .eyebrow { font-size: 12.5px; color: var(--amber); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; display: block; }
-  
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: var(--radius); padding: 12px 20px; font-weight: 600; font-size: 14.5px; cursor: pointer; text-decoration: none; }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-secondary { background: var(--amber); color: var(--ink); }
-
-  /* Section Headers */
-  .section-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 40px;
-    margin-bottom: 20px;
-  }
-  .section-head h2 { margin: 0; font-size: 24px; font-weight: 700; }
-
-  /* Category Grid */
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 16px;
-  }
-
-  /* Product Card Grid (Space Reserved to Stop CLS) */
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
-    min-height: 380px;
-    content-visibility: auto;
-    contain-intrinsic-size: 1000px 380px;
-  }
-
-  .product-card img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    display: block;
-    background: var(--line);
-  }
-
-  /* Newsletter Section */
-  .newsletter-band {
-    background: var(--accent);
-    color: #fff;
-    border-radius: var(--radius);
-    padding: 30px;
-    margin: 40px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  .newsletter-band h3 { margin: 0 0 6px 0; font-size: 20px; }
-  .newsletter-form { display: flex; gap: 10px; flex-wrap: wrap; }
-  .newsletter-form input {
-    padding: 12px 16px;
-    border-radius: var(--radius);
-    border: none;
-    font-size: 14px;
-    outline: none;
-    min-width: 240px;
-  }
-
-  /* Testimonials */
-  .testimonial-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-  }
-  .testimonial-card {
-    background: var(--surface);
-    padding: 20px;
-    border-radius: var(--radius);
-    border: 1px solid var(--line);
-  }
-  .stars { color: var(--amber); margin-bottom: 10px; }
-
-  /* FAQ Accordion */
-  .faq-item {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    margin-bottom: 12px;
-    padding: 16px 20px;
-  }
-  .faq-question {
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-  }
-  .faq-answer {
-    margin-top: 10px;
-    color: var(--muted);
-    font-size: 14px;
-  }
-
-  /* Reserve Footer Space */
-  #site-footer {
-    min-height: 250px;
-    background: #0B0E20;
-  }
-</style>
-
 </head>
 <body>
 
 <div id="site-header"></div>
 
-<div id="flash-sale-band" class="flash-sale-band" style="display:none;">
-  ⚡ Flash Sale is live — limited stock, limited time. <a href="/shop.html?flashSale=true" style="color:#fff;text-decoration:underline">Shop now →</a>
+<div id="flash-sale-band" class="flash-sale-band">
+  ⚡ Flash Sale is live — limited stock, limited time. <a href="/shop.html?flashSale=true">Shop now →</a>
 </div>
 
 <section class="hero">
@@ -273,17 +55,17 @@
       width="600"
       height="300" />
 
-    <div style="margin-top: 20px;">
+    <div>
       <a href="/shop.html" class="btn btn-primary">Browse the shop</a>
     </div>
   </div>
 </section>
 
 <div class="container">
-  <div id="category-section" style="display:none; min-height: 120px;">
+  <div id="category-section">
     <div class="section-head">
       <h2>Shop by category</h2>
-      <a href="/shop.html" style="font-size:14px;font-weight:600;color:var(--accent)">View all →</a>
+      <a href="/shop.html">View all →</a>
     </div>
     <div id="category-grid" class="category-grid"></div>
   </div>
@@ -291,7 +73,7 @@
   <div id="featured-section">
     <div class="section-head">
       <h2>Featured products</h2>
-      <a href="/shop.html?featured=true" style="font-size:14px;font-weight:600;color:var(--accent)">View all →</a>
+      <a href="/shop.html?featured=true">View all →</a>
     </div>
     <div id="featured-grid" class="product-grid"></div>
   </div>
@@ -299,21 +81,21 @@
   <div id="bestseller-section">
     <div class="section-head">
       <h2>Best sellers</h2>
-      <a href="/shop.html?bestSeller=true" style="font-size:14px;font-weight:600;color:var(--accent)">View all →</a>
+      <a href="/shop.html?bestSeller=true">View all →</a>
     </div>
     <div id="bestseller-grid" class="product-grid"></div>
   </div>
 
   <div class="section-head">
     <h2>Latest arrivals</h2>
-    <a href="/shop.html" style="font-size:14px;font-weight:600;color:var(--accent)">View all →</a>
+    <a href="/shop.html">View all →</a>
   </div>
   <div id="latest-grid" class="product-grid"></div>
 
   <div class="newsletter-band">
     <div>
       <h3>Get special offers first</h3>
-      <p style="color:#DEE0FF;margin:0;font-size:14px">Subscribe for restock alerts and members-only discounts.</p>
+      <p>Subscribe for restock alerts and members-only discounts.</p>
     </div>
     <form class="newsletter-form" onsubmit="event.preventDefault();toast('Subscribed!','success');this.reset();">
       <input type="email" required placeholder="you@example.com" />
@@ -322,29 +104,29 @@
   </div>
 </div>
 
-<section class="container" style="padding:10px 20px 50px">
-  <div class="section-head" style="margin-top:0"><h2>What customers say</h2></div>
+<section class="container">
+  <div class="section-head"><h2>What customers say</h2></div>
   <div class="testimonial-grid">
     <div class="testimonial-card">
       <div class="stars">★★★★★</div>
       <p>"Ordered a power bank and it arrived the next day, exactly as described."</p>
-      <div style="font-weight:700;font-size:13.5px">Ayesha K. <span style="color:var(--muted);font-weight:400">· Lahore</span></div>
+      <div>Ayesha K. <span>· Lahore</span></div>
     </div>
     <div class="testimonial-card">
       <div class="stars">★★★★★</div>
       <p>"Good prices and the WhatsApp support actually replies fast."</p>
-      <div style="font-weight:700;font-size:13.5px">Bilal R. <span style="color:var(--muted);font-weight:400">· Karachi</span></div>
+      <div>Bilal R. <span>· Karachi</span></div>
     </div>
     <div class="testimonial-card">
       <div class="stars">★★★★★</div>
       <p>"Product photos matched the real item perfectly. Easy checkout."</p>
-      <div style="font-weight:700;font-size:13.5px">Sana M. <span style="color:var(--muted);font-weight:400">· Islamabad</span></div>
+      <div>Sana M. <span>· Islamabad</span></div>
     </div>
   </div>
 </section>
 
-<section class="container" style="padding:10px 20px 50px;max-width:760px">
-  <div class="section-head" style="margin-top:0"><h2>Frequently asked questions</h2></div>
+<section class="container">
+  <div class="section-head"><h2>Frequently asked questions</h2></div>
   <div class="faq-item">
     <div class="faq-question">How long does delivery take?<span>+</span></div>
     <div class="faq-answer">Most orders within major cities arrive within 2-4 business days.</div>
