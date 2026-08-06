@@ -72,7 +72,7 @@ html {
 
 body {
   margin: 0;
-  padding-top: 65px; /* Offset to prevent fixed navbar overlapping page content */
+  padding-top: 65px; /* Locked top offset matching exact navbar height */
   background: var(--bg);
   color: var(--ink);
   font-family: 'Inter', 'Inter-Fallback', var(--font-body);
@@ -160,26 +160,31 @@ h1, h2, h3, h4 {
 .btn:disabled { opacity: .55; cursor: not-allowed; }
 
 /* ==========================================================================
-   4. NAVIGATION & HEADER (CLS Reserved Height)
+   4. NAVIGATION & HEADER (Zero-CLS & Instant Render Optimization)
    ========================================================================== */
 .navbar {
-  position: fixed; /* Fixed permanently to top of viewport */
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 1000; /* Stacked on top of all page elements */
+  height: 65px; /* Locked hardcoded height to stop layout jump */
+  min-height: 65px;
+  max-height: 65px;
+  z-index: 1000;
+  background: var(--surface); /* Fast solid fill before backdrop blur renders */
   background: color-mix(in srgb, var(--surface) 92%, transparent);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
-  min-height: 65px;
+  contain: layout size; /* Stops browser from recalculating entire page when header loads */
 }
 
 .navbar-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 0;
+  height: 100%;
+  padding: 0;
   gap: 20px;
 }
 
@@ -188,8 +193,16 @@ h1, h2, h3, h4 {
   font-weight: 700;
   font-size: 20px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 2px;
+  height: 40px; /* Rigid brand container */
+}
+
+.brand img {
+  max-height: 36px;
+  width: auto;
+  aspect-ratio: auto;
+  display: block;
 }
 
 .brand .accent-dot { color: var(--accent); }
@@ -217,6 +230,7 @@ h1, h2, h3, h4 {
   gap: 8px;
   flex: 1;
   max-width: 320px;
+  height: 38px;
   position: relative;
 }
 
@@ -265,7 +279,8 @@ h1, h2, h3, h4 {
   gap: 6px;
   border: 1.5px solid var(--line);
   border-radius: var(--radius);
-  padding: 9px 14px;
+  padding: 8px 14px;
+  height: 38px;
   font-weight: 600;
   font-size: 14px;
 }
@@ -755,7 +770,7 @@ h1, h2, h3, h4 {
   color: #fff;
   padding: 24px 16px;
   position: sticky;
-  top: 65px; /* Aligned below top fixed header */
+  top: 65px;
   height: calc(100vh - 65px);
   overflow-y: auto;
 }
