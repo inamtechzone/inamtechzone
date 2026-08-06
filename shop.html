@@ -1,75 +1,52 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shop — INAM TECH ZONE</title>
-  <meta name="description" content="Browse all electronics and gadgets at INAM TECH ZONE." />
-  <link rel="manifest" href="/manifest.json" />
-
-  <!-- CSS Files -->
-  <link rel="stylesheet" href="/components/header-footer.css" />
-  <link rel="stylesheet" href="/assets/css/style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shop — INAM TECH ZONE</title>
+<meta name="description" content="Browse all electronics and gadgets at INAM TECH ZONE." />
+<link rel="manifest" href="/manifest.json" />
+<link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
-
-  <!-- Dynamic Header Container -->
-  <div id="site-header"></div>
-
-  <div class="container" style="padding-top:30px;padding-bottom:50px">
-    <div class="section-head" style="margin-top:0">
-      <h2 id="search-title">Shop</h2>
-      <span id="result-count" style="font-size:13.5px;color:var(--muted)"></span>
-    </div>
-
-    <!-- Category & Brand Filters -->
-    <div id="category-chips" class="chip-row"></div>
-    <div id="brand-chips" class="chip-row" style="margin-top:-10px"></div>
-
-    <!-- Filter & Sort Bar -->
-    <div class="card" style="display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-bottom:26px">
-      <div class="field" style="margin-bottom:0">
-        <label>Min price</label>
-        <input id="min-price" type="number" min="0" placeholder="0" style="width:110px" />
-      </div>
-      <div class="field" style="margin-bottom:0">
-        <label>Max price</label>
-        <input id="max-price" type="number" min="0" placeholder="Any" style="width:110px" />
-      </div>
-      <div class="field" style="margin-bottom:0">
-        <label>Sort by</label>
-        <select id="sort-select" style="width:170px">
-          <option value="newest">Newest</option>
-          <option value="price_asc">Price: Low to High</option>
-          <option value="price_desc">Price: High to Low</option>
-          <option value="name_asc">Name: A to Z</option>
-        </select>
-      </div>
-      <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;margin-bottom:2px">
-        <input id="in-stock-check" type="checkbox" /> In stock only
-      </label>
-      <button id="apply-filters-btn" class="btn btn-outline btn-sm">Apply filters</button>
-    </div>
-
-    <!-- Product Grid & Pagination -->
-    <div id="shop-grid" class="product-grid"></div>
-    <div id="pagination"></div>
-  </div>
-
-  <!-- Dynamic Footer Container -->
-  <div id="site-footer"></div>
-
-  <!-- Core JavaScript Scripts -->
-  <script src="/assets/js/config.js" defer></script>
-  <script src="/assets/js/api.js" defer></script>
-  <script src="/assets/js/ui.js" defer></script>
-  <script src="/assets/js/storage.js" defer></script>
-  <script src="/assets/js/img-cdn.js" defer></script>
-  <script src="/assets/js/tracking.js" defer></script>
-  <script src="/assets/js/i18n.js" defer></script>
-
-  <!-- Page Specific JavaScript -->
-  <script src="/assets/js/pages/shop.js" defer></script>
-  <script src="/components/layout-loader.js" defer></script>
+<div id="site-header"></div>
+<div class="container" style="padding-top:30px;padding-bottom:50px">
+  <div class="section-head" style="margin-top:0">
+    <h2 id="search-title">Shop</h2>
+    <span id="result-count" style="font-size:13.5px;color:var(--muted)"></span>
+  </div>
+  <div id="category-chips" class="chip-row"></div>
+  <div id="brand-chips" class="chip-row" style="margin-top:-10px"></div>
+  <div class="card" style="display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-bottom:26px">
+    <div class="field" style="margin-bottom:0"><label>Min price</label><input id="min-price" type="number" min="0" placeholder="0" style="width:110px" /></div>
+    <div class="field" style="margin-bottom:0"><label>Max price</label><input id="max-price" type="number" min="0" placeholder="Any" style="width:110px" /></div>
+    <div class="field" style="margin-bottom:0">
+      <label>Sort by</label>
+      <select id="sort-select" style="width:170px">
+        <option value="newest">Newest</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+        <option value="name_asc">Name: A to Z</option>
+      </select>
+    </div>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;margin-bottom:2px">
+      <input id="in-stock-check" type="checkbox" /> In stock only
+    </label>
+    <button id="apply-filters-btn" class="btn btn-outline btn-sm">Apply filters</button>
+  </div>
+  <div id="shop-grid" class="product-grid"></div>
+  <div id="pagination"></div>
+</div>
+<div id="site-footer"></div>
+<script src="/assets/js/config.js"defer></script>
+<script src="/assets/js/api.js"defer></script>
+<script src="/assets/js/ui.js"defer></script>
+<script src="/assets/js/storage.js"defer></script>
+<script src="/assets/js/img-cdn.js"defer></script>
+<script src="/assets/js/tracking.js"defer></script>
+<script src="/assets/js/i18n.js"defer></script>
+<script src="/assets/js/layout.js"defer></script>
+<script src="/assets/js/pages/home.js"defer></script>
+<script src="/assets/js/pages/shop.js"defer></script>
 </body>
-</html>
+</html> 
