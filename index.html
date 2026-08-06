@@ -25,9 +25,6 @@
 <link rel="preload" href="/assets/fonts/Inter-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 <link rel="preload" href="/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 
-<!-- Preload LCP Hero Image -->
-<link rel="preload" as="image" href="/assets/images/hero-banner.webp" type="image/webp" fetchpriority="high" />
-
 <style>
   :root {
     --bg-color: #03050a;
@@ -247,7 +244,6 @@
 </head>
 <body>
 
-<!-- INTEGRATED CSS HEADER (REPLACED OLD STATIC HEADER DIV) -->
 <header class="header">
   <div class="nav-container">
     
@@ -321,34 +317,7 @@
   ⚡ Flash Sale is live — limited stock, limited time. <a href="/shop.html?flashSale=true">Shop now →</a>
 </div>
 
-<section class="hero">
-  <svg class="hero-trace" viewBox="0 0 800 300" preserveAspectRatio="none">
-    <path d="M0 60 H240 V140 H480 V40 H800" stroke="#4A4EF0" stroke-width="2" fill="none" />
-    <path d="M0 220 H180 V180 H420 V260 H800" stroke="#FFAE1F" stroke-width="2" fill="none" />
-    <circle cx="240" cy="60" r="4" fill="#4A4EF0" />
-    <circle cx="480" cy="140" r="4" fill="#4A4EF0" />
-    <circle cx="420" cy="260" r="4" fill="#FFAE1F" />
-  </svg>
-  <div class="container hero-inner">
-    <span class="eyebrow">Electronics &amp; Gadgets</span>
-    <h1>Real specs.<br />Real stock.<br />Fast delivery.</h1>
-    <p>INAM TECH ZONE stocks the gadgets and accessories you actually use — checked, listed honestly, and shipped fast. Order online or message us on WhatsApp.</p>
-    
-    <img 
-      src="/assets/images/hero-banner.webp" 
-      alt="INAM TECH ZONE Hero Banner" 
-      class="hero-img" 
-      fetchpriority="high"
-      width="600"
-      height="300" />
-
-    <div>
-      <a href="/shop.html" class="btn btn-primary">Browse the shop</a>
-    </div>
-  </div>
-</section>
-
-<div class="container">
+<div class="container" style="margin-top: 24px;">
   <div id="category-section">
     <div class="section-head">
       <h2>Shop by category</h2>
