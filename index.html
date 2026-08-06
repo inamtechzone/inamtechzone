@@ -21,16 +21,301 @@
 <!-- Resource Hints -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-<!-- Preload Local Variable Fonts (Fixes 404 Font Errors & CLS) -->
+<!-- Preload Local Variable Fonts -->
 <link rel="preload" href="/assets/fonts/Inter-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 <link rel="preload" href="/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 
-<!-- Preload LCP Hero Image with High Priority -->
+<!-- Preload LCP Hero Image -->
 <link rel="preload" as="image" href="/assets/images/hero-banner.webp" type="image/webp" fetchpriority="high" />
+
+<style>
+  :root {
+    --bg-color: #03050a;
+    --header-bg: #060913;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-main: #ffffff;
+    --text-muted: #a0a8c0;
+    --accent-cyan: #00f0ff;
+    --action-bg: rgba(255, 255, 255, 0.05);
+    --action-hover: rgba(255, 255, 255, 0.12);
+    --tooltip-bg: #0072ff;
+    --tooltip-text: #ffffff;
+  }
+
+  body.light-mode {
+    --bg-color: #f4f6fc;
+    --header-bg: #ffffff;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --accent-cyan: #0072ff;
+    --action-bg: rgba(0, 0, 0, 0.05);
+    --action-hover: rgba(0, 0, 0, 0.1);
+    --tooltip-bg: #0f172a;
+    --tooltip-text: #ffffff;
+  }
+
+  /* HEADER & NAVBAR STYLES */
+  .header {
+    background-color: var(--header-bg);
+    border-bottom: 1px solid var(--border-color);
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 75px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .brand-itz {
+    font-size: 28px;
+    font-weight: 900;
+    font-style: italic;
+    background: linear-gradient(135deg, #00d2ff 0%, #0072ff 50%, #7000ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+  }
+
+  .brand-text-block {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand-title {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--text-main);
+    letter-spacing: 1px;
+    line-height: 1.1;
+  }
+
+  .brand-subtitle {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    letter-spacing: 2.5px;
+    margin-top: 2px;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 16px;
+    list-style: none;
+  }
+
+  .nav-item {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  .nav-item:hover {
+    color: var(--text-main);
+    background: var(--action-bg);
+  }
+
+  .nav-icon {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .icon-btn {
+    position: relative;
+    background: var(--action-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-main);
+    text-decoration: none;
+  }
+
+  .icon-btn:hover {
+    background: var(--action-hover);
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #0072ff;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .shop-now-btn {
+    position: relative;
+    background: linear-gradient(90deg, #0072ff 0%, #7000ff 100%);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3);
+  }
+
+  .shop-now-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  /* TOOLTIP ON HOVER */
+  [data-tooltip] {
+    position: relative;
+  }
+
+  [data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -38px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-5px);
+    background: var(--tooltip-bg);
+    color: var(--tooltip-text);
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 1000;
+  }
+
+  [data-tooltip]:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
 </head>
 <body>
 
-<div id="site-header"></div>
+<!-- INTEGRATED CSS HEADER (REPLACED OLD STATIC HEADER DIV) -->
+<header class="header">
+  <div class="nav-container">
+    
+    <!-- BRAND LOGO -->
+    <a href="/" class="nav-brand" data-tooltip="Inam Tech Zone Home">
+      <span class="brand-itz">ITZ</span>
+      <div class="brand-text-block">
+        <span class="brand-title">INAM TECH ZONE</span>
+        <span class="brand-subtitle">ONLINE STORE</span>
+      </div>
+    </a>
+
+    <!-- NAV LINKS WITH ICONS & TOOLTIPS -->
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li>
+          <a href="/" class="nav-item" data-tooltip="Home Page">
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="/shop.html" class="nav-item" data-tooltip="View Products Catalog">
+            <svg class="nav-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="2" y="14" width="7" height="7"/></svg>
+            Products
+          </a>
+        </li>
+        <li>
+          <a href="#tracking" class="nav-item" data-tooltip="Track Your Shipment">
+            <svg class="nav-icon" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Order Tracking
+          </a>
+        </li>
+        <li>
+          <a href="#contact" class="nav-item" data-tooltip="Contact Support">
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Contact
+          </a>
+        </li>
+      </ul>
+
+      <!-- CONTROLS & ACTIONS -->
+      <div class="nav-actions">
+        <!-- LIGHT/DARK TOGGLE -->
+        <button class="icon-btn" id="themeBtn" aria-label="Theme Toggle" data-tooltip="Toggle Dark/Light Mode">
+          <svg id="themeIcon" class="nav-icon" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+
+        <!-- CART -->
+        <a href="#cart" class="icon-btn" aria-label="Shopping Cart" data-tooltip="View Shopping Cart">
+          <svg class="nav-icon" viewBox="0 0 24 24" style="stroke: var(--accent-cyan);">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span class="cart-badge">0</span>
+        </a>
+
+        <!-- SHOP NOW -->
+        <a href="/shop.html" class="shop-now-btn" data-tooltip="Instant Checkout">
+          <svg class="nav-icon" viewBox="0 0 24 24" style="stroke:#fff;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          SHOP NOW
+        </a>
+      </div>
+    </div>
+
+  </div>
+</header>
 
 <div id="flash-sale-band" class="flash-sale-band">
   ⚡ Flash Sale is live — limited stock, limited time. <a href="/shop.html?flashSale=true">Shop now →</a>
@@ -49,7 +334,6 @@
     <h1>Real specs.<br />Real stock.<br />Fast delivery.</h1>
     <p>INAM TECH ZONE stocks the gadgets and accessories you actually use — checked, listed honestly, and shipped fast. Order online or message us on WhatsApp.</p>
     
-    <!-- LCP Image Optimized (fetchpriority="high", NO loading="lazy") -->
     <img 
       src="/assets/images/hero-banner.webp" 
       alt="INAM TECH ZONE Hero Banner" 
@@ -128,7 +412,7 @@
   </div>
 </section>
 
-<section class="container">
+<section class="container" id="tracking">
   <div class="section-head"><h2>Frequently asked questions</h2></div>
   <div class="faq-item">
     <div class="faq-question">How long does delivery take?<span>+</span></div>
@@ -160,6 +444,33 @@
 <script src="/assets/js/i18n.js" defer></script>
 <script src="/assets/js/layout.js" defer></script>
 <script src="/assets/js/pages/home.js" defer></script>
+
+<script>
+  // DARK/LIGHT THEME TOGGLE SCRIPT
+  const themeBtn = document.getElementById('themeBtn');
+  const themeIcon = document.getElementById('themeIcon');
+
+  themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    const isLight = document.body.classList.contains('light-mode');
+    
+    if (isLight) {
+      themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+    } else {
+      themeIcon.innerHTML = `
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      `;
+    }
+  });
+</script>
 
 </body>
 </html>
