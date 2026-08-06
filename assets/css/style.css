@@ -1,8 +1,9 @@
 /* ==========================================================================
-   1. CORE VARIABLES & DESIGN SYSTEM (Light/Dark Theme)
+   1. CORE VARIABLES & DESIGN SYSTEM (Default Light / Dark Theme)
    ========================================================================== */
 :root {
-  --bg: #F5F6FB;
+  /* Default Theme is Light/White */
+  --bg: #FFFFFF;
   --surface: #FFFFFF;
   --ink: #0F1530;
   --muted: #5B6478;
@@ -17,16 +18,17 @@
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
-  /* Additional Header Specific Variables */
-  --header-bg: #060913;
-  --accent-cyan: #00f0ff;
-  --action-bg: rgba(255, 255, 255, 0.05);
-  --action-hover: rgba(255, 255, 255, 0.12);
-  --tooltip-bg: #0072ff;
+  /* Header & Action Controls (Default Light/White) */
+  --header-bg: #FFFFFF;
+  --accent-cyan: #0072ff;
+  --action-bg: rgba(0, 0, 0, 0.04);
+  --action-hover: rgba(0, 0, 0, 0.08);
+  --tooltip-bg: #0f172a;
   --tooltip-text: #ffffff;
 }
 
-[data-theme="dark"] {
+/* Dark Mode Theme Adjustments */
+[data-theme="dark"], body.dark-mode {
   --bg: #0B0E1C;
   --surface: #131729;
   --ink: #F2F3FA;
@@ -37,19 +39,24 @@
   --amber: #FFC24D;
 
   --header-bg: #060913;
+  --accent-cyan: #00f0ff;
   --action-bg: rgba(255, 255, 255, 0.05);
   --action-hover: rgba(255, 255, 255, 0.12);
+  --tooltip-bg: #0072ff;
+  --tooltip-text: #ffffff;
 }
 
-body.light-mode {
-  --bg: #f4f6fc;
-  --header-bg: #ffffff;
-  --line: rgba(0, 0, 0, 0.08);
-  --ink: #0f172a;
-  --muted: #475569;
+/* Explicit Light Mode Override */
+body.light-mode, [data-theme="light"] {
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --header-bg: #FFFFFF;
+  --line: #E3E6F0;
+  --ink: #0F1530;
+  --muted: #5B6478;
   --accent-cyan: #0072ff;
-  --action-bg: rgba(0, 0, 0, 0.05);
-  --action-hover: rgba(0, 0, 0, 0.1);
+  --action-bg: rgba(0, 0, 0, 0.04);
+  --action-hover: rgba(0, 0, 0, 0.08);
   --tooltip-bg: #0f172a;
   --tooltip-text: #ffffff;
 }
@@ -75,7 +82,6 @@ body.light-mode {
        url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
 }
 
-/* Fallback Metric Override to eliminate FOUT & CLS */
 @font-face {
   font-family: 'Inter-Fallback';
   src: local('Arial');
@@ -97,7 +103,7 @@ html {
 
 body {
   margin: 0;
-  padding-top: 65px; /* Locked top offset matching exact navbar height */
+  padding-top: 75px; /* Aligned with fixed header height */
   background: var(--bg);
   color: var(--ink);
   font-family: 'Inter', 'Inter-Fallback', var(--font-body);
@@ -110,7 +116,6 @@ a {
   text-decoration: none;
 }
 
-/* Images: Explicit aspect-ratio & dimensional constraints to block CLS */
 img {
   max-width: 100%;
   height: auto;
@@ -185,9 +190,9 @@ h1, h2, h3, h4 {
 .btn:disabled { opacity: .55; cursor: not-allowed; }
 
 /* ==========================================================================
-   4. NAVIGATION & HEADER (Zero-CLS & Instant Render Optimization)
+   4. NAVIGATION & HEADER (Zero-CLS & Theme Adaptive)
    ========================================================================== */
-.header {
+.header, .navbar {
   background-color: var(--header-bg);
   border-bottom: 1px solid var(--line);
   width: 100%;
@@ -198,9 +203,10 @@ h1, h2, h3, h4 {
   height: 75px;
   z-index: 1000;
   margin: 0;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.nav-container {
+.nav-container, .navbar-inner {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 20px;
@@ -210,11 +216,14 @@ h1, h2, h3, h4 {
   align-items: center;
 }
 
-.nav-brand {
+.nav-brand, .brand {
   display: flex;
   align-items: center;
   gap: 12px;
   text-decoration: none;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--ink);
 }
 
 .brand-itz {
@@ -260,12 +269,13 @@ h1, h2, h3, h4 {
   list-style: none;
   margin: 0;
   padding: 0;
+  align-items: center;
 }
 
-.nav-item {
+.nav-links a, .nav-item {
   color: var(--muted);
   text-decoration: none;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -273,9 +283,10 @@ h1, h2, h3, h4 {
   padding: 8px 12px;
   border-radius: 8px;
   position: relative;
+  transition: color 0.15s ease, background 0.15s ease;
 }
 
-.nav-item:hover {
+.nav-links a:hover, .nav-item:hover {
   color: var(--ink);
   background: var(--action-bg);
 }
@@ -296,37 +307,46 @@ h1, h2, h3, h4 {
   gap: 12px;
 }
 
-.icon-btn {
+.icon-btn, .icon-pill {
   position: relative;
-  background: var(--action-bg);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  width: 40px;
-  height: 40px;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  height: 38px;
+  padding: 0 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   cursor: pointer;
   color: var(--ink);
   text-decoration: none;
+  font-weight: 600;
+  font-size: 13.5px;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.icon-btn:hover {
+.icon-btn:hover, .icon-pill:hover {
   background: var(--action-hover);
+  border-color: var(--muted);
+}
+
+/* White Mode specific Theme Button adjustment */
+#theme-toggle-btn {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+  font-weight: 600;
 }
 
 .cart-badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
   background: #0072ff;
   color: #ffffff;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
-  width: 17px;
-  height: 17px;
-  border-radius: 50%;
-  display: flex;
+  padding: 2px 6px;
+  border-radius: 999px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
@@ -393,6 +413,7 @@ h1, h2, h3, h4 {
   max-width: 320px;
   height: 38px;
   position: relative;
+  background: var(--surface);
 }
 
 .nav-search input {
@@ -431,19 +452,6 @@ h1, h2, h3, h4 {
   border-radius: 6px;
   object-fit: cover;
   background: var(--bg);
-}
-
-.icon-pill {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border: 1.5px solid var(--line);
-  border-radius: var(--radius);
-  padding: 8px 14px;
-  height: 38px;
-  font-weight: 600;
-  font-size: 14px;
 }
 
 .mobile-menu-btn {
@@ -916,8 +924,8 @@ h1, h2, h3, h4 {
   color: #fff;
   padding: 24px 16px;
   position: sticky;
-  top: 65px;
-  height: calc(100vh - 65px);
+  top: 75px;
+  height: calc(100vh - 75px);
   overflow-y: auto;
 }
 
