@@ -1,0 +1,78 @@
+/* ==========================================================================
+   SHOP CATALOG & ADVANCED FILTERS SECTION
+   ========================================================================== */
+.shop-header-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.shop-title { font-size: 28px; font-weight: 800; margin: 0; color: var(--text-main); }
+
+.filter-card-advanced {
+  background: var(--bg-component);
+  border: 1px solid var(--border-line);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.filter-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  align-items: end;
+}
+
+.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-group label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.custom-select, .price-inputs input {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-line);
+  background-color: var(--hover-bg);
+  color: var(--text-main);
+  font-size: 13.5px;
+  outline: none;
+}
+
+.price-inputs { display: flex; align-items: center; gap: 8px; }
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform .15s ease;
+  display: flex;
+  flex-direction: column;
+}
+.product-card:hover { transform: translateY(-2px); }
+
+.product-thumb {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  background: var(--bg);
+  position: relative;
+}
+.product-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.product-body { padding: 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.product-price { font-weight: 700; font-size: 17px; }
