@@ -1,78 +1,156 @@
-hader css add /* ==========================================================================
-   FOOTER STYLES (LEFT LOGO | CENTER COPYRIGHT | RIGHT DELIVERY)
-   ========================================================================== */
+ /* ==========================================================================
+
+   FOOTER STYLES (LEFT LOGO | CENTER COPYRIGHT | RIGHT DELIVERY)
+
+   ========================================================================== */
+
 .site-footer {
-  background-color: var(--bg-component);
-  color: var(--text-main);
-  border-top: 1px solid var(--border-line);
-  padding: 20px 0;
-  margin-top: 60px;
-  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+
+  background-color: var(--bg-component);
+
+  color: var(--text-main);
+
+  border-top: 1px solid var(--border-line);
+
+  padding: 20px 0;
+
+  margin-top: 60px;
+
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+
 }
+
+
 
 .footer-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+
+  max-width: 1280px;
+
+  margin: 0 auto;
+
+  padding: 0 24px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
 }
+
+
 
 /* Left Section */
+
 .footer-left {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  justify-content: flex-start;
+
+  display: flex;
+
+  align-items: center;
+
+  flex: 1;
+
+  justify-content: flex-start;
+
 }
+
+
 
 /* Center Section */
+
 .footer-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  text-align: center;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  flex: 1;
+
+  text-align: center;
+
 }
+
+
 
 .footer-center p {
-  margin: 0;
-  font-size: 13.5px;
-  color: var(--text-muted);
-  font-weight: 500;
-  white-space: nowrap;
+
+  margin: 0;
+
+  font-size: 13.5px;
+
+  color: var(--text-muted);
+
+  font-weight: 500;
+
+  white-space: nowrap;
+
 }
+
+
 
 /* Right Section */
+
 .footer-right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex: 1;
-  text-align: right;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  flex: 1;
+
+  text-align: right;
+
 }
+
+
 
 .footer-desc {
-  font-size: 13.5px;
-  color: var(--text-muted);
-  margin: 0;
-  font-weight: 500;
+
+  font-size: 13.5px;
+
+  color: var(--text-muted);
+
+  margin: 0;
+
+  font-weight: 500;
+
 }
 
+
+
 /* Responsive adjustment for Mobile Screens */
+
 @media (max-width: 768px) {
-  .footer-container {
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    gap: 14px;
-  }
-  
-  .footer-left, .footer-center, .footer-right {
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-  }
-}
+
+  .footer-container {
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    text-align: center;
+
+    gap: 14px;
+
+  }
+
+  
+
+  .footer-left, .footer-center, .footer-right {
+
+    justify-content: center;
+
+    text-align: center;
+
+    width: 100%;
+
+  }
+
+} 
+
