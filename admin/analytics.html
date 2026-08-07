@@ -19,12 +19,14 @@
         <option value="90">Last 90 days</option>
       </select>
     </div>
+
     <div class="stat-grid">
       <div class="stat-card"><div class="label">Total tracked events</div><div id="stat-total-events" class="value">—</div></div>
       <div class="stat-card"><div class="label">WhatsApp clicks</div><div id="stat-whatsapp-clicks" class="value">—</div></div>
       <div class="stat-card"><div class="label">Call clicks</div><div id="stat-call-clicks" class="value">—</div></div>
       <div class="stat-card"><div class="label">Checkouts</div><div id="stat-checkouts" class="value">—</div></div>
     </div>
+
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px" class="analytics-grid">
       <div>
         <div class="section-head" style="margin-top:0"><h3 style="margin:0">Traffic by source</h3></div>
@@ -35,12 +37,14 @@
         <div class="table-scroll"><table class="admin-table"><thead><tr><th>Product</th><th>Views</th></tr></thead><tbody id="viewed-body"></tbody></table></div>
       </div>
     </div>
+
     <div class="section-head"><h3 style="margin:0">UTM campaigns</h3></div>
     <div class="table-scroll"><table class="admin-table"><thead><tr><th>Campaign</th><th>Events</th></tr></thead><tbody id="campaign-body"></tbody></table></div>
+
     <style>@media (max-width: 900px) { .analytics-grid { grid-template-columns: 1fr !important; } }</style>
   </main>
 </div>
-<script src="/assets/js/config.js"defer></script><script src="/assets/js/api.js"></script><script src="/assets/js/ui.js"></script>
-<script src="/assets/js/auth.js"defer></script><script src="/assets/js/admin/layout.js"></script><script src="/assets/js/admin/analytics.js"></script>
+<script src="/assets/js/config.js"></script><script src="/assets/js/api.js"></script><script src="/assets/js/ui.js"></script>
+<script src="/assets/js/auth.js"></script><script src="/assets/js/admin/layout.js"></script><script src="/assets/js/admin/analytics.js"></script>
 </body>
 </html>
