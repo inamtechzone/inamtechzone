@@ -1,20 +1,15 @@
 document.addEventListener("DOMContentLoaded", async () => {
   initAdminLayout("settings");
 
-  // Read API_URL locally to avoid declaring a conflicting global variable
-  const apiUrl = window.ITZ?.API_URL || (typeof API_URL !== "undefined" ? API_URL : "");
+  // Fallback chain for maximum compatibility
+  const apiUrl = window.ITZ_CONFIG?.API_URL || window.ITZ?.API_URL || window.API_URL || "";
 
-  // Render feed links safely
-  const feedLinksEl = document.getElementById("feed-links");
-  if (feedLinksEl) {
-    feedLinksEl.innerHTML = [
-      ["Google Merchant (XML)", "feeds.googleMerchantXml"],
-      ["Google Merchant (CSV)", "feeds.googleMerchantCsv"],
-      ["Meta Commerce (CSV)", "feeds.metaCommerceCsv"],
-    ].map(([label, action]) => `<div><strong>${label}:</strong><br>${apiUrl}?action=${action}</div>`).join("");
-  }
+  document.getElementById("feed-links").innerHTML = [
+    ["Google Merchant (XML)", "feeds.googleMerchantXml"],
+    ["Google Merchant (CSV)", "feeds.googleMerchantCsv"],
+    ["Meta Commerce (CSV)", "feeds.metaCommerceCsv"],
+  ].map(([label, action]) => `<div><strong>${label}:</strong><br>${apiUrl}?action=${action}</div>`).join("");
 
-  // Fetch and populate settings
   try {
     const s = await apiGet("settings.get", {});
     const form = document.getElementById("settings-form");
@@ -50,7 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     toastError(e);
   }
 
-  // Logo input handler
   const logoInput = document.getElementById("logo-input");
   if (logoInput) {
     logoInput.addEventListener("change", async (e) => {
@@ -70,7 +64,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Banner input handler
   const bannerInput = document.getElementById("banner-input");
   if (bannerInput) {
     bannerInput.addEventListener("change", async (e) => {
@@ -90,7 +83,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Form submission handler
   const settingsForm = document.getElementById("settings-form");
   if (settingsForm) {
     settingsForm.addEventListener("submit", async (e) => {
@@ -119,7 +111,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Password submission handler
   const passwordForm = document.getElementById("password-form");
   if (passwordForm) {
     passwordForm.addEventListener("submit", async (e) => {
