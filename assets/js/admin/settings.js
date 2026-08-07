@@ -1,9 +1,8 @@
-// Global safeguard: Ensures ITZ and API_URL exist without crashing
-window.ITZ = window.ITZ || {};
-const API_URL = window.ITZ.API_URL || "";
-
 document.addEventListener("DOMContentLoaded", async () => {
   initAdminLayout("settings");
+
+  // Read API_URL locally to avoid declaring a conflicting global variable
+  const apiUrl = window.ITZ?.API_URL || (typeof API_URL !== "undefined" ? API_URL : "");
 
   // Render feed links safely
   const feedLinksEl = document.getElementById("feed-links");
@@ -12,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       ["Google Merchant (XML)", "feeds.googleMerchantXml"],
       ["Google Merchant (CSV)", "feeds.googleMerchantCsv"],
       ["Meta Commerce (CSV)", "feeds.metaCommerceCsv"],
-    ].map(([label, action]) => `<div><strong>${label}:</strong><br>${API_URL}?action=${action}</div>`).join("");
+    ].map(([label, action]) => `<div><strong>${label}:</strong><br>${apiUrl}?action=${action}</div>`).join("");
   }
 
   // Fetch and populate settings
