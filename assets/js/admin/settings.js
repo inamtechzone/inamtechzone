@@ -1,11 +1,14 @@
 document.addEventListener("DOMContentLoaded", async () => {
   initAdminLayout("settings");
 
+  // Safely resolve API_URL without throwing if ITZ is undefined
+  const apiUrl = (typeof ITZ !== "undefined" ? ITZ?.API_URL : window.ITZ?.API_URL) || "";
+
   document.getElementById("feed-links").innerHTML = [
     ["Google Merchant (XML)", "feeds.googleMerchantXml"],
     ["Google Merchant (CSV)", "feeds.googleMerchantCsv"],
     ["Meta Commerce (CSV)", "feeds.metaCommerceCsv"],
-  ].map(([label, action]) => `<div><strong>${label}:</strong><br>${ITZ.API_URL}?action=${action}</div>`).join("");
+  ].map(([label, action]) => `<div><strong>${label}:</strong><br>${apiUrl}?action=${action}</div>`).join("");
 
   try {
     const s = await apiGet("settings.get", {});
