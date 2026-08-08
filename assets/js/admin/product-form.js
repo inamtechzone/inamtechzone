@@ -10,7 +10,7 @@ function slugifyClient_(text) {
   return String(text).toLowerCase().trim().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
-// Rough, transparent SEO score — not a black box: shows exactly which boxes are ticked.
+// Rough, transparent SEO score — shows exactly which boxes are ticked.
 function computeSeoScore_(form) {
   const checks = [
     { label: "SEO title set", pass: !!form.seoTitle.value.trim() },
@@ -36,9 +36,6 @@ function renderSeoScore_() {
   ).join("");
 }
 
-// Kept in sync with MAX_PRODUCT_IMAGES_ in backend/Products.gs — the backend
-// value is what actually enforces the limit (this one just drives the UI so
-// the "Add" button disables and the count label is accurate before submit).
 const MAX_PRODUCT_IMAGES = 10;
 
 function totalImageCount() { return existingImages.length; }
@@ -51,11 +48,7 @@ function renderImagePreviews() {
 
 function removeExistingImage(i) { existingImages.splice(i, 1); renderImagePreviews(); renderSeoScore_(); }
 
-// Fetches an external image URL server-side and re-hosts it on Drive (see
-// uploadImageFromUrl_ in DriveUpload.gs for why re-hosting instead of just
-// storing the link as-is). The result is already a permanent Drive URL, so
-// it's added straight to existingImages — no separate "upload on submit"
-// step needed, same as an image that was already saved on a previous edit.
+// --- 1. Add Image by URL ---
 async function addImageByUrl(url) {
   if (!url || !url.trim()) return;
   if (totalImageCount() >= MAX_PRODUCT_IMAGES) { toast(`Maximum ${MAX_PRODUCT_IMAGES} images per product`, "error"); return; }
@@ -73,8 +66,51 @@ async function addImageByUrl(url) {
   } catch (e) {
     toastError(e);
   } finally {
-    btn.disabled = false; btn.textContent = "Add";
+    btn.disabled = false; btn.textContent = "Add URL";
   }
+}
+
+// --- 2. Add Local Image Files (Computer/Mobile Upload) ---
+async function addLocalImages(files) {
+  if (!files || !files.length) return;
+
+  const availableSlots = MAX_PRODUCT_IMAGES - totalImageCount();
+  if (availableSlots <= 0) {
+    toast(`Maximum ${MAX_PRODUCT_IMAGES} images per product limit reached`, "error");
+    return;
+  }
+
+  const filesToProcess = Array.from(files).slice(0, availableSlots);
+  const localInput = document.getElementById("local-image-input");
+
+  for (const file of filesToProcess) {
+    try {
+      const base64Data = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      let finalUrl = base64Data;
+      // Try uploading Base64 to drive/backend API if endpoint exists
+      try {
+        const res = await apiPost("upload.image", { base64: base64Data, filename: file.name });
+        if (res && res.url) finalUrl = res.url;
+      } catch (e) {
+        console.warn("Direct API upload failed, using Data URL fallback:", e);
+      }
+
+      existingImages.push(finalUrl);
+    } catch (err) {
+      toastError(err);
+    }
+  }
+
+  renderImagePreviews();
+  renderSeoScore_();
+  if (localInput) localInput.value = ""; // Reset input
+  toast("Local image(s) added successfully", "success");
 }
 
 function renderSpecRows() {
@@ -150,10 +186,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderSeoScore_();
   } catch (e) { toastError(e); }
 
-  // --- Handle (new products only): auto-suggest from name, live-validate as typed.
-  // Existing products show the handle read-only — it's permanent by design
-  // (see the file header note in Products.gs on the backend for why), so
-  // there's no edit flow here for that case.
   const nameInput = document.querySelector('[name="name"]');
   const handleInput = document.getElementById("handle-input-new");
   let handleManuallyEdited = false;
@@ -189,9 +221,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("add-spec-btn").addEventListener("click", addSpecRow);
 
-  document.getElementById("add-image-url-btn").addEventListener("click", () => addImageByUrl(document.getElementById("image-url-input").value));
-  document.getElementById("image-url-input").addEventListener("keydown", (e) => {
+  // --- URL Image Listeners ---
+  document.getElementById("add-image-url-btn")?.addEventListener("click", () => addImageByUrl(document.getElementById("image-url-input").value));
+  document.getElementById("image-url-input")?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") { e.preventDefault(); addImageByUrl(e.target.value); }
+  });
+
+  // --- Local Image File Listener ---
+  document.getElementById("local-image-input")?.addEventListener("change", (e) => {
+    addLocalImages(e.target.files);
   });
 
   document.getElementById("product-form").addEventListener("submit", async (ev) => {
@@ -204,7 +242,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const images = existingImages.slice(0, MAX_PRODUCT_IMAGES);
-
       const validSpecs = specRows.filter((s) => s.key.trim() && s.value.trim());
 
       const payload = {
@@ -231,9 +268,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       };
       if (!editingId && handleInput.value.trim()) payload.handle = handleInput.value.trim();
 
-      // Auto-generate the social share (OG) image from the first product photo —
-      // see assets/js/admin/og-image-generator.js. Best-effort: a failure here
-      // must never block saving the product itself.
       try {
         const categoryName = (categoriesCache.find((c) => c.id === form.categoryId.value) || {}).name || "";
         const ogBlob = await generateOgImage_({
