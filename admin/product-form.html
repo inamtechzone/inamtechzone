@@ -70,17 +70,28 @@
         </div>
         <div id="seo-score-checklist"></div>
       </div>
+
+      <!-- Updated Image Section with URL & Local File Upload -->
       <div class="field">
         <label>Images (up to 10) — <span id="image-count-label">0/10 used</span></label>
-        <div style="display:flex;gap:10px">
+        
+        <!-- Option 1: URL Input -->
+        <div style="display:flex;gap:10px;margin-bottom:10px">
           <input id="image-url-input" type="url" placeholder="Paste an image URL (https://...)" style="flex:1">
-          <button type="button" id="add-image-url-btn" class="btn btn-primary btn-sm">Add</button>
+          <button type="button" id="add-image-url-btn" class="btn btn-primary btn-sm">Add URL</button>
         </div>
+
+        <!-- Option 2: Local File Upload -->
+        <div style="display:flex;gap:10px;align-items:center;padding:10px;border:1px dashed var(--line);border-radius:6px;background:var(--bg)">
+          <input id="local-image-input" type="file" accept="image/*" multiple style="flex:1">
+        </div>
+
         <div style="font-size:12px;color:var(--muted);margin-top:6px">
-          Pasted URLs are automatically re-hosted on Drive, so the product never breaks if the original link goes down.
+          Upload local files or paste image URLs. Product images will automatically render in the preview row.
         </div>
-        <div id="image-previews" class="image-preview-row"></div>
+        <div id="image-previews" class="image-preview-row" style="margin-top:10px"></div>
       </div>
+
       <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px">
         <div id="qr-wrap" style="display:none">
           <label style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">Inventory QR (encodes SKU)</label>
