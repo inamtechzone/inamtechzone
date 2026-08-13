@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>INAM TECH ZONE — Electronics &amp; Gadgets, Fast Delivery</title>
+<meta name="description" content="INAM TECH ZONE — quality electronics and gadgets, honest specs, fast local delivery, and easy order tracking." />
+<meta name="robots" content="index, follow" />
+
+<!-- Open Graph / Social Media -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="INAM TECH ZONE — Electronics &amp; Gadgets" />
+<meta property="og:description" content="Quality electronics and gadgets, honest specs, fast local delivery, and easy order tracking." />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="manifest" href="/manifest.json" />
+
+<!-- Inline Critical CSS for Instant Skeleton Loading -->
+<style>
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .skeleton-card { background: #f0f0f0; border-radius: 8px; height: 260px; position: relative; overflow: hidden; }
+  .skeleton-card::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0));
+    animation: shimmer 1.5s infinite;
+  }
+  @keyframes shimmer { 100% { transform: translateX(100%); } }
+</style>
+
+<!-- External CSS Files -->
+<link rel="stylesheet" href="/components/header-footer.css" />
+<link rel="stylesheet" href="/assets/css/style.css" />
+
+<!-- Fixed Preload URL and Icon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<link rel="preload" href="/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+<!-- DNS Preconnect for Google Apps Script Redirect Server -->
+<link rel="preconnect" href="https://script.google.com" crossorigin />
+<link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
+</head>
+<body>
+
+<!-- Dynamic Header Injection Point -->
+<div id="site-header"></div>
+
+<main class="container">
+  <div id="flash-sale-band" class="flash-sale-band">
+    ⚡ Flash Sale is live — limited stock, limited time. <a href="/shop.html?flashSale=true">Shop now →</a>
+  </div>
+
+  <div id="featured-section">
+    <div class="section-head">
+      <h2>Featured products</h2>
+      <a href="/shop.html?featured=true">View all →</a>
+    </div>
+    <!-- Pre-rendered Skeletons for Speed Index -->
+    <div id="featured-grid" class="product-grid">
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+  </div>
+
+  <div id="bestseller-section">
+    <div class="section-head">
+      <h2>Best sellers</h2>
+      <a href="/shop.html?bestSeller=true">View all →</a>
+    </div>
+    <!-- Pre-rendered Skeletons for Speed Index -->
+    <div id="bestseller-grid" class="product-grid">
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h2>Latest arrivals</h2>
+    <a href="/shop.html">View all →</a>
+  </div>
+  <!-- Pre-rendered Skeletons for Speed Index -->
+  <div id="latest-grid" class="product-grid">
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+  </div>
+
+  <div class="newsletter-band">
+    <div>
+      <h3>Get special offers first</h3>
+      <p>Subscribe for restock alerts and members-only discounts.</p>
+    </div>
+    <form class="newsletter-form" onsubmit="event.preventDefault(); if(typeof toast === 'function') toast('Subscribed!','success'); this.reset();">
+      <input type="email" required placeholder="you@example.com" />
+      <button class="btn btn-secondary" type="submit">Subscribe</button>
+    </form>
+  </div>
+</main>
+
+<section class="container">
+  <div class="section-head"><h2>What customers say</h2></div>
+  <div class="testimonial-grid">
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p>"Ordered a power bank and it arrived the next day, exactly as described."</p>
+      <div>Ayesha K. <span>· Lahore</span></div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p>"Good prices and the WhatsApp support actually replies fast."</p>
+      <div>Bilal R. <span>· Karachi</span></div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p>"Product photos matched the real item perfectly. Easy checkout."</p>
+      <div>Sana M. <span>· Islamabad</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="container" id="tracking">
+  <div class="section-head"><h2>Frequently asked questions</h2></div>
+  <div class="faq-item">
+    <div class="faq-question">How long does delivery take?<span>+</span></div>
+    <div class="faq-answer">Most orders within major cities arrive within 2-4 business days.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">How can I track my order?<span>+</span></div>
+    <div class="faq-answer">Use the Track Order page with your Order ID or the phone number used at checkout.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">What payment methods do you accept?<span>+</span></div>
+    <div class="faq-answer">Cash on Delivery (COD) on all orders.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">Can I return a product?<span>+</span></div>
+    <div class="faq-answer">Message us on WhatsApp with your Order ID within 3 days of delivery.</div>
+  </div>
+</section>
+
+<!-- Dynamic Footer Injection Point -->
+<div id="site-footer"></div>
+
+<!-- JavaScript Dependencies (Deferred) -->
+<script src="/assets/js/config.js" defer></script>
+<script src="/assets/js/api.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script src="/assets/js/storage.js" defer></script>
+<script src="/assets/js/img-cdn.js" defer></script>
+<script src="/assets/js/tracking.js" defer></script>
+<script src="/assets/js/i18n.js" defer></script>
+<script src="/assets/js/pages/home.js" defer></script>
+<script src="/components/layout-loader.js" defer></script>
+
+</body>
+</html>

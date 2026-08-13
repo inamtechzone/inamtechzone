@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Orders — INAM TECH ZONE Admin</title><meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" /><link rel="stylesheet" href="/assets/css/admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside id="admin-sidebar" class="admin-sidebar"></aside>
+  <main id="admin-main" class="admin-main">
+    <h2>Orders</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px">
+      <input id="order-search" placeholder="Search by order ID, name, or phone…" style="flex:1;min-width:220px;border:1.5px solid var(--line);border-radius:8px;padding:9px 12px;background:var(--surface);color:var(--ink)">
+      <select id="order-status-filter" style="border:1.5px solid var(--line);border-radius:8px;padding:9px 12px;background:var(--surface);color:var(--ink)"></select>
+    </div>
+    <div class="table-scroll">
+      <table class="admin-table">
+        <thead><tr><th>Order ID</th><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th><th>Update</th><th></th></tr></thead>
+        <tbody id="orders-body"></tbody>
+      </table>
+    </div>
+    <div id="orders-pagination"></div>
+  </main>
+</div>
+<script src="/assets/js/config.js"></script><script src="/assets/js/api.js"></script><script src="/assets/js/ui.js"></script>
+<script src="/assets/js/auth.js"></script><script src="/assets/js/admin/layout.js"></script><script src="/assets/js/admin/orders.js"></script>
+</body>
+</html>

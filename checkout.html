@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout — INAM TECH ZONE</title>
+<link rel="manifest" href="/manifest.json" />
+<link rel="stylesheet" href="/components/header-footer.css" />
+<link rel="stylesheet" href="/assets/css/style.css" />
+<!-- DNS Preconnect for Google Apps Script Redirect Server -->
+<link rel="preconnect" href="https://script.google.com" crossorigin />
+<link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
+</head>
+<body>
+<div id="site-header"></div>
+<div id="checkout-root" class="container" style="padding-top:30px;padding-bottom:60px">
+  <div class="two-col">
+    <div>
+      <h2>Checkout</h2>
+      <form class="card" id="checkout-form">
+        <div class="field"><label>Full name</label><input name="customerName" required placeholder="Your name"></div>
+        <div class="field-row">
+          <div class="field"><label>Phone number</label><input name="phone" required placeholder="03xx-xxxxxxx"></div>
+          <div class="field"><label>City</label><input name="city" required placeholder="City"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Postal code</label><input name="postalCode" placeholder="Optional"></div>
+          <div class="field"><label>Payment method</label><input value="Cash on Delivery" disabled></div>
+        </div>
+        <div class="field"><label>Shipping address</label><textarea name="address" required rows="3" placeholder="House #, street, area"></textarea></div>
+        <div class="field"><label>Order notes (optional)</label><textarea name="notes" rows="2" placeholder="Delivery instructions, gift note, etc."></textarea></div>
+        <div class="field">
+          <label>Coupon code</label>
+          <div style="display:flex;gap:10px">
+            <input id="coupon-input" placeholder="Enter code" style="flex:1">
+            <button type="button" id="apply-coupon-btn" class="btn btn-outline btn-sm">Apply</button>
+          </div>
+        </div>
+        <button id="place-order-btn" class="btn btn-primary btn-block" type="submit">Place order</button>
+      </form>
+    </div>
+    <div>
+      <h2>Order summary</h2>
+      <div class="card">
+        <div id="summary-lines"></div>
+        <div class="summary-row"><span>Subtotal</span><span id="summary-subtotal"></span></div>
+        <div id="summary-discount-row" class="summary-row" style="display:none;color:var(--success)"><span>Discount</span><span id="summary-discount"></span></div>
+        <div class="summary-row"><span>Shipping</span><span id="summary-shipping"></span></div>
+        <div class="summary-row total"><span>Total</span><span id="summary-total"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="site-footer"></div>
+<script src="/assets/js/config.js"defer></script>
+<script src="/assets/js/api.js"defer></script>
+<script src="/assets/js/ui.js"defer></script>
+<script src="/assets/js/storage.js"defer></script>
+<script src="/assets/js/tracking.js"defer></script>
+<script src="/assets/js/i18n.js"defer></script>
+<script src="/assets/js/pages/checkout.js"defer></script>
+<script src="/components/layout-loader.js" defer></script>
+</body>
+</html>

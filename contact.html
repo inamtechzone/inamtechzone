@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact Us — INAM TECH ZONE</title>
+<meta name="description" content="Get in touch with INAM TECH ZONE for inquiries, support, or order tracking." />
+<meta name="robots" content="index, follow" />
+
+<!-- Link External CSS Files -->
+<link rel="stylesheet" href="/components/header-footer.css" />
+<link rel="stylesheet" href="/assets/css/style.css" />
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<!-- DNS Preconnect for Google Apps Script Redirect Server -->
+<link rel="preconnect" href="https://script.google.com" crossorigin />
+<link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
+</head>
+<body>
+
+<!-- Dynamic Header Injection Point -->
+<div id="site-header"></div>
+
+<main class="container" style="padding-top: 30px; padding-bottom: 50px;">
+  <div style="text-align: center; margin-bottom: 40px;">
+    <h1 style="font-size: 2rem; margin-bottom: 10px;">Contact Us</h1>
+    <p style="color: var(--text-muted, #64748b);">Have questions? We'd love to hear from you. Send us a message below.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; align-items: start;">
+    
+    <!-- Contact Details Card -->
+    <div class="card" style="padding: 24px;">
+      <h2 style="font-size: 1.25rem; margin-bottom: 20px;">Get in Touch</h2>
+      
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.5rem;">📱</span>
+          <div>
+            <strong>WhatsApp / Phone</strong>
+            <p style="margin: 0; color: var(--text-muted, #64748b);">
+              <a href="https://wa.me/923341215808" style="text-decoration: none; color: inherit;">03341215808</a> / 
+              <a href="tel:03431215808" style="text-decoration: none; color: inherit;">03431215808</a>
+            </p>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.5rem;">✉️</span>
+          <div>
+            <strong>Email Us</strong>
+            <p style="margin: 0; color: var(--text-muted, #64748b);">
+              <a href="mailto:inamtechzone@gmail.com" style="text-decoration: none; color: inherit;">inamtechzone@gmail.com</a>
+            </p>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.5rem;">🕒</span>
+          <div>
+            <strong>Business Hours</strong>
+            <p style="margin: 0; color: var(--text-muted, #64748b);">9:00 AM - 6:00 PM</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form Card -->
+    <div class="card" style="padding: 24px;">
+      <h2 style="font-size: 1.25rem; margin-bottom: 20px;">Send a Message</h2>
+      
+      <form id="contact-form" style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <label style="display: block; font-weight: 600; margin-bottom: 6px;">Your Name</label>
+          <input type="text" id="contact-name" required placeholder="John Doe" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" />
+        </div>
+
+        <div>
+          <label style="display: block; font-weight: 600; margin-bottom: 6px;">Email Address</label>
+          <input type="email" id="contact-email" required placeholder="you@example.com" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" />
+        </div>
+
+        <div>
+          <label style="display: block; font-weight: 600; margin-bottom: 6px;">Phone / WhatsApp</label>
+          <input type="tel" id="contact-phone" placeholder="03341215808" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;" />
+        </div>
+
+        <div>
+          <label style="display: block; font-weight: 600; margin-bottom: 6px;">Message</label>
+          <textarea id="contact-message" rows="4" required placeholder="How can we help you?" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; resize: vertical;"></textarea>
+        </div>
+
+        <button type="submit" id="contact-submit-btn" class="btn btn-primary" style="width: 100%; padding: 12px;">Send Message</button>
+      </form>
+    </div>
+
+  </div>
+</main>
+
+<!-- Dynamic Footer Injection Point -->
+<div id="site-footer"></div>
+
+<!-- JavaScript Dependencies -->
+<script src="/assets/js/config.js" defer></script>
+<script src="/assets/js/api.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script src="/assets/js/pages/contact.js" defer></script>
+<script src="/components/layout-loader.js" defer></script>
+
+</body>
+</html>

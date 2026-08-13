@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wishlist — INAM TECH ZONE</title>
+<link rel="manifest" href="/manifest.json" />
+<link rel="stylesheet" href="/components/header-footer.css" />
+<link rel="stylesheet" href="/assets/css/style.css" />
+<!-- DNS Preconnect for Google Apps Script Redirect Server -->
+<link rel="preconnect" href="https://script.google.com" crossorigin />
+<link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="container" style="padding-top:30px;padding-bottom:60px">
+  <div class="section-head" style="margin-top:0"><h2>Your wishlist</h2></div>
+  <div id="wishlist-empty" class="empty-state" style="display:none">
+    <h3>Your wishlist is empty</h3><p>Tap the heart on any product to save it here.</p>
+    <a href="/shop.html" class="btn btn-primary" style="margin-top:12px">Browse products</a>
+  </div>
+  <div id="wishlist-grid" class="product-grid"></div>
+</div>
+
+<div id="site-footer"></div>
+<script src="/assets/js/config.js"defer></script>
+<script src="/assets/js/api.js"defer></script>
+<script src="/assets/js/ui.js"defer></script>
+<script src="/assets/js/storage.js"defer></script>
+<script src="/assets/js/img-cdn.js"defer></script>
+<script src="/assets/js/tracking.js"defer></script>
+<script src="/assets/js/i18n.js"defer></script>
+<script src="/assets/js/pages/home.js"defer></script>
+<script src="/assets/js/pages/wishlist.js"defer></script>
+<script src="/components/layout-loader.js"defer></script>
+</body>
+</html>

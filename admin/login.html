@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Login — INAM TECH ZONE</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<div class="container" style="display:flex;justify-content:center;padding-top:70px;padding-bottom:80px">
+  <div class="card" style="width:380px">
+    <div class="brand" style="margin-bottom:4px">INAM<span style="color:var(--accent)">.</span>ADMIN</div>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:22px">Sign in to manage products and orders.</p>
+    <form id="login-form">
+      <div class="field"><label>Email</label><input type="email" name="email" required placeholder="admin@inamtechzone.com"></div>
+      <div class="field"><label>Password</label><input type="password" name="password" required placeholder="••••••••"></div>
+      <button id="login-btn" class="btn btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+  </div>
+</div>
+<script src="/assets/js/config.js"defer></script>
+<script src="/assets/js/api.js"defer></script>
+<script src="/assets/js/ui.js"defer></script>
+<script src="/assets/js/auth.js"defer></script>
+<script src="/assets/js/admin/login.js"defer></script>
+</body>
+</html>

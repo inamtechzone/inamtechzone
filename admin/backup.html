@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Backup — INAM TECH ZONE Admin</title><meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" /><link rel="stylesheet" href="/assets/css/admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside id="admin-sidebar" class="admin-sidebar"></aside>
+  <main id="admin-main" class="admin-main">
+    <h2>Backup</h2>
+    <div class="card" style="max-width:520px">
+      <p style="color:var(--muted);font-size:13.5px;margin-bottom:16px">
+        Download a full JSON export of Products, Categories, Brands, Orders, Settings, Admins
+        (without password hashes), Coupons, Reviews, and the Activity Log. Since the database
+        is Google Sheets itself, you can also always restore from Sheets' own built-in
+        version history (File → Version history) at any time.
+      </p>
+      <button id="export-btn" class="btn btn-primary">Download backup (JSON)</button>
+    </div>
+    <h2>Maintenance</h2>
+    <div class="card" style="max-width:520px">
+      <p style="color:var(--muted);font-size:13.5px;margin-bottom:16px">
+        If any product images stopped previewing, they were likely saved with an
+        older, less reliable Drive URL format. This rewrites every product's
+        images to the current, more reliable format — safe to run any time,
+        and does nothing to products that are already fine.
+      </p>
+      <button id="fix-images-btn" class="btn btn-outline">Fix broken image previews</button>
+    </div>
+  </main>
+</div>
+<script src="/assets/js/config.js"defer></script><script src="/assets/js/api.js"></script><script src="/assets/js/ui.js"></script>
+<script src="/assets/js/auth.js"defer></script><script src="/assets/js/admin/layout.js"></script><script src="/assets/js/admin/backup.js"></script>
+</body>
+</html>

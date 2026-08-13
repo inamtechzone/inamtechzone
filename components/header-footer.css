@@ -1,0 +1,583 @@
+/* ==========================================================================
+   0. GLOBAL RESET & BASE STYLES (Fixes Extra Top/Side Spaces)
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   1. CORE VARIABLES & THEME ENGINE
+   ========================================================================== */
+:root {
+  --header-bg: rgba(15, 23, 42, 0.90);
+  --bg-card: #0f172a;
+  --bg-component: #0f172a;
+  --bg-hover: rgba(255, 255, 255, 0.08);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent-cyan: #06b6d4;
+  --accent-blue: #3b82f6;
+  --accent-color: #06b6d4;
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-line: rgba(255, 255, 255, 0.1);
+  --input-bg: rgba(255, 255, 255, 0.07);
+  --drawer-bg: #0f172a;
+}
+
+[data-theme="light"] {
+  --header-bg: rgba(255, 255, 255, 0.90);
+  --bg-card: #ffffff;
+  --bg-component: #f8fafc;
+  --bg-hover: rgba(0, 0, 0, 0.05);
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --border-line: rgba(0, 0, 0, 0.08);
+  --input-bg: rgba(0, 0, 0, 0.05);
+  --drawer-bg: #ffffff;
+}
+
+/* ==========================================================================
+   2. HEADER CONTAINER & BRAND STYLES
+   ========================================================================== */
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  width: 100%;
+  margin: 0 !important;
+}
+
+.nav-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Brand Logo */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text-main);
+  flex-shrink: 0;
+}
+
+.brand-logo-img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand-itz {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  border-radius: 8px;
+  letter-spacing: 1px;
+}
+
+.brand-text-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-weight: 800;
+  font-size: 0.95rem;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+}
+
+.brand-subtitle {
+  font-size: 0.65rem;
+  color: var(--accent-cyan);
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+/* Live Search Styling */
+.nav-search {
+  position: relative;
+  flex: 1;
+  max-width: 380px;
+}
+
+.nav-search input {
+  width: 100%;
+  padding: 8px 12px 8px 38px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-main);
+  outline: none;
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
+}
+
+.nav-search input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+}
+
+.nav-search .nav-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-main);
+  opacity: 0.6;
+  fill: none;
+  stroke-width: 2;
+}
+
+/* Navigation Links & Actions */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  opacity: 1;
+  color: var(--accent-cyan);
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Header Buttons & Badges */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-main);
+  position: relative;
+  text-decoration: none;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shop-now-btn {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 8px 14px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.2s;
+}
+
+.shop-now-btn:hover {
+  transform: scale(1.03);
+}
+
+/* ==========================================================================
+   3. CATEGORIES DROPDOWN STYLES
+   ========================================================================== */
+.nav-item-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-chevron {
+  font-size: 10px;
+  margin-left: 4px;
+  display: inline-block;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 250px;
+  max-height: 380px;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  padding: 8px 0;
+  z-index: 1000;
+  margin-top: 8px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: dropdownFadeIn 0.2s ease-out forwards;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.nav-dropdown-menu::-webkit-scrollbar {
+  width: 5px;
+}
+
+.nav-dropdown-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nav-dropdown-menu::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 10px;
+}
+
+.nav-item-dropdown:hover .nav-dropdown-menu,
+.nav-item-dropdown.active .nav-dropdown-menu {
+  display: block;
+}
+
+.nav-item-dropdown:hover .dropdown-chevron,
+.nav-item-dropdown.active .dropdown-chevron {
+  transform: rotate(180deg);
+}
+
+.dropdown-item-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+}
+
+.dropdown-item-link:hover {
+  background: var(--bg-hover);
+  color: var(--accent-cyan);
+  padding-left: 22px;
+}
+
+.dropdown-item-link img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.dropdown-loader {
+  padding: 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ==========================================================================
+   4. MOBILE DRAWER SLIDER (STRICT DESKTOP HIDE FIX)
+   ========================================================================== */
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.mobile-nav-overlay,
+.mobile-overlay {
+  position: fixed !important;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-drawer,
+.mobile-drawer {
+  position: fixed !important;
+  top: 0;
+  right: -300px;
+  width: 280px;
+  height: 100vh;
+  background: var(--drawer-bg);
+  color: var(--text-main);
+  z-index: 9999;
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+body.menu-open .mobile-nav-overlay,
+body.menu-open .mobile-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+body.menu-open .mobile-nav-drawer,
+body.menu-open .mobile-drawer {
+  right: 0;
+}
+
+.mobile-drawer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+.mobile-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.mobile-drawer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-link {
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.mobile-link:hover,
+.mobile-link.active {
+  background: var(--bg-hover);
+  color: var(--accent-cyan);
+}
+
+/* ==========================================================================
+   5. FOOTER STYLES
+   ========================================================================== */
+.site-footer {
+  background-color: var(--bg-component);
+  color: var(--text-main);
+  border-top: 1px solid var(--border-line);
+  padding: 24px 0;
+  margin-top: 60px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.footer-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  text-align: center;
+}
+
+.footer-center p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.footer-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
+  text-align: right;
+}
+
+.footer-desc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   6. RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (min-width: 993px) {
+  .mobile-nav-drawer,
+  .mobile-drawer,
+  .mobile-nav-overlay,
+  .mobile-overlay,
+  .mobile-menu-btn {
+    display: none !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .nav-links, 
+  .shop-now-btn {
+    display: none;
+  }
+  
+  .mobile-menu-btn {
+    display: flex;
+  }
+  
+  .brand-subtitle {
+    display: none;
+  }
+  
+  .nav-search {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-footer {
+    padding: 28px 16px;
+    margin-top: 40px;
+  }
+  
+  .footer-container {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .footer-left, 
+  .footer-center, 
+  .footer-right {
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .footer-center p, 
+  .footer-desc {
+    white-space: normal;
+    line-height: 1.5;
+    font-size: 13px;
+  }
+  
+  .nav-dropdown-menu {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    background: rgba(0, 0, 0, 0.15);
+    margin-top: 4px;
+    max-height: 280px;
+  }
+}
+
+@media (max-width: 576px) {
+  .nav-search {
+    max-width: 140px;
+  }
+  
+  .brand-title {
+    font-size: 0.8rem;
+  }
+}

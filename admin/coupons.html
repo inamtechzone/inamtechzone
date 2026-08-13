@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coupons — INAM TECH ZONE Admin</title><meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" /><link rel="stylesheet" href="/assets/css/admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside id="admin-sidebar" class="admin-sidebar"></aside>
+  <main id="admin-main" class="admin-main">
+    <h2>Coupons</h2>
+    <form id="coupon-form" class="card" style="max-width:560px;margin-bottom:24px">
+      <div class="field-row">
+        <div class="field"><label>Code</label><input name="code" required placeholder="SAVE10" style="text-transform:uppercase"></div>
+        <div class="field"><label>Type</label><select name="type"><option value="percent">Percent (%)</option><option value="fixed">Fixed amount</option></select></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Value</label><input name="value" type="number" min="0" required></div>
+        <div class="field"><label>Min order amount</label><input name="minOrderAmount" type="number" min="0" placeholder="0"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Max discount (for %)</label><input name="maxDiscount" type="number" min="0" placeholder="Optional"></div>
+        <div class="field"><label>Usage limit</label><input name="usageLimit" type="number" min="0" placeholder="Unlimited"></div>
+      </div>
+      <div class="field"><label>Expires at (optional)</label><input name="expiresAt" type="datetime-local"></div>
+      <button class="btn btn-primary btn-sm" type="submit">Create coupon</button>
+    </form>
+    <div class="table-scroll">
+      <table class="admin-table">
+        <thead><tr><th>Code</th><th>Discount</th><th>Min order</th><th>Used</th><th>Expires</th><th>Status</th><th></th></tr></thead>
+        <tbody id="coupons-body"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<script src="/assets/js/config.js"></script><script src="/assets/js/api.js"></script><script src="/assets/js/ui.js"></script>
+<script src="/assets/js/auth.js"></script><script src="/assets/js/admin/layout.js"></script><script src="/assets/js/admin/coupons.js"></script>
+</body>
+</html>

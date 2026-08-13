@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Product Form — INAM TECH ZONE Admin</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" />
+<link rel="stylesheet" href="/assets/css/admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside id="admin-sidebar" class="admin-sidebar"></aside>
+  <main id="admin-main" class="admin-main">
+    <h2 id="form-title">Add product</h2>
+    <form id="product-form" class="card" style="max-width:680px">
+      <div class="field"><label>Product name</label><input name="name" required></div>
+      <div id="handle-section-new" class="field" style="display:none">
+        <label>Handle (URL slug — auto-generated, edit if needed)</label>
+        <input id="handle-input-new" placeholder="e.g. wireless-earbuds-pro">
+        <div id="handle-status-new" style="font-size:12.5px;margin-top:6px"></div>
+      </div>
+      <div id="handle-section-existing" class="field" style="display:none">
+        <label>Handle (permanent URL slug — does not change when you rename the product)</label>
+        <code id="handle-display" style="display:inline-block;background:var(--bg);padding:6px 10px;border-radius:6px;font-size:13px"></code>
+        <div style="font-size:12.5px;color:var(--muted);margin-top:6px">Share link: <span id="short-link-display" style="font-family:var(--font-mono)"></span></div>
+      </div>
+      <div class="field"><label>Description</label><textarea name="description" required rows="4"></textarea></div>
+      <div class="field-row">
+        <div class="field"><label>Price</label><input name="price" type="number" min="0" required></div>
+        <div class="field"><label>Discount price (optional)</label><input name="discountPrice" type="number" min="0"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Stock</label><input name="stock" type="number" min="0" required></div>
+        <div class="field"><label>Status</label>
+          <select name="status"><option value="Active">Active</option><option value="Disabled">Disabled</option></select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Category</label><select name="categoryId" id="category-select" required></select></div>
+        <div class="field"><label>Brand</label><select name="brandId" id="brand-select"></select></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>SKU</label><input name="sku" required placeholder="ITZ-0001"></div>
+        <div class="field"><label>Barcode (optional)</label><input name="barcode" placeholder="e.g. 8901234567890"></div>
+      </div>
+      <div class="field"><label>Tags (comma-separated)</label><input name="tags" placeholder="wireless, fast-charging, black"></div>
+      <div class="field-row" style="flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px"><input type="checkbox" name="featured"> Featured</label>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px"><input type="checkbox" name="bestSeller"> Best seller</label>
+      </div>
+      <div class="field-row" style="flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px"><input type="checkbox" name="newArrival"> New arrival</label>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px"><input type="checkbox" name="flashSale"> Flash sale</label>
+      </div>
+      <div class="field"><label>Flash sale ends at (optional)</label><input name="flashSaleEndsAt" type="datetime-local"></div>
+     <div class="field">
+        <label>Specifications</label>
+        <div id="spec-rows"></div>
+        <button type="button" id="add-spec-btn" class="btn btn-outline btn-sm">+ Add spec row</button>
+      </div>
+      <div class="field"><label>SEO title</label><input name="seoTitle" placeholder="Shown in search engine results" maxlength="70"></div>
+      <div class="field"><label>SEO description</label><textarea name="seoDescription" rows="2" placeholder="Shown in search engine results" maxlength="200"></textarea></div>
+      <div class="field card" style="background:var(--bg)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <label style="margin:0">SEO score</label>
+          <span id="seo-score-value" style="font-family:var(--font-display);font-weight:700;font-size:20px">—</span>
+        </div>
+        <div id="seo-score-checklist"></div>
+      </div>
+
+      <!-- Updated Image Section with URL & Local File Upload -->
+      <div class="field">
+        <label>Images (up to 10) — <span id="image-count-label">0/10 used</span></label>
+        
+        <!-- Option 1: URL Input -->
+        <div style="display:flex;gap:10px;margin-bottom:10px">
+          <input id="image-url-input" type="url" placeholder="Paste an image URL (https://...)" style="flex:1">
+          <button type="button" id="add-image-url-btn" class="btn btn-primary btn-sm">Add URL</button>
+        </div>
+
+        <!-- Option 2: Local File Upload -->
+        <div style="display:flex;gap:10px;align-items:center;padding:10px;border:1px dashed var(--line);border-radius:6px;background:var(--bg)">
+          <input id="local-image-input" type="file" accept="image/*" multiple style="flex:1">
+        </div>
+
+        <div style="font-size:12px;color:var(--muted);margin-top:6px">
+          Upload local files or paste image URLs. Product images will automatically render in the preview row.
+        </div>
+        <div id="image-previews" class="image-preview-row" style="margin-top:10px"></div>
+      </div>
+
+      <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px">
+        <div id="qr-wrap" style="display:none">
+          <label style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">Inventory QR (encodes SKU)</label>
+          <img id="qr-preview" width="140" height="140" style="border:1px solid var(--line);border-radius:8px">
+        </div>
+        <div id="share-qr-wrap" style="display:none">
+          <label style="display:block;font-size:13.5px;font-weight:600;margin-bottom:6px">Share QR (encodes short link — for print/marketing)</label>
+          <img id="share-qr-preview" width="140" height="140" style="border:1px solid var(--line);border-radius:8px">
+        </div>
+      </div>
+      <button id="submit-btn" class="btn btn-primary" type="submit">Create product</button>
+    </form>
+  </main>
+</div>
+<script src="/assets/js/config.js"defer></script>
+<script src="/assets/js/api.js"defer></script>
+<script src="/assets/js/ui.js"defer></script>
+<script src="/assets/js/auth.js"defer></script>
+<script src="/assets/js/admin/layout.js"defer></script>
+<script src="/assets/js/admin/og-image-generator.js"defer></script>
+<script src="/assets/js/admin/product-form.js"defer></script>
+</body>
+</html>
