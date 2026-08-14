@@ -11,8 +11,8 @@
   --accent: #4A4EF0;
   --accent-dark: #3739C4;
   --amber: #B87900; /* WCAG Compliant Amber for light mode text/icons */
-  --success: #0D684A; /* Fixed: High contrast green */
-  --danger: #C02B22;  /* Fixed: High contrast red */
+  --success: #0D684A; /* High contrast green */
+  --danger: #C02B22;  /* High contrast red */
   --radius: 10px;
   --font-display: "Inter", -apple-system, sans-serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -64,14 +64,14 @@ body.light-mode, [data-theme="light"] {
 }
 
 /* ==========================================================================
-   2. SELF-HOSTED VARIABLE FONTS (Zero 404s, Zero CLS & Zero Latency)
+   2. SELF-HOSTED VARIABLE FONTS (Fixed duplicate formats & modern woff2 support)
    ========================================================================== */
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations'),
+  src: url('/assets/fonts/Inter-VariableFont_opsz,wght.woff2') format('woff2-variations'),
        url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
 }
 
@@ -80,7 +80,7 @@ body.light-mode, [data-theme="light"] {
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
-  src: url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype-variations'),
+  src: url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.woff2') format('woff2-variations'),
        url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
 }
 
@@ -103,10 +103,9 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Proper Body Padding for Sticky Header */
 body {
   margin: 0 !important;
-  padding-top: 75px !important; /* Matches header height perfectly */
+  padding-top: 75px !important; /* Matches header height */
   background: var(--bg);
   color: var(--ink);
   font-family: 'Inter', 'Inter-Fallback', var(--font-body);
@@ -141,6 +140,7 @@ img {
 button {
   font-family: inherit;
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 input, select, textarea {
@@ -450,7 +450,7 @@ h1, h2, h3, h4 {
   box-shadow: 0 12px 26px rgba(0,0,0,.12);
   max-height: 320px;
   overflow-y: auto;
-  z-index: 50;
+  z-index: 1000; /* Fixed layer depth */
 }
 
 .live-search-item {
@@ -694,7 +694,7 @@ h1, h2, h3, h4 {
 .product-price { font-family: var(--font-display); font-weight: 700; font-size: 17px; }
 .product-price-old { font-size: 13px; color: var(--muted); text-decoration: line-through; }
 
-/* 🛑 ACCESSIBILITY FIX: High Contrast Stock Badges */
+/* Stock Badges */
 .stock-badge {
   font-size: 11.5px;
   font-weight: 700;
@@ -704,11 +704,11 @@ h1, h2, h3, h4 {
 }
 .stock-badge.in { 
   background: #E4F6EF; 
-  color: #0D684A; /* Fixed: High contrast green (Passes AAA) */
+  color: #0D684A; /* AAA Compliant Green */
 }
 .stock-badge.out { 
   background: #FDEBEA; 
-  color: #C02B22; /* Fixed: High contrast red (Passes AAA) */
+  color: #C02B22; /* AAA Compliant Red */
 }
 
 .ribbon {
@@ -1167,9 +1167,9 @@ table.admin-table tbody tr:hover { background: color-mix(in srgb, var(--accent) 
 .faq-answer { color: var(--muted); font-size: 14px; line-height: 1.6; margin-top: 10px; display: none; }
 .faq-item.open .faq-answer { display: block; }
 
-/* 🛑 ACCESSIBILITY FIX: Newsletter Band High Contrast */
+/* Newsletter Band High Contrast */
 .newsletter-band {
-  background: #2D32D4; /* Fixed: Slightly deeper blue for higher contrast */
+  background: #2D32D4;
   color: #FFFFFF;
   border-radius: 16px;
   padding: 32px;
@@ -1186,7 +1186,7 @@ table.admin-table tbody tr:hover { background: color-mix(in srgb, var(--accent) 
   font-weight: 700;
 }
 .newsletter-band p { 
-  color: rgba(255, 255, 255, 0.95) !important; /* Fixed: High readability text */
+  color: rgba(255, 255, 255, 0.95) !important;
   font-size: 14.5px;
   margin: 0;
 }
@@ -1198,7 +1198,7 @@ table.admin-table tbody tr:hover { background: color-mix(in srgb, var(--accent) 
   font-size: 14px; 
   min-width: 220px; 
   background: #FFFFFF;
-  color: #0F1530; /* Dark text inside search/input */
+  color: #0F1530;
 }
 
 .whatsapp-fab {
@@ -1295,7 +1295,7 @@ table.admin-table tbody tr:hover { background: color-mix(in srgb, var(--accent) 
   border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
-  z-index: 100;
+  z-index: 10000;
   opacity: 0;
   pointer-events: none;
   transition: all .2s ease;
