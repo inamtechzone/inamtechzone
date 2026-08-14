@@ -1,4 +1,57 @@
 /* ==========================================================================
+   1. FONT OPTIMIZATION & 404 FIX
+   ========================================================================== */
+/* Google Fonts CDN fallback with font-display: optional to eliminate CLS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional');
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ==========================================================================
+   2. FEATURED GRID CLS & PERFORMANCE FIX (#featured-grid)
+   ========================================================================== */
+#featured-section {
+  contain-intrinsic-size: 1px 500px;
+  content-visibility: auto; /* Reduces main-thread rendering work */
+}
+
+#featured-grid {
+  /* Dynamic layout reserve - prevents height jump before JS fetch */
+  min-height: 420px; 
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  
+  /* Smooth loading transition */
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Skeleton state while Google Apps Script is loading */
+#featured-grid:empty {
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  background-size: 200% 100%;
+  animation: skeleton-shine 1.5s linear infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-shine {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+/* ==========================================================================
+   3. PRODUCT CARD IMAGES ASPECT-RATIO (PREVENT SHIFTS)
+   ========================================================================== */
+.product-grid img,
+#featured-grid img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1; /* Locks layout space before image network fetch */
+  object-fit: cover;
+}
+/* ==========================================================================
    1. CORE VARIABLES & DESIGN SYSTEM (Default Light / Dark Theme)
    ========================================================================== */
 :root {

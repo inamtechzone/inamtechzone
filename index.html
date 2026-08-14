@@ -34,8 +34,9 @@
 
 <!-- Fixed Preload URL and Icon -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-<link rel="preload" href="/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
-
+<!-- Add preconnect to speed up font fetching -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- DNS Preconnect for Google Apps Script Redirect Server -->
 <link rel="preconnect" href="https://script.google.com" crossorigin />
 <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
