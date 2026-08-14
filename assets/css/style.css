@@ -64,24 +64,24 @@ body.light-mode, [data-theme="light"] {
 }
 
 /* ==========================================================================
-   2. SELF-HOSTED VARIABLE FONTS (Fixed duplicate formats & modern woff2 support)
+   2. VARIABLE FONTS (CDN Fallback + Self-Hosted Support)
    ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Inter Local';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url('/assets/fonts/Inter-VariableFont_opsz,wght.woff2') format('woff2-variations'),
-       url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  src: url('/assets/fonts/Inter-VariableFont_opsz,wght.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Inter Local';
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
-  src: url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.woff2') format('woff2-variations'),
-       url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+  src: url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.woff2') format('woff2');
 }
 
 @font-face {
@@ -108,7 +108,7 @@ body {
   padding-top: 75px !important; /* Matches header height */
   background: var(--bg);
   color: var(--ink);
-  font-family: 'Inter', 'Inter-Fallback', var(--font-body);
+  font-family: 'Inter Local', 'Inter', 'Inter-Fallback', var(--font-body);
   -webkit-font-smoothing: antialiased;
   transition: background .2s ease, color .2s ease;
 }
@@ -450,7 +450,7 @@ h1, h2, h3, h4 {
   box-shadow: 0 12px 26px rgba(0,0,0,.12);
   max-height: 320px;
   overflow-y: auto;
-  z-index: 1000; /* Fixed layer depth */
+  z-index: 1000;
 }
 
 .live-search-item {
