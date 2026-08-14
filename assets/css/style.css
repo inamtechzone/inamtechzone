@@ -1,57 +1,4 @@
 /* ==========================================================================
-   1. FONT OPTIMIZATION & 404 FIX
-   ========================================================================== */
-/* Google Fonts CDN fallback with font-display: optional to eliminate CLS */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional');
-
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-/* ==========================================================================
-   2. FEATURED GRID CLS & PERFORMANCE FIX (#featured-grid)
-   ========================================================================== */
-#featured-section {
-  contain-intrinsic-size: 1px 500px;
-  content-visibility: auto; /* Reduces main-thread rendering work */
-}
-
-#featured-grid {
-  /* Dynamic layout reserve - prevents height jump before JS fetch */
-  min-height: 420px; 
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-  
-  /* Smooth loading transition */
-  transition: opacity 0.2s ease-in-out;
-}
-
-/* Skeleton state while Google Apps Script is loading */
-#featured-grid:empty {
-  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
-  background-size: 200% 100%;
-  animation: skeleton-shine 1.5s linear infinite;
-  border-radius: 8px;
-}
-
-@keyframes skeleton-shine {
-  to {
-    background-position-x: -200%;
-  }
-}
-
-/* ==========================================================================
-   3. PRODUCT CARD IMAGES ASPECT-RATIO (PREVENT SHIFTS)
-   ========================================================================== */
-.product-grid img,
-#featured-grid img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1; /* Locks layout space before image network fetch */
-  object-fit: cover;
-}
-/* ==========================================================================
    1. CORE VARIABLES & DESIGN SYSTEM (Default Light / Dark Theme)
    ========================================================================== */
 :root {
@@ -63,9 +10,9 @@ body {
   --line: #E3E6F0;
   --accent: #4A4EF0;
   --accent-dark: #3739C4;
-  --amber: #B87900; /* WCAG Compliant Amber for light mode text/icons */
-  --success: #0D684A; /* High contrast green */
-  --danger: #C02B22;  /* High contrast red */
+  --amber: #FFAE1F;
+  --success: #16966F;
+  --danger: #E0483F;
   --radius: 10px;
   --font-display: "Inter", -apple-system, sans-serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -90,8 +37,6 @@ body {
   --accent: #6C6FFF;
   --accent-dark: #8A8DFF;
   --amber: #FFC24D;
-  --success: #20C997; /* High contrast green for dark mode */
-  --danger: #FF6B6B;  /* High contrast red for dark mode */
 
   --header-bg: #060913;
   --accent-cyan: #00f0ff;
@@ -117,24 +62,24 @@ body.light-mode, [data-theme="light"] {
 }
 
 /* ==========================================================================
-   2. VARIABLE FONTS (CDN Fallback + Self-Hosted Support)
+   2. SELF-HOSTED VARIABLE FONTS (Zero 404s, Zero CLS & Zero Latency)
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
 @font-face {
-  font-family: 'Inter Local';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url('/assets/fonts/Inter-VariableFont_opsz,wght.woff2') format('woff2');
+  src: url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations'),
+       url('/assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Inter Local';
+  font-family: 'Inter';
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
-  src: url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.woff2') format('woff2');
+  src: url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype-variations'),
+       url('/assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
 }
 
 @font-face {
@@ -157,26 +102,13 @@ html {
 }
 
 body {
-  margin: 0 !important;
-  padding-top: 75px !important; /* Matches header height */
+  margin: 0;
+  padding-top: 75px; /* Aligned with fixed header height */
   background: var(--bg);
   color: var(--ink);
-  font-family: 'Inter Local', 'Inter', 'Inter-Fallback', var(--font-body);
+  font-family: 'Inter', 'Inter-Fallback', var(--font-body);
   -webkit-font-smoothing: antialiased;
   transition: background .2s ease, color .2s ease;
-}
-
-main, 
-.main-content, 
-.product-page, 
-.product-container, 
-.product-details, 
-.container-fluid,
-#product-root {
-  position: relative !important;
-  z-index: 1 !important;
-  margin-top: 0 !important;
-  padding-top: 20px !important;
 }
 
 a {
@@ -193,7 +125,6 @@ img {
 button {
   font-family: inherit;
   cursor: pointer;
-  touch-action: manipulation;
 }
 
 input, select, textarea {
@@ -250,7 +181,7 @@ h1, h2, h3, h4 {
 
 .btn-primary { background: var(--accent); color: #fff; }
 .btn-primary:hover { background: var(--accent-dark); }
-.btn-secondary { background: #FFAE1F; color: #241900; }
+.btn-secondary { background: var(--amber); color: #241900; }
 .btn-outline { background: transparent; border: 1.5px solid var(--line); color: var(--ink); }
 .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 .btn-danger { background: #FDEBEA; color: var(--danger); }
@@ -265,13 +196,13 @@ h1, h2, h3, h4 {
   background-color: var(--header-bg);
   border-bottom: 1px solid var(--line);
   width: 100%;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 75px;
-  z-index: 9999 !important;
-  margin: 0 !important;
+  z-index: 1000;
+  margin: 0;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
@@ -400,6 +331,7 @@ h1, h2, h3, h4 {
   border-color: var(--muted);
 }
 
+/* White Mode specific Theme Button adjustment */
 #theme-toggle-btn {
   background: var(--surface);
   color: var(--ink);
@@ -503,7 +435,7 @@ h1, h2, h3, h4 {
   box-shadow: 0 12px 26px rgba(0,0,0,.12);
   max-height: 320px;
   overflow-y: auto;
-  z-index: 1000;
+  z-index: 50;
 }
 
 .live-search-item {
@@ -566,7 +498,7 @@ h1, h2, h3, h4 {
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 12.5px;
-  color: #FFAE1F;
+  color: var(--amber);
   letter-spacing: .08em;
   text-transform: uppercase;
   margin-bottom: 14px;
@@ -593,7 +525,7 @@ h1, h2, h3, h4 {
 }
 
 .flash-sale-band {
-  background: linear-gradient(90deg, #D9383A, #B87900);
+  background: linear-gradient(90deg, #FF5A5F, #FFAE1F);
   color: #fff;
   padding: 12px 0;
   text-align: center;
@@ -747,27 +679,20 @@ h1, h2, h3, h4 {
 .product-price { font-family: var(--font-display); font-weight: 700; font-size: 17px; }
 .product-price-old { font-size: 13px; color: var(--muted); text-decoration: line-through; }
 
-/* Stock Badges */
 .stock-badge {
   font-size: 11.5px;
-  font-weight: 700;
-  padding: 4px 10px;
+  font-weight: 600;
+  padding: 3px 8px;
   border-radius: 999px;
   width: fit-content;
 }
-.stock-badge.in { 
-  background: #E4F6EF; 
-  color: #0D684A; /* AAA Compliant Green */
-}
-.stock-badge.out { 
-  background: #FDEBEA; 
-  color: #C02B22; /* AAA Compliant Red */
-}
+.stock-badge.in { background: #E4F6EF; color: var(--success); }
+.stock-badge.out { background: #FDEBEA; color: var(--danger); }
 
 .ribbon {
   position: absolute;
   top: 10px; left: 10px;
-  background: #FFAE1F;
+  background: var(--amber);
   color: #241900;
   font-size: 11px;
   font-weight: 700;
@@ -1205,7 +1130,7 @@ table.admin-table tbody tr:hover { background: color-mix(in srgb, var(--accent) 
   border-radius: var(--radius);
   padding: 20px;
 }
-.testimonial-card .stars { color: #B87900; font-size: 14px; margin-bottom: 10px; }
+.testimonial-card .stars { color: var(--amber); font-size: 14px; margin-bottom: 10px; }
 .testimonial-card p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 14px; }
 
 .faq-item { border-bottom: 1px solid var(--line); padding: 16px 0; }
@@ -1220,10 +1145,9 @@ table.admin-table tbody tr:hover { background: color-mix(in srgb, var(--accent) 
 .faq-answer { color: var(--muted); font-size: 14px; line-height: 1.6; margin-top: 10px; display: none; }
 .faq-item.open .faq-answer { display: block; }
 
-/* Newsletter Band High Contrast */
 .newsletter-band {
-  background: #2D32D4;
-  color: #FFFFFF;
+  background: var(--accent);
+  color: #fff;
   border-radius: 16px;
   padding: 32px;
   display: flex;
@@ -1233,26 +1157,9 @@ table.admin-table tbody tr:hover { background: color-mix(in srgb, var(--accent) 
   flex-wrap: wrap;
   margin: 46px 0;
 }
-.newsletter-band h3 { 
-  color: #FFFFFF !important; 
-  margin-bottom: 6px; 
-  font-weight: 700;
-}
-.newsletter-band p { 
-  color: rgba(255, 255, 255, 0.95) !important;
-  font-size: 14.5px;
-  margin: 0;
-}
+.newsletter-band h3 { color: #fff; margin-bottom: 4px; }
 .newsletter-form { display: flex; gap: 10px; flex-wrap: wrap; }
-.newsletter-form input { 
-  border: 1.5px solid rgba(255, 255, 255, 0.3); 
-  border-radius: 8px; 
-  padding: 12px 14px; 
-  font-size: 14px; 
-  min-width: 220px; 
-  background: #FFFFFF;
-  color: #0F1530;
-}
+.newsletter-form input { border: none; border-radius: 8px; padding: 12px 14px; font-size: 14px; min-width: 220px; }
 
 .whatsapp-fab {
   position: fixed;
@@ -1348,7 +1255,7 @@ table.admin-table tbody tr:hover { background: color-mix(in srgb, var(--accent) 
   border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
-  z-index: 10000;
+  z-index: 100;
   opacity: 0;
   pointer-events: none;
   transition: all .2s ease;
@@ -1357,6 +1264,6 @@ table.admin-table tbody tr:hover { background: color-mix(in srgb, var(--accent) 
 .itz-toast.success { background: var(--success); color: #fff; }
 .itz-toast.error { background: var(--danger); color: #fff; }
 
-.rating-stars { color: #B87900; font-size: 14px; }
+.rating-stars { color: var(--amber); font-size: 14px; }
 .review-card { border-bottom: 1px solid var(--line); padding: 14px 0; }
 .review-card .name { font-weight: 700; font-size: 13.5px; }
