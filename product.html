@@ -5,71 +5,106 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Product — INAM TECH ZONE</title>
 <link rel="manifest" href="/manifest.json" />
+
+<!-- External CSS Files -->
 <link rel="stylesheet" href="/components/header-footer.css" />
 <link rel="stylesheet" href="/assets/css/style.css" />
+
+<!-- DNS Preconnect & Speed Optimization -->
 <link rel="preconnect" href="https://inamtechzone.vercel.app">
 <link rel="dns-prefetch" href="https://inamtechzone.vercel.app">
-<!-- DNS Preconnect for Google Apps Script Redirect Server -->
 <link rel="preconnect" href="https://script.google.com" crossorigin />
 <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
+
+<style>
+  @media (max-width: 760px) { 
+    .pd-grid { grid-template-columns: 1fr !important; gap: 20px !important; } 
+  }
+</style>
 </head>
 <body data-skip-pageview>
+
+<!-- Dynamic Header Injection Point -->
 <div id="site-header"></div>
-<div id="product-root" class="container" style="padding-top:30px;padding-bottom:60px">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px" class="pd-grid">
+
+<!-- Main Product Root Container -->
+<main id="product-root" class="container" style="padding-top:20px; padding-bottom:60px">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px" class="pd-grid">
+    
+    <!-- Gallery Section -->
     <div class="gallery">
       <div id="gallery-thumbs" class="gallery-thumbs"></div>
       <div id="gallery-main" class="gallery-main"><img id="gallery-main-img" alt="Product image"></div>
     </div>
+
+    <!-- Details & Purchasing Section -->
     <div>
       <span id="product-stock" class="stock-badge in"></span>
       <h1 id="product-name" style="margin-top:12px"></h1>
+      
       <div class="spec-strip" style="margin-bottom:16px">
         <span id="product-sku"></span><span class="dot">•</span>
         <span id="product-category"></span>
         <span id="product-brand-wrap"><span class="dot">•</span><span id="product-brand"></span></span>
       </div>
+
       <div class="price-row" style="margin-bottom:20px">
         <div id="product-price" class="product-price" style="font-size:28px"></div>
         <div id="product-price-old" class="product-price-old" style="display:none"></div>
       </div>
-      <p id="product-description" style="color:var(--muted);line-height:1.7;margin-bottom:20px"></p>
-      <div id="spec-table-wrap" style="display:none;margin-bottom:22px">
+
+      <p id="product-description" style="color:var(--muted); line-height:1.7; margin-bottom:20px"></p>
+
+      <div id="spec-table-wrap" style="display:none; margin-bottom:22px">
         <h4>Specifications</h4>
-        <table style="width:100%;border-collapse:collapse;font-size:13.5px"><tbody id="spec-table"></tbody></table>
+        <table style="width:100%; border-collapse:collapse; font-size:13.5px"><tbody id="spec-table"></tbody></table>
       </div>
-      <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
+
+      <!-- Quantity and Primary Action Buttons -->
+      <div style="display:flex; gap:12px; align-items:center; margin-bottom:16px; flex-wrap:wrap">
         <div class="qty-control">
           <button id="qty-minus">−</button>
-          <input id="qty-input" type="number" value="1" min="1" style="width:28px;text-align:center;border:none;font-weight:600;font-size:14px;background:transparent;color:var(--ink)">
+          <input id="qty-input" type="number" value="1" min="1" style="width:28px; text-align:center; border:none; font-weight:600; font-size:14px; background:transparent; color:var(--ink)">
           <button id="qty-plus">+</button>
         </div>
         <button id="add-cart-btn" class="btn btn-primary">Add to cart</button>
         <button id="buy-now-btn" class="btn btn-secondary">Buy now</button>
       </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+
+      <!-- Secondary Action Buttons -->
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px">
         <a id="whatsapp-ask-btn" class="btn btn-outline" target="_blank" rel="noreferrer">Ask on WhatsApp</a>
         <a id="call-btn" class="btn btn-outline" style="display:none">Call now</a>
         <button id="wishlist-toggle-btn" class="btn btn-outline">♡ Add to wishlist</button>
         <button id="compare-toggle-btn" class="btn btn-outline">⇄ Compare</button>
       </div>
+
+      <!-- Share Buttons -->
       <div>
-        <label style="display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:8px">Share this product</label>
-        <div id="share-buttons" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+        <label style="display:block; font-size:12.5px; font-weight:600; color:var(--muted); margin-bottom:8px">Share this product</label>
+        <div id="share-buttons" style="display:flex; gap:8px; flex-wrap:wrap"></div>
       </div>
     </div>
   </div>
+
+  <!-- Related Products Section -->
   <div id="related-section" style="display:none">
     <div class="section-head"><h2>Related products</h2></div>
     <div id="related-grid" class="product-grid"></div>
   </div>
+
+  <!-- Recently Viewed Products Section -->
   <div id="recent-section" style="display:none">
     <div class="section-head"><h2>Recently viewed</h2></div>
     <div id="recent-grid" class="product-grid"></div>
   </div>
+
+  <!-- Customer Reviews Section -->
   <div class="section-head"><h2>Reviews</h2></div>
-  <div id="review-summary" style="margin-bottom:16px;color:var(--muted);font-size:14px"></div>
-  <div id="review-list" style="max-width:640px;margin-bottom:26px"></div>
+  <div id="review-summary" style="margin-bottom:16px; color:var(--muted); font-size:14px"></div>
+  <div id="review-list" style="max-width:640px; margin-bottom:26px"></div>
+
+  <!-- Review Submission Form -->
   <div class="card" style="max-width:480px">
     <h4>Write a review</h4>
     <form id="review-form">
@@ -88,20 +123,23 @@
       <button class="btn btn-primary btn-block" type="submit">Submit review</button>
     </form>
   </div>
-</div>
+</main>
+
+<!-- Dynamic Footer Injection Point -->
 <div id="site-footer"></div>
-<style>@media (max-width: 760px) { .pd-grid { grid-template-columns: 1fr !important; } }</style>
-<script src="/assets/js/config.js"defer></script>
-<script src="/assets/js/api.js"defer></script>
-<script src="/assets/js/ui.js"defer></script>
-<script src="/assets/js/storage.js"defer></script>
-<script src="/assets/js/img-cdn.js"defer></script>
-<script src="/assets/js/compare.js"defer></script>
-<script src="/assets/js/share.js"defer></script>
-<script src="/assets/js/tracking.js"defer></script>
-<script src="/assets/js/i18n.js"defer></script>
-<script src="/assets/js/pages/home.js"defer></script>
-<script src="/assets/js/pages/product.js"defer></script>
-<script src="/components/layout-loader.js"defer></script>
+
+<!-- JavaScript Dependencies (Deferred for Performance) -->
+<script src="/assets/js/config.js" defer></script>
+<script src="/assets/js/api.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script src="/assets/js/storage.js" defer></script>
+<script src="/assets/js/img-cdn.js" defer></script>
+<script src="/assets/js/compare.js" defer></script>
+<script src="/assets/js/share.js" defer></script>
+<script src="/assets/js/tracking.js" defer></script>
+<script src="/assets/js/i18n.js" defer></script>
+<script src="/assets/js/pages/product.js" defer></script>
+<script src="/components/layout-loader.js" defer></script>
+
 </body>
 </html>

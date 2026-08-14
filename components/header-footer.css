@@ -1,13 +1,21 @@
 /* ==========================================================================
-   0. GLOBAL RESET & BASE STYLES (Fixes Extra Top/Side Spaces)
+   0. GLOBAL RESET & BASE STYLES (Fixed Padding Conflict)
    ========================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-html, body {
+html {
   margin: 0 !important;
   padding: 0 !important;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* 🛑 OVERLAPPING FIX: Proper Body Offset for Header */
+body {
+  margin: 0 !important;
+  padding-top: 85px !important; /* Fixed offset for sticky header */
   width: 100%;
   overflow-x: hidden;
 }
@@ -16,7 +24,7 @@ html, body {
    1. CORE VARIABLES & THEME ENGINE
    ========================================================================== */
 :root {
-  --header-bg: rgba(15, 23, 42, 0.90);
+  --header-bg: rgba(15, 23, 42, 0.95);
   --bg-card: #0f172a;
   --bg-component: #0f172a;
   --bg-hover: rgba(255, 255, 255, 0.08);
@@ -32,7 +40,7 @@ html, body {
 }
 
 [data-theme="light"] {
-  --header-bg: rgba(255, 255, 255, 0.90);
+  --header-bg: rgba(255, 255, 255, 0.95);
   --bg-card: #ffffff;
   --bg-component: #f8fafc;
   --bg-hover: rgba(0, 0, 0, 0.05);
@@ -45,27 +53,30 @@ html, body {
 }
 
 /* ==========================================================================
-   2. HEADER CONTAINER & BRAND STYLES
+   2. HEADER CONTAINER & BRAND STYLES (Supports Dynamic Injection)
    ========================================================================== */
-.header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+#site-header,
+.header,
+header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 99999 !important;
   background: var(--header-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-color);
-  width: 100%;
+  width: 100% !important;
   margin: 0 !important;
+  height: 70px;
 }
 
 .nav-container {
   max-width: 1300px;
   margin: 0 auto;
   padding: 0 1rem;
-  height: 70px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -117,7 +128,7 @@ html, body {
   letter-spacing: 1.5px;
 }
 
-/* Live Search Styling */
+/* Search Field */
 .nav-search {
   position: relative;
   flex: 1;
@@ -154,7 +165,7 @@ html, body {
   stroke-width: 2;
 }
 
-/* Navigation Links & Actions */
+/* Navigation Links & Buttons */
 .nav-right {
   display: flex;
   align-items: center;
@@ -198,7 +209,6 @@ html, body {
   stroke-linejoin: round;
 }
 
-/* Header Buttons & Badges */
 .nav-actions {
   display: flex;
   align-items: center;
@@ -255,7 +265,7 @@ html, body {
 }
 
 /* ==========================================================================
-   3. CATEGORIES DROPDOWN STYLES
+   3. CATEGORIES DROPDOWN
    ========================================================================== */
 .nav-item-dropdown {
   position: relative;
@@ -294,19 +304,6 @@ html, body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.nav-dropdown-menu::-webkit-scrollbar {
-  width: 5px;
-}
-
-.nav-dropdown-menu::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.nav-dropdown-menu::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 10px;
-}
-
 .nav-item-dropdown:hover .nav-dropdown-menu,
 .nav-item-dropdown.active .nav-dropdown-menu {
   display: block;
@@ -326,7 +323,7 @@ html, body {
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
-  transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+  transition: background 0.2s, color 0.2s, padding-left 0.2s;
 }
 
 .dropdown-item-link:hover {
@@ -335,23 +332,8 @@ html, body {
   padding-left: 22px;
 }
 
-.dropdown-item-link img {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-  border-radius: 4px;
-  flex-shrink: 0;
-}
-
-.dropdown-loader {
-  padding: 16px;
-  font-size: 13px;
-  color: var(--text-muted);
-  text-align: center;
-}
-
 /* ==========================================================================
-   4. MOBILE DRAWER SLIDER (STRICT DESKTOP HIDE FIX)
+   4. MOBILE DRAWER SLIDER
    ========================================================================== */
 .mobile-menu-btn {
   display: none;
@@ -368,7 +350,7 @@ html, body {
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
-  z-index: 9998;
+  z-index: 99998;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
@@ -383,7 +365,7 @@ html, body {
   height: 100vh;
   background: var(--drawer-bg);
   color: var(--text-main);
-  z-index: 9999;
+  z-index: 99999;
   box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
   transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 1.25rem;
@@ -400,45 +382,6 @@ body.menu-open .mobile-overlay {
 body.menu-open .mobile-nav-drawer,
 body.menu-open .mobile-drawer {
   right: 0;
-}
-
-.mobile-drawer-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color);
-  margin-bottom: 1.5rem;
-}
-
-.mobile-close-btn {
-  background: none;
-  border: none;
-  color: var(--text-main);
-  font-size: 1.25rem;
-  cursor: pointer;
-}
-
-.mobile-drawer-body {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.mobile-link {
-  color: var(--text-main);
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 8px;
-  transition: background 0.2s;
-}
-
-.mobile-link:hover,
-.mobile-link.active {
-  background: var(--bg-hover);
-  color: var(--accent-cyan);
 }
 
 /* ==========================================================================
@@ -463,37 +406,7 @@ body.menu-open .mobile-drawer {
   gap: 20px;
 }
 
-.footer-left {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  justify-content: flex-start;
-}
-
-.footer-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  text-align: center;
-}
-
-.footer-center p {
-  margin: 0;
-  font-size: 13.5px;
-  color: var(--text-muted);
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.footer-right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex: 1;
-  text-align: right;
-}
-
+.footer-center p, 
 .footer-desc {
   font-size: 13.5px;
   color: var(--text-muted);
@@ -502,7 +415,31 @@ body.menu-open .mobile-drawer {
 }
 
 /* ==========================================================================
-   6. RESPONSIVE BREAKPOINTS
+   6. PAGE CONTENT OVERLAP & PRODUCT PREVIEW (SLUG) SAFETY FIX
+   ========================================================================== */
+body > main, 
+body > section,
+.page-content, 
+.product-page, 
+.product-details, 
+.product-container, 
+.container,
+.main-wrapper {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* 🛑 PRODUCT PREVIEW / SLUG OVERLAP FIX */
+#product-root,
+main#product-root {
+  margin-top: 0 !important;
+  padding-top: 25px !important; /* Proper breathing room below body top padding */
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* ==========================================================================
+   7. RESPONSIVE BREAKPOINTS & MOBILE SAFETY PADDING
    ========================================================================== */
 @media (min-width: 993px) {
   .mobile-nav-drawer,
@@ -515,6 +452,10 @@ body.menu-open .mobile-drawer {
 }
 
 @media (max-width: 992px) {
+  body {
+    padding-top: 80px !important;
+  }
+
   .nav-links, 
   .shop-now-btn {
     display: none;
@@ -534,6 +475,15 @@ body.menu-open .mobile-drawer {
 }
 
 @media (max-width: 768px) {
+  body {
+    padding-top: 85px !important;
+  }
+
+  #product-root,
+  main#product-root {
+    padding-top: 20px !important;
+  }
+
   .site-footer {
     padding: 28px 16px;
     margin-top: 40px;
@@ -541,40 +491,14 @@ body.menu-open .mobile-drawer {
   
   .footer-container {
     flex-direction: column;
-    justify-content: center;
     text-align: center;
     gap: 16px;
-  }
-  
-  .footer-left, 
-  .footer-center, 
-  .footer-right {
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-  }
-  
-  .footer-center p, 
-  .footer-desc {
-    white-space: normal;
-    line-height: 1.5;
-    font-size: 13px;
-  }
-  
-  .nav-dropdown-menu {
-    position: static;
-    width: 100%;
-    box-shadow: none;
-    border: none;
-    background: rgba(0, 0, 0, 0.15);
-    margin-top: 4px;
-    max-height: 280px;
   }
 }
 
 @media (max-width: 576px) {
   .nav-search {
-    max-width: 140px;
+    max-width: 130px;
   }
   
   .brand-title {
