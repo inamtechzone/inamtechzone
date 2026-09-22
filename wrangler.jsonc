@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "inamtechzone",
+  "pages_build_output_dir": "./out",
+  "compatibility_date": "2026-05-15",
+  "no_bundle": true,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "inam-tech-zone-db",
+      "database_id": "50eaf94e-0b26-442f-b0c0-807f010e7efe"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "inam-tech-zone-media","preview_bucket_name": "inam-tech-zone-media"
+    }
+  ]
+}

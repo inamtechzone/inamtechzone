@@ -1,0 +1,32 @@
+{
+  "name": "inamtechzone",
+  "version": "8.7.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build --webpack",
+    "build:cloudflare": "next build --webpack",
+    "preview:cloudflare": "wrangler pages dev out",
+    "deploy:cloudflare": "wrangler pages deploy out --project-name inam-tech-zone --branch main --no-bundle",
+    "db:local": "wrangler d1 execute inam-tech-zone-db --local --file migrations/0001_initial.sql --yes",
+    "db:remote": "wrangler d1 execute inam-tech-zone-db --remote --file migrations/0001_initial.sql --yes",
+    "typecheck": "tsc -p tsconfig.source.json --noEmit"
+  },
+  "dependencies": {
+    "next": "16.2.6",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260915.1",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3",
+    "wrangler": "4.131.1"
+  },
+  "type": "module"
+}
